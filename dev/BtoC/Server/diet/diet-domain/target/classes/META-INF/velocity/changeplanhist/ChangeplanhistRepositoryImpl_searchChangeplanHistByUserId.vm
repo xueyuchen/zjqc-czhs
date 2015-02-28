@@ -1,0 +1,15 @@
+SELECT
+    t0.change_plan_id AS changePlanId, 
+    t0.changeplan_type_id AS changeplanTypeId, 
+    t2.changeplan_type_name AS changeplanTypeName, 
+    t0.user_id AS userId, 
+    t1.change_plan_hist_id AS changePlanHistId, 
+    t1.record_date AS recordDate
+FROM
+    t_change_plan t0
+LEFT JOIN t_change_plan_hist t1 ON t0.change_plan_id = t1.change_plan_id 
+LEFT JOIN m_changeplan_type t2 ON t0.changeplan_type_id = t2.changeplan_type_id 
+WHERE
+    t0.user_id = :userId
+AND t0.del_flg = 0
+ORDER BY t0.cre_dt

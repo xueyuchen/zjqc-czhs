@@ -1,0 +1,29 @@
+SELECT
+    m.hurikaeri_item_name_id AS hurikaeriItemNameId,
+    m.hurikaeri_item_name AS hurikaeriItemName,
+   
+#if($hurikaeriId)   
+    (
+        CASE
+        WHEN ta.level IS NULL THEN
+            0
+        ELSE
+            ta.level
+        END
+    ) 
+    
+#else
+    0
+#end    
+    
+    AS level
+    
+    
+    
+FROM
+    m_hurikaeri_item m
+#if($hurikaeriId)
+LEFT JOIN t_hurikaeri_item ta ON m.hurikaeri_item_name_id = ta.hurikaeri_item_name_id
+AND ta.hurikaeri_id = :hurikaeriId
+#end
+WHERE m.del_flg=0

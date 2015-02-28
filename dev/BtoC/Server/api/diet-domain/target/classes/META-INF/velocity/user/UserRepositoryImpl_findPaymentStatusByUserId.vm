@@ -1,0 +1,4 @@
+SELECT e.apply_dt AS applyDt,u.user_id AS userId,u.order_num AS orderNum,u.email,(u.last_name_kanji+ ' ' + u.first_name_kanji) AS userNameKanji,(u.last_name_kana+ ' ' + u.first_name_kana) AS userNameKana,e.status_kbn AS statusKbn
+ FROM t_user u
+ INNER JOIN t_exam e ON e.user_id=u.user_id 
+ WHERE u.user_id = :userId

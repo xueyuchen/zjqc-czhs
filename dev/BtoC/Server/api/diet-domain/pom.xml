@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>diet-domain</artifactId>
+	<packaging>jar</packaging>
+	<parent>
+		<groupId>co.bohc</groupId>
+		<artifactId>diet</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>co.bohc</groupId>
+			<artifactId>diet-env</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.4</version>
+		</dependency>
+
+		<!-- == Begin TERASOLUNA == -->
+		<dependency>
+			<groupId>org.terasoluna.gfw</groupId>
+			<artifactId>terasoluna-gfw-common</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.codehaus.jackson</groupId>
+					<artifactId>jackson-core-asl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.jackson</groupId>
+					<artifactId>jackson-mapper-asl</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.terasoluna.gfw</groupId>
+			<artifactId>terasoluna-gfw-security-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.terasoluna.gfw</groupId>
+			<artifactId>terasoluna-gfw-jpa</artifactId>
+		</dependency>
+		<!-- REMOVE THIS LINE IF YOU USE MyBatis2 <dependency> <groupId>org.terasoluna.gfw</groupId> 
+			<artifactId>terasoluna-gfw-mybatis2</artifactId> </dependency> REMOVE THIS 
+			LINE IF YOU USE MyBatis2 -->
+		<dependency>
+			<groupId>org.terasoluna.gfw</groupId>
+			<artifactId>terasoluna-gfw-recommended-dependencies</artifactId>
+			<type>pom</type>
+		</dependency>
+		<!-- == End TERASOLUNA == -->
+
+		<!-- == Begin Velocity == -->
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>velocity-tools</groupId>
+			<artifactId>velocity-tools-generic</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<!-- == End Velocity == -->
+
+		<!-- == Begin Database == -->
+		<dependency>
+			<groupId>net.sourceforge.jtds</groupId>
+			<artifactId>jtds</artifactId>
+		</dependency>
+		<!-- == End Database == -->
+
+		<!-- == Begin Unit Test == -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<!-- == End Unit Test == -->
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>3.2.10.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+
+		<!-- == Begin Push == -->
+		<dependency>
+			<groupId>com.github.fernandospr</groupId>
+			<artifactId>javapns-jdk16</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ganyo</groupId>
+			<artifactId>gcm-server</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.notnoop.apns</groupId>
+			<artifactId>apns</artifactId>
+			<version>0.2.3</version>
+			<!-- <exclusions> <exclusion> <artifactId>jackson-databind</artifactId> 
+				<groupId>com.fasterxml.jackson.core</groupId> </exclusion> </exclusions> -->
+		</dependency>
+		<!-- == End Push == -->
+
+		<!-- == Begin S3 == -->
+		<dependency>
+			<groupId>net.java.dev.jets3t</groupId>
+			<artifactId>jets3t-gui</artifactId>
+			<version>0.9.0</version>
+		</dependency>
+		<!-- == End S3 == -->
+	</dependencies>
+
+</project>

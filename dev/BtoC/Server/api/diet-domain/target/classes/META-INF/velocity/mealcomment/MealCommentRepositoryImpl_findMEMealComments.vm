@@ -1,0 +1,33 @@
+SELECT
+	m.meal_comment_id AS mealCommentId,
+	m.from_date AS fromDate,
+	(
+		CASE
+		WHEN m.admin_user_id IS NULL THEN
+			0
+		WHEN m.approval_sts != 2 THEN
+			1
+		ELSE 
+			2
+		END
+	) status,
+	(
+		CASE
+		WHEN m.admin_user_id IS NULL THEN
+			0
+		WHEN m.approval_sts != 2 THEN
+			2
+		ELSE 
+			1
+		END
+) sts
+FROM
+	t_meal_comment m
+INNER JOIN t_user u ON m.user_id = u.user_id
+AND u.del_flg = 0
+AND u.user_id = :userId
+WHERE
+	m.del_flg = 0
+AND m.from_date < :nowWeek
+ORDER BY
+sts ,  m.from_date DESC

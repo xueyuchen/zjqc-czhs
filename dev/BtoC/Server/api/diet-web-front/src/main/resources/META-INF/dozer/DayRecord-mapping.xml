@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <mapping date-format="YYYY-MM-dd">
+        <class-a>co.bohc.diet.domain.model.TDayRecord</class-a>
+        <class-b>co.bohc.diet.app.front.api.dayrecord.DayRecordResource</class-b>
+        <field>
+            <a>TUser.userId</a>
+            <b>userId</b>
+        </field>
+    </mapping>
+    
+    <mapping>
+        <class-a>co.bohc.diet.domain.model.TDayRecord</class-a>
+        <class-b>co.bohc.diet.domain.service.dayrecord.DayRecordInput</class-b>
+        <field-exclude>
+            <a>recordDate</a>
+            <b>recordDate</b>
+        </field-exclude>
+    </mapping>
+
+</mappings>

@@ -1,0 +1,19 @@
+SELECT
+    c.counseling_id AS counselingId, 
+    c.user_id AS userId, 
+    c.admin_user_id AS adminUserId, 
+    c.diet_thema AS dietThema, 
+    c.content AS content, 
+    c.counseling_count AS counselingCount, 
+    c.counseling_dt AS counselingDt, 
+    c.cre_dt AS creDt, 
+    c.upd_dt AS updDt, 
+    c.cre_user_id AS creUserId, 
+    c.upd_user_id AS updUserId, 
+    c.del_flg AS delFlg 
+FROM
+    t_counseling c
+WHERE
+    c.user_id = :userId
+ORDER BY
+    c.counseling_count

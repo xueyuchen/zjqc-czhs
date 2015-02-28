@@ -1,0 +1,8 @@
+氏名：（姓）${lastName}&nbsp;&nbsp;（名）${firstName}	<br/>
+<br/>
+電話番号：${phoneNumber}<br/>
+<br/>
+Eメールアドレス：${email}<br/>																
+<br/>
+お問い合わせ内容：<br/>
+${question}

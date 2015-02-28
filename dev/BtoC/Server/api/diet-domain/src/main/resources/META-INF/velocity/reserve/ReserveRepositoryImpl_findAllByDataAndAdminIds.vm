@@ -1,0 +1,13 @@
+SELECT 
+  r.reserve_id AS reserveId, 
+  a.admin_user_id AS adminUserId, 
+  a.admin_user_name AS adminUserName, 
+  u.user_id AS userId, 
+  convert(varchar,u.last_name_kanji) + ' ' + convert(varchar,u.first_name_kanji) AS userName,
+  CONVERT(varchar(5),r.reserve_time,108) AS workHour,
+  r.request_flg AS requestFlg,
+  r.work_sts AS workSts
+FROM m_admin_user a 
+LEFT JOIN t_reserve r ON a.admin_user_id=r.admin_user_id AND r.del_flg=0 AND DATEDIFF(DAY, :date, r.reserve_date)=0 
+LEFT JOIN t_user u ON r.user_id=u.user_id AND u.del_flg=0 
+WHERE a.del_flg=0 AND a.admin_user_id IN (:ids)

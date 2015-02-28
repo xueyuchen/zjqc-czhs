@@ -1,0 +1,4 @@
+	SELECT 
+	  COUNT(a.admin_user_id) AS counts 
+	FROM m_admin_user a 
+	WHERE a.admin_role_kbn='KE' AND a.del_flg=0 

@@ -1,0 +1,46 @@
+SELECT
+	t
+FROM
+	TInfo t
+WHERE
+	t.delFlg = 0
+#if($fromDt)
+#if($toDt)
+AND t.infoId NOT IN (SELECT
+	infoId
+FROM
+	TInfo
+WHERE
+	(
+		fromDt < :fromDt
+		AND toDt < :fromDt
+	)
+OR (fromDt > :toDt AND toDt > :toDt))
+ORDER BY t.fromDt DESC
+#else
+AND t.infoId NOT IN (SELECT
+	infoId
+FROM
+	TInfo
+WHERE
+	(
+		fromDt < :fromDt
+		AND toDt < :fromDt
+	))
+	ORDER BY t.fromDt DESC
+#end
+#else
+#if($toDt)
+AND t.infoId NOT IN (
+	SELECT
+		infoId
+	FROM
+		TInfo
+	WHERE
+		(fromDt > :toDt AND toDt > :toDt)
+)
+ORDER BY t.fromDt DESC
+#else
+ORDER BY t.fromDt DESC
+#end
+#end

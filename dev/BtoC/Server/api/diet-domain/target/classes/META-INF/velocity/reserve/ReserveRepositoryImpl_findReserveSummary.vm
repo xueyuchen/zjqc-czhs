@@ -1,0 +1,33 @@
+DECLARE @y INT
+SET @y = (SELECT COUNT(vcube_account_id) FROM m_vcube_account WHERE del_flg = 0)
+SELECT
+reserve_date AS reserveDate,
+CONVERT (VARCHAR (5), reserve_time, 108 ) AS reserveTime,
+(CASE
+		WHEN (count1 >= 3 AND count3 >= 3) THEN 0
+		WHEN (count1 >= 1 AND count3 >= 1) THEN 1
+		WHEN (count2 >= 1 AND count3 >= 1) THEN 2
+		ELSE 3
+	END) AS status
+FROM (
+		SELECT
+				r.reserve_date,
+				r.reserve_time,
+				SUM (CASE WHEN r1.work_sts = 2 THEN 1 ELSE 0 END) AS count1,
+				SUM (CASE WHEN r1.work_sts = 1 THEN 1 ELSE 0 END) AS count2,
+				(@y - SUM(CASE WHEN r2.work_sts = 2 AND r2.user_id > 0 THEN 1 ELSE 0 END)) AS count3
+			FROM
+				t_reserve r
+		LEFT JOIN t_reserve r1 ON r.reserve_id = r1.reserve_id AND r1.user_id IS NULL
+		LEFT JOIN t_reserve r2 ON r2.reserve_id = r.reserve_id AND r2.user_id IS NOT NULL
+			WHERE
+				r.reserve_date >= :fromDate
+			AND r.reserve_date <= :endDate
+			AND r.admin_user_id IS NOT NULL
+			AND r.work_sts > 0
+			AND r.del_flg = 0
+			GROUP BY
+				r.reserve_date,
+				r.reserve_time
+) re
+ORDER BY re.reserve_date, re.reserve_time

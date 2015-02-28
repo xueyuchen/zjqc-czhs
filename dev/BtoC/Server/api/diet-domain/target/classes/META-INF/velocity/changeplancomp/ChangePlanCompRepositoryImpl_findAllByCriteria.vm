@@ -1,0 +1,15 @@
+SELECT
+    p.change_plan_id AS changePlanId,
+    p.changeplan_type_id AS changeplanTypeId,
+    t.changeplan_type_name AS changeplanTypeName,
+    t.point AS point,
+    p.user_id AS userId,
+    CASE WHEN 
+        c.change_plan_comp_id IS NULL THEN 0 
+    ELSE 1 END AS complete 
+FROM
+    t_change_plan p
+LEFT JOIN t_change_plan_comp c ON p.change_plan_id = c.change_plan_id AND c.comp_date = :compDate
+INNER JOIN m_changeplan_type t ON p.changeplan_type_id = t.changeplan_type_id 
+WHERE
+    p.user_id = :userId AND p.del_flg = 0 AND t.group_kbn = :groupKbn ORDER BY p.upd_dt DESC

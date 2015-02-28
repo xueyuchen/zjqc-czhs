@@ -1,0 +1,15 @@
+SELECT
+	p 
+FROM
+	TPushMsg p
+INNER JOIN p.TUser u
+WHERE
+	p.delFlg = 0
+AND u.delFlg = 0
+AND p.sendAllFlg != 1
+AND p.pushSendFlg = 0
+AND u.userId IS NOT NULL
+AND 
+	(p.pushSendReserveDt <= :nowDate 
+	 OR p.pushSendReserveDt IS NULL)
+ORDER BY p.pushMsgId

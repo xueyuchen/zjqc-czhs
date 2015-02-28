@@ -1,0 +1,96 @@
+	SELECT
+		u.user_id
+	FROM
+		t_user u
+#if($examId)
+	INNER JOIN t_exam e 
+			ON e.exam_id = u.exam_id
+			AND e.exam_id = :examId
+#end
+#if($dtStart || $creDtEnd)
+	INNER JOIN t_meal m 
+		ON u.user_id = m.user_id
+	#if($creDtStart)
+			AND m.cre_dt >= :creDtStart
+	#end	
+	#if($creDtEnd)
+			AND m.cre_dt <= :creDtEnd
+	#end
+#end
+	WHERE u.del_flg = 0
+#if($userId)
+		AND u.user_id = :userId
+#end
+#if($userName)
+		AND convert(VARCHAR,u.last_name_kanji) + convert(VARCHAR,u.first_name_kanji) = :userName 
+#end
+#if($kanaName)
+		And convert(VARCHAR,u.last_name_kana) + convert(VARCHAR,u.first_name_kana) = :kanaName
+#end
+#if($timeLineFlag)
+	AND
+	#if({timeLineFlag} = 1)
+	NOT
+	#end
+	EXISTS (SELECT
+		m.user_id
+	FROM
+		t_meal m
+	INNER JOIN (
+		SELECT
+			m.meal_id
+		FROM
+			t_meal m
+		WHERE
+			NOT EXISTS (
+				SELECT
+					t.meal_id
+				FROM
+					t_time_line t
+				WHERE
+					t.del_flg = 0
+				GROUP BY
+					t.meal_id
+			)
+		AND m.del_flg = 0
+	) tm ON tm.meal_id = m.meal_id
+	WHERE
+		m.del_flg = 0
+	GROUP BY
+		m.user_id)
+	#end
+#if($evaluateFlag)
+		AND 
+	#if({evaluateFlag} = 1)
+		NOT
+	#end 
+	EXISTS (
+		SELECT
+			e.user_id
+		FROM
+			t_evaluate e
+		WHERE
+			e.admin_user_id = NULL
+		AND e.del_flg = 0
+		GROUP BY e.user_id
+	)
+#end
+#if($mealCommentFlag)
+		AND
+	#if({mealCommentFlag} = 1)
+		NOT
+	#end
+	 EXISTS (
+	SELECT
+		m.user_id
+	FROM
+		t_meal_comment m
+	WHERE
+		m.del_flg = 0
+	AND m.admin_user_id = NULL
+	GROUP BY
+		m.user_id
+)
+#end
+	ORDER BY u.user_id ASC
+	GROUP BY u.user_id

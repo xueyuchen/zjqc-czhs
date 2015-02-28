@@ -1,0 +1,10 @@
+SELECT 
+  DATEPART(hh, r.reserve_time) AS workHour, 
+  COUNT(a.admin_user_id) AS admins, 
+  COUNT(u.user_id) AS users, 
+  COUNT(CASE WHEN r.request_flg=1 THEN 1 ELSE NULL END) AS requests 
+FROM m_admin_user a 
+INNER JOIN t_reserve r ON a.admin_user_id=r.admin_user_id AND r.del_flg=0 AND DATEDIFF(DAY, :date, r.reserve_date)=0 
+LEFT JOIN t_user u ON r.user_id=u.user_id AND u.del_flg=0 
+WHERE a.admin_role_kbn='KE' AND a.del_flg=0 
+GROUP BY DATEPART(hh, r.reserve_time)

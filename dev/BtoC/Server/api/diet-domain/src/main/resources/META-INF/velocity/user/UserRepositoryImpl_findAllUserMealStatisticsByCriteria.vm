@@ -1,0 +1,119 @@
+SELECT user_id AS userId,userName,timeLineFinish,evaluateFinish,mealCommentFinish FROM (SELECT
+    u.user_id,
+    e2.exam_no,
+    (
+        CASE
+        WHEN ma.max_cre_dt < ta.max_time_line_dt THEN
+            1
+        WHEN ma.max_cre_dt IS NULL THEN 9
+        ELSE
+            0
+        END
+    ) AS timeLineFinish,
+    (
+        CASE
+        WHEN mb.user_id IS NOT NULL THEN 1
+        ELSE
+            0
+        END
+    ) AS evaluateFinish,
+    (
+        CASE
+        WHEN mc.user_id IS NULL AND mc2.user_id IS NULL THEN
+            2
+        WHEN mc.user_id IS NULL AND mc2.user_id IS NOT NULL THEN
+            1
+        ELSE
+            0
+        END
+    ) AS mealCommentFinish,
+    u.userName
+FROM
+    (
+        SELECT
+            tu.user_id,(tu.last_name_kanji + ' ' + tu.first_name_kanji) AS userName
+        FROM
+            t_user tu
+        LEFT JOIN t_meal tm ON tu.user_id = tm.user_id AND tm.del_flg=0
+        WHERE tu.del_flg=0
+        
+#if($mealCreDtStart)
+        AND tm.cre_dt >= CONVERT(DATETIME, :mealCreDtStart)
+#end
+#if($mealCreDtEnd)
+        AND tm.cre_dt <= :mealCreDtEnd
+#end
+#if($userId)
+        AND tu.user_id= :userId
+#end
+#if($adminUserId)
+        AND tu.admin_user_id= :adminUserId
+#end
+#if($userName)
+        AND (tu.last_name_kanji+ ' ' + tu.first_name_kanji) LIKE '%'+:userName+'%'
+#end
+#if($userNameKana)
+        AND (tu.last_name_kana+ ' ' + tu.first_name_kana) LIKE '%'+:userNameKana+'%'
+#end
+        GROUP BY
+            tu.user_id,(tu.last_name_kanji + ' ' + tu.first_name_kanji)
+    ) u
+LEFT JOIN t_exam e2 ON e2.user_id = u.user_id AND e2.del_flg=0
+LEFT JOIN (
+    SELECT
+        m.user_id,
+        MAX (m.cre_dt) AS max_cre_dt
+    FROM
+        t_meal m
+    WHERE m.del_flg=0
+    GROUP BY
+        m.user_id
+) ma ON ma.user_id = u.user_id 
+LEFT JOIN (
+    SELECT e.user_id
+    FROM t_evaluate e
+    WHERE e.del_flg=0
+    AND e.admin_user_id is not NULL
+    AND e.evel_date = DATEADD(DAY,-1,CONVERT(DATE,getdate()))
+    GROUP BY e.user_id
+) mb ON mb.user_id = u.user_id
+LEFT JOIN (
+    SELECT c.user_id
+    FROM t_meal_comment c
+    WHERE c.del_flg=0
+    AND c.admin_user_id is NULL
+    AND c.from_date < CONVERT(DATE, :monday)
+    GROUP BY c.user_id
+) mc ON mc.user_id = u.user_id
+LEFT JOIN (
+    SELECT c3.user_id
+    FROM t_meal_comment c3
+    WHERE c3.del_flg=0
+    AND c3.approval_sts=2
+    AND c3.from_date < CONVERT(DATE, :monday)
+    GROUP BY c3.user_id
+) mc2 ON mc2.user_id = u.user_id
+LEFT JOIN (
+    SELECT
+        t.user_id,
+        MAX (t.cre_dt) AS max_time_line_dt
+    FROM
+        t_time_line t
+    WHERE t.del_flg=0
+    GROUP BY
+        t.user_id
+) ta ON ta.user_id = u.user_id)um
+WHERE 1=1
+#if($examNo)
+    AND um.exam_no= :examNo
+#end
+#if($timeLineFinish)
+    AND um.timeLineFinish in (:timeLineFinish)
+#end
+#if($evaluateFinish)
+    AND um.evaluateFinish in (:evaluateFinish)
+#end
+#if($mealCommentFinish)
+    AND um.mealCommentFinish in (:mealCommentFinish)
+#end
+ORDER BY um.timeLineFinish , um.evaluateFinish , um.mealCommentFinish, um.user_id

@@ -1,0 +1,15 @@
+SELECT
+    t.changeplan_type_id AS changeplanTypeId,
+    t.changeplan_type_name AS changeplanTypeName,
+    h.user_id AS userId,
+    h.change_plan_hist_id AS changePlanHistId,
+    h.record_date AS recordDate, 
+    h.compl_flg AS complFlg 
+FROM
+    t_change_plan_hist h
+INNER JOIN m_changeplan_type t ON h.changeplan_type_id = t.changeplan_type_id
+WHERE
+    h.user_id = :userId
+AND h.record_date >= :fromDt AND h.record_date <= :toDt
+ORDER BY
+    h.record_date, h.compl_flg DESC

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sec="http://www.springframework.org/schema/security"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="co.bohc.diet.app.common.api.result" />
+    <context:component-scan base-package="co.bohc.diet.app.common.api.security" />
+    <sec:http pattern="/resources/**" security="none"/>
+    <sec:http auto-config="false" entry-point-ref="apiAuthenticationEntryPoint">
+    	<sec:intercept-url pattern="/api/login" access="ROLE_ANONYMOUS"/> 
+  		<sec:http-basic entry-point-ref="apiBasicAuthenticationEntryPoint" />
+        <sec:custom-filter ref="userIdMDCPutFilter" after="ANONYMOUS_FILTER"/>
+ 		<sec:custom-filter ref="formLoginAuthenticationFilter"  position="FORM_LOGIN_FILTER" />  
+        <sec:session-management session-authentication-strategy-ref="sessionAuthenticationStrategy" />
+    </sec:http>
+
+    <sec:global-method-security jsr250-annotations="enabled"/> 
+
+    <sec:authentication-manager alias="authenticationManager">
+		<sec:authentication-provider ref="authenticationProvider" />  
+		<!--  	
+		<sec:authentication-provider>  
+		   <sec:user-service>  
+		   		<sec:user authorities='ROLE_ADMIN,ROLE_USER' name='admin' password='admin'/>  
+		   </sec:user-service>  
+		</sec:authentication-provider>
+		-->
+    </sec:authentication-manager>
+	<bean id="authenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">  
+	    <property name="hideUserNotFoundExceptions" value="false" />
+	    <property name="userDetailsService" ref="customUserDetailsService" />  
+		<!--
+		<property name="userCache" ref="userCache" />  
+		-->
+	    <property name="messageSource" ref="messageSource" />  
+	    <property name="passwordEncoder" ref="passwordEncode" />  
+	    <property name="saltSource" ref="saltSource" />  
+	</bean> 
+	
+	<bean id="customUserDetailsService" class="co.bohc.diet.domain.service.security.CustomUserDetailsService" />  
+	
+	
+	<bean id="passwordEncode" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />  
+
+	<bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">  
+   		<property name="userPropertyToUse" value="username"/> 
+	</bean>
+	
+	<bean id="formLoginAuthenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+	    <property name="authenticationManager" ref="authenticationManager"/>  
+        <property name="authenticationFailureHandler" ref="apiAuthenticationFailureHandler"/>  
+        <property name="authenticationSuccessHandler" ref="apiAuthenticationSuccessHandler"/>  
+        <property name="usernameParameter" value="username"/> 
+        <property name="passwordParameter" value="password"/>  
+	    <property name="filterProcessesUrl" value="/api/login"></property>
+	</bean>
+	
+ 	<bean id="apiAuthenticationSuccessHandler" class="co.bohc.diet.app.common.api.security.ApiAuthenticationSuccessHandler">  
+    </bean>  
+ 
+    <bean id="apiAuthenticationFailureHandler" class="co.bohc.diet.app.common.api.security.ApiAuthenticationFailureHandler">  
+    </bean>  
+   
+    <bean id="apiAuthenticationEntryPoint"  
+        class="co.bohc.diet.app.common.api.security.ApiAuthenticationEntryPoint">  
+    </bean>   
+    
+    <bean id="apiBasicAuthenticationEntryPoint"  
+        class="co.bohc.diet.app.common.api.security.ApiBasicAuthenticationEntryPoint">  
+         <property name="realmName" value="bohc_admin"></property>
+    </bean>   
+
+    <!-- CSRF Protection -->
+    <bean id="csrfTokenRepository"
+        class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository" />
+
+    <bean id="csrfFilter" class="org.springframework.security.web.csrf.CsrfFilter">
+        <constructor-arg index="0" ref="csrfTokenRepository" />
+        <property name="accessDeniedHandler">
+            <bean
+                class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+                <property name="errorPage" value="/WEB-INF/views/common/error/csrfTokenError.jsp" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="sessionAuthenticationStrategy"
+        class="org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy">
+        <constructor-arg index="0">
+            <list>
+                <bean
+                    class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy" />
+                <bean
+                    class="org.springframework.security.web.csrf.CsrfAuthenticationStrategy">
+                    <constructor-arg index="0"
+                        ref="csrfTokenRepository" />
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Put UserID into MDC -->
+    <bean id="userIdMDCPutFilter" class="org.terasoluna.gfw.security.web.logging.UserIdMDCPutFilter">
+    </bean>
+
+</beans>

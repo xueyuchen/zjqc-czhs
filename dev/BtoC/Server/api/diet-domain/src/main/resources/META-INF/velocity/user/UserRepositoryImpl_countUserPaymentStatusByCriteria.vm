@@ -1,0 +1,25 @@
+ SELECT count(u.user_id) AS countUsers
+ FROM t_user u
+ INNER JOIN t_exam e ON e.user_id=u.user_id 
+ AND e.del_flg=0
+ #if ($applyDtStart || $applyDtEnd || $userId || $userNameKanji || $userNameKana)
+ AND e.status_kbn in ('NC','NK','SS')
+ #else
+ AND e.status_kbn in ('NK','SS')
+ #end
+ #if($applyDtStart)
+ AND e.apply_dt>= :applyDtStart
+ #end
+ #if($applyDtEnd)
+ AND e.apply_dt<= :applyDtEnd
+ #end
+ #if($userId)
+ AND u.user_id= :userId
+ #end
+ #if($userNameKanji)
+ AND (u.last_name_kanji + ' ' + u.first_name_kanji) LIKE '%'+:userNameKanji+'%'
+ #end
+ #if($userNameKana)
+ AND (u.last_name_kana+ ' ' + u.first_name_kana) LIKE '%'+:userNameKana+'%'
+ #end
+ WHERE u.del_flg=0

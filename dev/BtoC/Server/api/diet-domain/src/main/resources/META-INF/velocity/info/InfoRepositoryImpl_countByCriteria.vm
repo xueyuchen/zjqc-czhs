@@ -1,0 +1,42 @@
+SELECT
+    COUNT(*) AS count
+FROM
+    t_info t
+WHERE
+    t.del_flg = 0
+#if($fromDt)
+#if($toDt)
+AND t.info_id NOT IN (SELECT
+	info_id
+FROM
+	t_info
+WHERE
+	(
+		from_dt < :fromDt
+		AND to_dt < :fromDt
+	)
+OR (from_dt > :toDt AND to_dt > :toDt))
+#else
+AND t.info_id NOT IN (SELECT
+	info_id
+FROM
+	t_info
+WHERE
+	(
+		from_dt < :fromDt
+		AND to_dt < :fromDt
+	))
+#end
+#else
+#if($toDt)
+AND t.info_id NOT IN (
+	SELECT
+		info_id
+	FROM
+		t_info
+	WHERE
+		(from_dt > :toDt AND to_dt > :toDt)
+)
+#else
+#end
+#end

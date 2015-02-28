@@ -1,0 +1,28 @@
+SELECT 
+    t.changeplan_type_id AS changeplanTypeId, 
+    t.point AS point, 
+    t.group_kbn AS groupKbn, 
+    t.changeplan_type_name AS changeplanTypeName, 
+    p.change_plan_id AS changeplanId, 
+    t.changplan_s_group_id AS changeplanSGroupId, 
+    p.user_id AS userId, 
+    t.del_flg AS delFlgType, 
+    p.del_flg AS delFlgPlan 
+FROM 
+    m_changeplan_type t 
+    
+    #if($changeplanMGroupId)
+        INNER JOIN m_changplan_s_group s ON t.changplan_s_group_id = s.changplan_s_group_id 
+        AND s.changeplan_m_group_id = :changeplanMGroupId 
+    #end
+    
+LEFT JOIN t_change_plan p ON t.changeplan_type_id = p.changeplan_type_id 
+AND p.user_id = :userId 
+WHERE 
+        t.del_flg = :delFlg
+    #if($groupKbn)
+        AND t.group_kbn = :groupKbn 
+    #end
+    #if($changplanSGroupId)
+        AND t.changplan_s_group_id = :changplanSGroupId 
+    #end

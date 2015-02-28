@@ -1,0 +1,20 @@
+SELECT
+    u.user_id AS userId, 
+    u.sex AS sex, 
+    u.last_name_kana AS lastNameKana, 
+    u.last_name_kanji AS lastNameKanji, 
+    u.first_name_kana AS firstNameKana, 
+    u.first_name_kanji AS firstNameKanji, 
+    u.nick_name AS nikeName, 
+    u.birthday AS birthday, 
+    u.phone_number AS phoneNumber, 
+    u.prefecture AS prefecture, 
+    u.address1 AS address1, 
+    u.address2 AS address2, 
+    u.email AS email, 
+    e.exam_no AS examNo 
+FROM
+    t_user u
+LEFT JOIN t_exam e ON u.user_id = e.user_id
+WHERE
+    u.user_id = :userId

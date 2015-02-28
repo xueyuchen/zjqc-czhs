@@ -1,0 +1,46 @@
+SELECT
+	r.reserve_id AS reserveId,
+	u.user_id AS userId,
+	a.admin_user_id as adminUserId,
+	CONVERT (VARCHAR, u.last_name_kanji) + ' ' + CONVERT (VARCHAR, u.first_name_kanji) AS userName,
+	(
+		CASE
+		WHEN r.admin_user_id IS NOT NULL THEN
+			1
+		ELSE
+			0
+		END
+	)AS status
+FROM
+	t_reserve r
+INNER JOIN t_user u ON u.user_id = r.user_id
+AND u.del_flg = 0
+#if($userId)
+	AND u.user_id = :userId
+#end
+#if($userName&&$userName!='')
+	AND convert(varchar,u.last_name_kanji) + ' ' + convert(varchar,u.first_name_kanji) LIKE '%' + :userName + '%' 
+#end
+LEFT JOIN m_admin_user a ON a.del_flg = 0 
+						 AND r.admin_user_id = a.admin_user_id
+WHERE
+	r.del_flg = 0
+AND DATEDIFF(
+	DAY,
+	:reserveDate,
+	r.reserve_date
+) = 0
+AND r.reserve_time = :reserveTime
+#if($status==0)
+	AND r.admin_user_id IS NULL 
+	AND 0 = :status
+#end
+#if($status==1)
+	AND r.admin_user_id IS NOT NULL 
+	AND 1 = :status
+#end
+AND ((r.work_sts = 2 AND DATEDIFF(MINUTE,:nowDate, r.reserve_date) <= 0) 
+	 OR r.work_sts <> 2 
+	 OR r.admin_user_id = :adminUserId)
+ORDER BY status, r.reserve_date DESC
+
