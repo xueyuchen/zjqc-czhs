@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript"
+	src="./resources/app/js/js_lib/jquery.js" /></script>
+<script type="text/javascript">
+	function sendForm() {
+		var codeNum = $("#codeNum");
+	    $.post(
+	    	"code/checkcode",
+	    	{"codeNum":codeNum},
+	    	function(data){
+	    		alert(data);
+	    	},
+	    	"json"
+	    );
+	}
+</script>
+<title>残值编码确认</title>
+</head>
+<body>
+	<form>
+		<fieldset>
+			<legend>残值编码查询</legend>
+			<table>
+				<tr>
+					<td>残值编码：</td>
+					<td><input type="text" name="codeNum" id="codeNum"></td>
+				</tr>
+				<tr>
+					<td>已扫描的编码：</td>
+				</tr>
+				<td>编码号：</td>
+				<td id="td"></td>
+				<tr>
+					<input type="submit" value="扫描" onclick="sendForm();">
+				</tr>
+			</table>
+		</fieldset>
+	</form>
+</body>
+</html>
