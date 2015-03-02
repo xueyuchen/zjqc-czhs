@@ -25,6 +25,9 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
         super.setRepository(repository);
     }
 
+    /**
+     * 检查code
+     */
     @Override
     @Transactional
     public Map<String, Object> checkCode(String codeNum) {
@@ -53,7 +56,9 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
         }
     }
 
-    //TODO
+    /**
+     * 批量生成code
+     */
     @Transactional
     public List<Code> createCode(Integer num, String local) {
         Code code = null;
@@ -71,7 +76,11 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
     }
     
     //TODO
+    /**
+     * code加密算法
+     * @return
+     */
     private String encryptCode() {
-        return "1234";
+        return String.valueOf(new Date().getTime());
     }
 }
