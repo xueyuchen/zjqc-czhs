@@ -33,6 +33,11 @@ public class CodeController {
         return "czcode/check";
     }
 
+    @RequestMapping(value = "home", method = RequestMethod.GET)
+    public String tohome(){
+        return "czcode/home";
+    }
+    
     @RequestMapping(value = "checkcode", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> checkCode(Code code, HttpServletResponse resp) {
