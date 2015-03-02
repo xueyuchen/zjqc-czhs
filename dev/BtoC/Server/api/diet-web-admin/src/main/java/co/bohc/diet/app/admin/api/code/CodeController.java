@@ -1,17 +1,17 @@
 package co.bohc.diet.app.admin.api.code;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
+
 
 import co.bohc.diet.domain.model.Code;
 import co.bohc.diet.domain.service.code.CodeService;
@@ -39,5 +39,11 @@ public class CodeController {
         resp.addHeader("Content-Type", "application/json");
         Map<String, Object> map = codeService.checkCode(code.getCodeNum());
        return map;
+    }
+    
+    @RequestMapping(value = "createcode", method = RequestMethod.POST)
+    @ResponseBody
+    public List<Code> creatCode(Integer num, String local){
+        return codeService.createCode(num, local);
     }
 }

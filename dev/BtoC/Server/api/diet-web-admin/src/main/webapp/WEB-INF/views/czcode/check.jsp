@@ -8,20 +8,22 @@
 	src="../resources/app/js/js_lib/jquery.js" /></script>
 <script type="text/javascript">
 	function sendForm() {
-		   $.ajax({
+		$.ajax({
 			type : "post",
 			url : "checkcode.do",
-			async: false,
+			async : false,
 			dataType : "json",
 			data : {
 				codeNum : $("#codeNum").val()
 			},
 			success : function(data) {
-				$("#td").html(data.codeNum);
-				$("#mess").html(data.message);
+				var length = $("#table").find("tr").length;
+				$("#table").append(
+						"<tr><td>" + length + "</td><td>" + data.codeNum
+								+ "</td><td>" + data.message + "</td<></tr>");
 			},
 			error : function(data) {
-			    alert(data.message);
+				alert(data.message);
 			}
 		});
 		return false;
@@ -33,19 +35,24 @@
 	<form>
 		<fieldset>
 			<legend>残值编码查询</legend>
-			<table id="table">
+			<table>
 				<tr>
 					<td>残值编码：</td>
 					<td><input type="text" name="codeNum" id="codeNum"></td>
+					<td>报案号：</td>
+					<td><input type="text" name="reportCode" id="reportCode"></td>
+					<td><input type="button" value="扫描" onclick="sendForm();">
+					</td>
 				</tr>
+			</table>
+		</fieldset>
+		<fieldset>
+			<legend>残值编码查询</legend>
+			<table id="table">
 				<tr>
+					<td>序号：</td>
 					<td>已扫描的编码：</td>
-				</tr>
-				<td>编码号：</td>
-				<td id="td"></td>
-				<td id="mess"></td>
-				<tr>
-					<input type="button" value="扫描" onclick="sendForm();">
+					<td>编码状态：</td>
 				</tr>
 			</table>
 		</fieldset>

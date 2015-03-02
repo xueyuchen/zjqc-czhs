@@ -33,6 +33,7 @@ public class Code  implements java.io.Serializable {
      private Date creDt;
      private String codeKbn;
      private Date checkDt;
+     private String reportCode;
 
     public Code() {
     }
@@ -42,13 +43,14 @@ public class Code  implements java.io.Serializable {
         this.codeId = codeId;
         this.creDt = creDt;
     }
-    public Code(Integer codeId, String codeNum, String local, Date creDt, String codeKbn, Date checkDt) {
+    public Code(Integer codeId, String codeNum, String local, Date creDt, String codeKbn, Date checkDt, String reportCode) {
        this.codeId = codeId;
        this.codeNum = codeNum;
        this.local = local;
        this.creDt = creDt;
        this.codeKbn = codeKbn;
        this.checkDt = checkDt;
+       this.reportCode = reportCode;
     }
    
      @Id 
@@ -108,6 +110,15 @@ public class Code  implements java.io.Serializable {
 
     public void setCheckDt(Date checkDt) {
         this.checkDt = checkDt;
+    }
+
+    @Column(name="report_code", length=256)
+    public String getReportCode() {
+        return reportCode;
+    }
+
+    public void setReportCode(String reportCode) {
+        this.reportCode = reportCode;
     }
 
     
