@@ -15,7 +15,6 @@
 <c:set var="titleKey">
   <tiles:insertAttribute name="title" ignore="true" />
 </c:set>
-<title><spring:message text="残值管理系统" /></title>
 <link rel="stylesheet"
     href="${pageContext.request.contextPath}/resources/app/css/styles.css">
 </head>
@@ -24,8 +23,6 @@
     <tiles:insertAttribute name="header" />
     <tiles:insertAttribute name="body" />
     <hr>
-    <p style="text-align: center; background: #e5eCf9;">Copyright
-      &copy; 2015 零点汽车</p>
   </div>
 </body>
 </html>
