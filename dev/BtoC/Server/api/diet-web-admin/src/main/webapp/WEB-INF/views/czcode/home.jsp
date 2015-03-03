@@ -85,8 +85,7 @@
 
 				</ul>
 				<a class="brand" href="index.html"><span class="first"></span> <span
-					class="second">残值管理系统
-						&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+					class="second">残值管理系统</span> <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
 					<span><img alt="center"
 						src="../resources/app/images/piccandczhs.png"></span></a>
 			</div>
