@@ -23,6 +23,8 @@
     <tiles:insertAttribute name="header" />
     <tiles:insertAttribute name="body" />
     <hr>
+    <p style="text-align: center; background: #e5eCf9;">Copyright
+      &copy; 2015 子杰汽车</p>
   </div>
 </body>
 </html>

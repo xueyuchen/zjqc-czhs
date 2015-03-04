@@ -120,42 +120,25 @@
 					src="javascripts/graphDemo.js"></script>
 
 
-				<div class="row-fluid">
+				<div class="dialog span4">
 					<div class="block">
-						<p class="block-heading" data-toggle="collapse"
-							data-target="#chart-container">残值编码检验</p>
-						<div id="chart-container" class="block-body collapse in">
-							<div id="line-chart">
-								<fieldset>
-									<table>
-										<tr>
-											<td>残值编码：</td>
-											<td><input type="text" name="codeNum" id="codeNum"></td>
-											<td>残值单号：</td>
-											<td><input type="text" name="reportCode" id="reportCode"></td>
-										</tr>
-										<tr>
-											<td>报案号：</td>
-											<td><input type="text" name="reportCode" id="reportCode"></td>
-											<td>车牌号：</td>
-											<td><input type="text" name="reportCode" id="reportCode"></td>
-											<td><input type="button" class="number" value="扫描"
-												onclick="sendForm();"></td>
-										</tr>
-									</table>
-								</fieldset>
-								<fieldset>
-									<table id="table">
-										<tr>
-											<td>序号：</td>
-											<td>已扫描的编码：</td>
-											<td>编码状态：</td>
-										</tr>
-									</table>
-								</fieldset>
-							</div>
+						<div class="block-heading">登录</div>
+						<div class="block-body">
+							<form>
+								<label>用户名</label> <input type="text" class="span12">
+								<label>密码</label> <input type="password" class="span12">
+								<a href="index.html" class="btn btn-primary pull-right">登录</a>
+								<div class="clearfix"></div>
+							</form>
 						</div>
 					</div>
+					<p>
+					   <a href="index.html" class="pull-left">获取登录权限</a>
+					</p>
+					<hr>
+					<p>
+						<a href="reset-password.html">忘记密码？</a>
+					</p>
 				</div>
 			</div>
 		</div>

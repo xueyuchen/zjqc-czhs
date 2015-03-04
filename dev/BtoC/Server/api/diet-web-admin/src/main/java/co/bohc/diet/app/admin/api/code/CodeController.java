@@ -38,6 +38,11 @@ public class CodeController {
         return "czcode/home";
     }
     
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public String toLogin(){
+        return "czcode/login";
+    }
+    
     @RequestMapping(value = "checkcode", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> checkCode(Code code, HttpServletResponse resp) {
