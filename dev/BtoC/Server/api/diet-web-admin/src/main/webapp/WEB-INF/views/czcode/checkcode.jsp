@@ -20,32 +20,39 @@
 	
 </script>
 <script type="text/javascript">
-	function sendForm() {
+	function crecode() {
+		var local = $("#local").val();
+		var num = $("#num").val();
+		if (!num || num == "") {
+			alert("请输入需要创建的残值编码数量！");
+			return false;
+		}
 		$.ajax({
 			type : "post",
-			url : "checkcode.do",
+			url : "createcode.do",
 			async : false,
 			dataType : "json",
 			data : {
-				codeNum : $("#codeNum").val()
+				local : local,
+				num : num
 			},
 			success : function(data) {
-				var length = $("#table").find("tr").length;
-				$("#table").append(
-						"<tr><td>" + length + "</td><td>" + data.codeNum
-								+ "</td><td>" + data.message + "</td<></tr>");
+				for (var i = 0; i < data.length; i++) {
+					$("#table").append(
+							"<tr><td>" + (i + 1) + "</td><td>"
+									+ data[i].codeNum + "</td<></tr>");
+				}
 			},
 			error : function(data) {
 				alert(data.message);
 			}
 		});
-		return false;
 	}
 </script>
 <title>Insert title here</title>
 <style type="text/css">
 #line-chart {
-	height: 300px;
+    height: 900px;
 	width: 800px;
 	margin: 0px auto;
 	margin-top: 1em;
@@ -129,29 +136,52 @@
 								<fieldset>
 									<table>
 										<tr>
-											<td>残值编码：</td>
-											<td><input type="text" name="codeNum" id="codeNum"></td>
 											<td>残值单号：</td>
 											<td><input type="text" name="reportCode" id="reportCode"></td>
-										</tr>
-										<tr>
-											<td>报案号：</td>
-											<td><input type="text" name="reportCode" id="reportCode"></td>
-											<td>车牌号：</td>
-											<td><input type="text" name="reportCode" id="reportCode"></td>
-											<td><input type="button" class="number" value="扫描"
-												onclick="sendForm();"></td>
+											<td><input type="button" class="number" value="查询"
+												onclick="crecode();"></td>
 										</tr>
 									</table>
 								</fieldset>
 								<fieldset>
 									<table id="table">
 										<tr>
-											<td>序号：</td>
-											<td>已扫描的编码：</td>
-											<td>编码状态：</td>
+											<td>残值单号</td>
+											<td>车牌号</td>
+											<td>报案号</td>
+											<td>残值编码</td>
+											<td>残值状态</td>
+										</tr>
+										<tr>
+											<td>12345678</td>
+											<td>川A99999</td>
+											<td>87654321</td>
+											<td>1425282517870</td>
+											<td>交残成功</td>
+										</tr>
+										<tr>
+											<td>12345678</td>
+											<td>川A99999</td>
+											<td>87654321</td>
+											<td>1425282518029</td>
+											<td>交残成功</td>
+										</tr>
+										<tr>
+											<td>12345678</td>
+											<td>川A99999</td>
+											<td>87654321</td>
+											<td>1425282707985</td>
+											<td>交残成功</td>
+										</tr>
+										<tr>
+											<td>12345678</td>
+											<td>川A99999</td>
+											<td>87654321</td>
+											<td>1425282708038</td>
+											<td>交残成功</td>
 										</tr>
 									</table>
+									<span>总计&nbsp&nbsp&nbsp4&nbsp&nbsp&nbsp样</span>
 								</fieldset>
 							</div>
 						</div>

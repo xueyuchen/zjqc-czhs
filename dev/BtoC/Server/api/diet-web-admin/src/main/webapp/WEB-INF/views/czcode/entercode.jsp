@@ -16,13 +16,36 @@
 	href="../resources/app/lib/font-awesome/css/font-awesome.css">
 <script type="text/javascript"
 	src="../resources/app/js/js_lib/jquery.js" /></script>
-<script type="text/javascript" src="../resources/app/js/createfile.js" /></script>
-<script type="text/javascript" src="../resources/app/js/downloadfile.js" /></script>
-<script type="text/javascript" src="../resources/app/js/crecode.js"></script>
+<script type="text/javascript">
+	
+</script>
+<script type="text/javascript">
+	function sendForm() {
+		$.ajax({
+			type : "post",
+			url : "checkcode.do",
+			async : false,
+			dataType : "json",
+			data : {
+				codeNum : $("#codeNum").val()
+			},
+			success : function(data) {
+				var length = $("#table").find("tr").length;
+				$("#table").append(
+						"<tr><td>" + length + "</td><td>" + data.codeNum
+								+ "</td><td>" + data.message + "</td<></tr>");
+			},
+			error : function(data) {
+				alert(data.message);
+			}
+		});
+		return false;
+	}
+</script>
 <title>残值管理系统</title>
 <style type="text/css">
 #line-chart {
-    height: 300px;
+    height: 500px;
 	width: 800px;
 	margin: 0px auto;
 	margin-top: 1em;
@@ -78,7 +101,7 @@
 					</div>
 					<ul id="dashboard-menu" class="nav nav-list collapse in">
 						<li><a href="./tocre">残值编码生成 </a></li>
-						<li><a href="./enter">残值编码录入</a></li>
+						<li><a href="./home">残值编码录入</a></li>
 						<li><a href="./tocre">残值编码查询</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
@@ -106,28 +129,20 @@
 								<fieldset>
 									<table>
 										<tr>
-											<td>需要生产编码数量：</td>
-											<td><select name="num" id="num">
-													<option value="550">550</option>
-											</select></td>
+											<td>残值单号：</td>
+											<td><input type="text" name="codeNum" id="codeNum"></td>
+											<td>报案号：</td>
+											<td><input type="text" name="reportCode" id="reportCode"></td>
 										</tr>
 										<tr>
-											<td>编码归属地：</td>
-											<td><select name="local" id="local">
-													<option value="1">东部</option>
-													<option value="2">西部</option>
-													<option value="3">南部</option>
-													<option value="4">北部</option>
-											</select></td>
+											<td>车牌号：</td>
+											<td><input type="text" name="reportCode" id="reportCode"></td>
 										</tr>
 										<tr>
-											<td>编码归属人：</td>
-											<td><input type="text" name="person" id="person" /></td>
-											<td><input type="button" class="number" value="生成代码"
-												onclick="crecode();"></td>
-											<td><input type="button" class="number" value="生成文件"
-												onclick="createfile();"></td>
-											<td><a href="downfile">下载文件</a></td>
+											<td>残值编号：</td>
+											<td><textarea name="reportCode" id="reportCode" style="height: 330px"></textarea></td>
+											<td>警告信息：</td>
+											<td><textarea name="reportCode" id="reportCode" style="height: 330px; color: 0xfff" readonly></textarea></td>
 										</tr>
 									</table>
 								</fieldset>

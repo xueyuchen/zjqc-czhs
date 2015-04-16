@@ -1,9 +1,17 @@
 package co.bohc.diet.domain.service.code;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +20,9 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import co.bohc.diet.domain.common.Environment;
 import co.bohc.diet.domain.common.enums.CodeKbn;
+import co.bohc.diet.domain.common.utils.TimeUtils;
 import co.bohc.diet.domain.model.Code;
 import co.bohc.diet.domain.repository.code.CodeRepository;
 import co.bohc.diet.domain.service.CrudServiceImpl;
@@ -26,6 +36,9 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
         super.setRepository(repository);
     }
 
+    @Inject
+    private Environment env;
+    
     /**
      * 检查code
      */
@@ -65,14 +78,14 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
         Code code = null;
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
-        Integer year = cal.get(Calendar.YEAR);
-        Integer month = cal.get(Calendar.MONTH);
+        Integer year = cal.get(Calendar.YEAR)%10;
+        Integer month = cal.get(Calendar.MONTH) + 1;
         Integer lastCodeSeq = codeIndex(local, month, year);
         List<Code> codes = new ArrayList<Code>();
-        for (int i = 0; i < num; i++) {
+        for (int i = 1; i <= num; i++) {
             code = new Code();
             String codeNum = String.valueOf(year) + String.valueOf(month) + String.valueOf(local) + "00"
-                    + creatCodeSeq(lastCodeSeq);
+                    + creatCodeSeq(lastCodeSeq + i);
             code.setLocal(local);
             code.setCreDt(date);
             code.setCodeNum(codeNum);
@@ -86,7 +99,7 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
     private Integer codeIndex(String local, Integer month, Integer year) {
         Code lastCode = repository.findLastCodeNum(local);
         if(lastCode == null){
-            return 1;
+            return 0;
         }
         String lastCodeMonth = String.valueOf(lastCode.getCodeNum().charAt(1));
         String lastCodeYear = String.valueOf(lastCode.getCodeNum().charAt(0));
@@ -94,16 +107,50 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
             Integer num = Integer.parseInt(lastCode.getCodeNum().substring(5));
             return num;
         } else {
-            return 1;
+            return 0;
         }
     }
     
     private String creatCodeSeq(Integer lastCodeSeq){
         String s = String.valueOf(lastCodeSeq);
-        String zeroNum = "0";
+        String zeroNum = "";
         for(int i = 0; i < 6-s.length(); i++){
             zeroNum += "0";
         }
         return zeroNum + s;
+    }
+
+    @Override
+    public void createfile() {
+        File dir = new File(env.getCodeFilePath());
+        Date date = new Date();
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        File file = new File(dir, TimeUtils.dateToStr(date));
+        if(file.exists()){
+            file.delete();
+        }
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
+            BufferedWriter write = new BufferedWriter(osw);
+            List<Code> codes = repository.findByCreDt(TimeUtils.getStartTimeOfDay(date), TimeUtils.getEndTimeOfDay(date));
+            Iterator<Code> it = codes.iterator();
+            while(it.hasNext()){
+                write.write(it.next().getCodeNum());
+                write.newLine();
+            }
+            write.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
