@@ -23,9 +23,14 @@
 function crecode() {
     var local = $("#local").val();
     var num = $("#num").val();
-    if (!num || num == "") {
-        alert("请输入需要创建的残值编码数量！");
+    var person = $("person").val();
+    if (!num || num == '') {
+        alert('请输入需要创建的残值编码数量');
         return false;
+    }
+    if(!person || person == '')
+    {
+        alert('请输入此批条码对应人员姓名');
     }
     $.ajax({
         type : "post",
@@ -34,7 +39,8 @@ function crecode() {
         dataType : "json",
         data : {
             local : local,
-            num : num
+            num : num,
+            person : person
         },
         success : function(data) {
             for (var i = 0; i < data.length; i++) {
@@ -137,7 +143,9 @@ function crecode() {
                                     <table>
                                         <tr>
                                             <td>需要生产编码数量：</td>
-                                            <td><input type="text" name="num" id="num"></td>
+                                            <td><select name="num" id="num">
+                                                <option value="550">550</option>
+                                            </select></td>
                                             <td>编码归属地：</td>
                                             <td><select name="local" id="local">
                                                 <option value="1">东部</option>
@@ -145,6 +153,9 @@ function crecode() {
                                                 <option value="3">南部</option>
                                                 <option value="4">北部</option>
                                             </select></td>
+                                            <td>
+                                                <input type="text" name="person" id="person"/>
+                                            </td>
                                             <td><input type="button" class="number" value="生成"
                                                 onclick="crecode();"></td>
                                         </tr>

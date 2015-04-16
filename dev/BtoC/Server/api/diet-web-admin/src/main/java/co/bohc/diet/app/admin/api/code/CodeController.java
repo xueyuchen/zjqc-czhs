@@ -53,7 +53,7 @@ public class CodeController {
     
     @RequestMapping(value = "createcode", method = RequestMethod.POST)
     @ResponseBody
-    public List<Code> creatCode(Integer num, String local){
-        return codeService.createCode(num, local);
+    public List<Code> creatCode(Integer num, String local, String person){
+        return codeService.createCode(num, local, person);
     }
 }

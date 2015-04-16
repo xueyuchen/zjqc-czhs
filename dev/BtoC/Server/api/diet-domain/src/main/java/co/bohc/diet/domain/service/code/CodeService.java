@@ -10,5 +10,5 @@ public interface CodeService extends CrudService<Code, Integer>{
 
     public Map<String, Object> checkCode(String codeNum);
     
-    public List<Code> createCode(Integer num, String local);
+    public List<Code> createCode(Integer num, String local, String person);
 }

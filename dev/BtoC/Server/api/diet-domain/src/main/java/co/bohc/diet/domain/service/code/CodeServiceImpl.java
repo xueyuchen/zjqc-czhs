@@ -1,6 +1,7 @@
 package co.bohc.diet.domain.service.code;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -60,27 +61,49 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
      * 批量生成code
      */
     @Transactional
-    public List<Code> createCode(Integer num, String local) {
+    public List<Code> createCode(Integer num, String local, String person) {
         Code code = null;
-        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+        Integer year = cal.get(Calendar.YEAR);
+        Integer month = cal.get(Calendar.MONTH);
+        Integer lastCodeSeq = codeIndex(local, month, year);
         List<Code> codes = new ArrayList<Code>();
-        for(int i = 0; i < num; i++){
+        for (int i = 0; i < num; i++) {
             code = new Code();
+            String codeNum = String.valueOf(year) + String.valueOf(month) + String.valueOf(local) + "00"
+                    + creatCodeSeq(lastCodeSeq);
             code.setLocal(local);
             code.setCreDt(date);
-            code.setCodeNum(encryptCode());
+            code.setCodeNum(codeNum);
+            code.setPerson(person);
             repository.save(code);
             codes.add(code);
         }
         return codes;
     }
+
+    private Integer codeIndex(String local, Integer month, Integer year) {
+        Code lastCode = repository.findLastCodeNum(local);
+        if(lastCode == null){
+            return 1;
+        }
+        String lastCodeMonth = String.valueOf(lastCode.getCodeNum().charAt(1));
+        String lastCodeYear = String.valueOf(lastCode.getCodeNum().charAt(0));
+        if (month.equals(Integer.parseInt(lastCodeMonth)) && year.equals(Integer.parseInt(lastCodeYear))) {
+            Integer num = Integer.parseInt(lastCode.getCodeNum().substring(5));
+            return num;
+        } else {
+            return 1;
+        }
+    }
     
-    //TODO
-    /**
-     * code加密算法
-     * @return
-     */
-    private String encryptCode() {
-        return String.valueOf(new Date().getTime());
+    private String creatCodeSeq(Integer lastCodeSeq){
+        String s = String.valueOf(lastCodeSeq);
+        String zeroNum = "0";
+        for(int i = 0; i < 6-s.length(); i++){
+            zeroNum += "0";
+        }
+        return zeroNum + s;
     }
 }
