@@ -19,4 +19,10 @@ public interface CodeRepository extends JpaRepository<Code, Integer>{
     
     @Query(value = "SELECT c FROM Code c WHERE c.creDt >= :fromTime and c.creDt <= :endTime")
     public List<Code> findByCreDt(@Param("fromTime")Date fromTime, @Param("endTime")Date endTime);
+    
+    @Query(value = "SELECT c.person FROM Code c WHERE c.codeKbn IS NULL GROUP BY c.person")
+    public List<String> allWorks();
+    
+    @Query(value = "SELECT c FROM Code c where c.person = :person AND c.codeKbn IS NULL")
+    public List<Code> findByPerson(@Param("person")String person);
 }

@@ -15,8 +15,6 @@
 <c:set var="titleKey">
   <tiles:insertAttribute name="title" ignore="true" />
 </c:set>
-<link rel="stylesheet"
-    href="${pageContext.request.contextPath}/resources/app/css/styles.css">
 </head>
 <body>
   <div class="container">

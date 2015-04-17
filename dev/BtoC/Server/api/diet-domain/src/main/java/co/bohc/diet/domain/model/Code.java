@@ -1,6 +1,6 @@
 package co.bohc.diet.domain.model;
 
-// Generated 2015-4-16 11:18:12 by Hibernate Tools 3.2.2.GA
+// Generated 2015-4-17 11:55:01 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 
@@ -24,6 +24,9 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "code", schema = "dbo", uniqueConstraints = @UniqueConstraint(columnNames = "code_num"))
 public class Code implements java.io.Serializable {
 
+    /**
+     * 
+     */
     private static final long serialVersionUID = 1L;
     private Integer codeId;
     private Paper paper;
@@ -34,6 +37,7 @@ public class Code implements java.io.Serializable {
     private Date checkDt;
     private Integer checkNum;
     private String person;
+    private String delFlg;
 
     public Code() {
     }
@@ -46,7 +50,7 @@ public class Code implements java.io.Serializable {
     }
 
     public Code(Integer codeId, Paper paper, String codeNum, String local, Date creDt, String codeKbn, Date checkDt,
-            Integer checkNum, String person) {
+            Integer checkNum, String person, String delFlg) {
         this.codeId = codeId;
         this.paper = paper;
         this.codeNum = codeNum;
@@ -56,6 +60,7 @@ public class Code implements java.io.Serializable {
         this.checkDt = checkDt;
         this.checkNum = checkNum;
         this.person = person;
+        this.delFlg = delFlg;
     }
 
     @Id
@@ -142,6 +147,15 @@ public class Code implements java.io.Serializable {
 
     public void setPerson(String person) {
         this.person = person;
+    }
+
+    @Column(name = "del_flg", length = 4)
+    public String getDelFlg() {
+        return this.delFlg;
+    }
+
+    public void setDelFlg(String delFlg) {
+        this.delFlg = delFlg;
     }
 
 }

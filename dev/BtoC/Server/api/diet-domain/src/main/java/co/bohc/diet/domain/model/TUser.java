@@ -1,6 +1,6 @@
 package co.bohc.diet.domain.model;
 
-// Generated 2015-4-16 11:18:12 by Hibernate Tools 3.2.2.GA
+// Generated 2015-4-17 11:55:01 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 
@@ -24,6 +24,9 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "t_user", schema = "dbo", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class TUser implements java.io.Serializable {
 
+    /**
+     * 
+     */
     private static final long serialVersionUID = 1L;
     private Integer userId;
     private MAdminUser MAdminUser;

@@ -77,18 +77,25 @@
 						<i class="icon-dashboard"></i>残值编码管理
 					</div>
 					<ul id="dashboard-menu" class="nav nav-list collapse in">
-						<li><a href="./tocre">残值编码生成 </a></li>
-						<li><a href="./enter">残值编码录入</a></li>
-						<li><a href="./tocre">残值编码查询</a></li>
+						<li><a href="../codes/tocre">残值编码生成 </a></li>
+						<li><a href="../codes/tocheck">残值编码检测</a></li>
+						<li><a href="../codes/todestroy">残值编码销毁</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
 						data-target="#accounts-menu">
 						<i class="icon-briefcase"></i>残值单管理
 					</div>
 					<ul id="accounts-menu" class="nav nav-list collapse in">
-						<li><a href="sign-in.html">残值单单号生成</a></li>
-						<li><a href="sign-up.html">残值单查询</a></li>
+						<li><a href="../papers/tocre">残值单单号生成</a></li>
+						<li><a href="../codes/toenter">残值单录入</a></li>
 					</ul>
+					<div class="nav-header" data-toggle="collapse"
+                        data-target="#accounts-menu">
+                        <i class="icon-briefcase"></i>残值统计
+                    </div>
+                    <ul id="accounts-menu" class="nav nav-list collapse in">
+                        <li><a href="../papers/tototal">残值回收账目</a></li>
+                    </ul>
 				</div>
 			</div>
 			<div class="span9">
@@ -100,7 +107,7 @@
 				<div class="row-fluid">
 					<div class="block">
 						<p class="block-heading" data-toggle="collapse"
-							data-target="#chart-container">残值编码检验</p>
+							data-target="#chart-container">残值编码检生成</p>
 						<div id="chart-container" class="block-body collapse in">
 							<div id="line-chart">
 								<fieldset>
@@ -123,10 +130,8 @@
 										<tr>
 											<td>编码归属人：</td>
 											<td><input type="text" name="person" id="person" /></td>
-											<td><input type="button" class="number" value="生成代码"
+											<td><input type="button" class="number" value="生成编码"
 												onclick="crecode();"></td>
-											<td><input type="button" class="number" value="生成文件"
-												onclick="createfile();"></td>
 											<td><a href="downfile">下载文件</a></td>
 										</tr>
 									</table>

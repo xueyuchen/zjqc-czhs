@@ -100,18 +100,25 @@
 						<i class="icon-dashboard"></i>残值编码管理
 					</div>
 					<ul id="dashboard-menu" class="nav nav-list collapse in">
-						<li><a href="./tocre">残值编码生成 </a></li>
-						<li><a href="./home">残值编码录入</a></li>
-						<li><a href="./tocre">残值编码查询</a></li>
+						<li><a href="../codes/tocre">残值编码生成 </a></li>
+						<li><a href="../codes/tocheck">残值编码检测</a></li>
+                        <li><a href="../codes/todestroy">残值编码销毁</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
 						data-target="#accounts-menu">
 						<i class="icon-briefcase"></i>残值单管理
 					</div>
 					<ul id="accounts-menu" class="nav nav-list collapse in">
-						<li><a href="sign-in.html">残值单单号生成</a></li>
-						<li><a href="sign-up.html">残值单查询</a></li>
+						<li><a href="../papers/tocre">残值单单号生成</a></li>
+						<li><a href="../codes/toenter">残值单录入</a></li>
 					</ul>
+					<div class="nav-header" data-toggle="collapse"
+                        data-target="#accounts-menu">
+                        <i class="icon-briefcase"></i>残值统计
+                    </div>
+                    <ul id="accounts-menu" class="nav nav-list collapse in">
+                        <li><a href="../papers/tototal">残值回收账目</a></li>
+                    </ul>
 				</div>
 			</div>
 			<div class="span9">
@@ -123,7 +130,7 @@
 				<div class="row-fluid">
 					<div class="block">
 						<p class="block-heading" data-toggle="collapse"
-							data-target="#chart-container">残值编码检验</p>
+							data-target="#chart-container">残值单录入</p>
 						<div id="chart-container" class="block-body collapse in">
 							<div id="line-chart">
 								<fieldset>

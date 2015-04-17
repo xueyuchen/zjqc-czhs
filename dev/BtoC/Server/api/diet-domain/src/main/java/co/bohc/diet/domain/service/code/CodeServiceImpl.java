@@ -153,4 +153,17 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
             e.printStackTrace();
         }
     }
+
+    @Override
+    public List<String> allWorks() {
+        return repository.allWorks();
+    }
+
+    @Override
+    public void destroyCode(String person) {
+        List<Code> codes = repository.findByPerson(person);
+        Iterator<Code> it = codes.iterator();
+        while(it.hasNext()){
+        }
+    }
 }

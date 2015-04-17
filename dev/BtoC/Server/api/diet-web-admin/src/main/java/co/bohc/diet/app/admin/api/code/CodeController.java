@@ -4,7 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -15,19 +14,18 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import co.bohc.diet.domain.common.Environment;
 import co.bohc.diet.domain.common.utils.TimeUtils;
 import co.bohc.diet.domain.model.Code;
 import co.bohc.diet.domain.service.code.CodeService;
 
 @Controller
-@RequestMapping("code")
+@RequestMapping("codes")
 public class CodeController {
 
     @Inject
@@ -40,20 +38,32 @@ public class CodeController {
         return "czcode/crecode";
     }
 
-    @RequestMapping(value = "tocheckcode", method = RequestMethod.GET)
-    public String tocheckcode() {
-        return "czcode/check";
+    @RequestMapping(value = "tocheck", method = RequestMethod.GET)
+    public String toCheckcode() {
+        return "czcode/checkcode";
     }
 
-    @RequestMapping(value = "enter", method = RequestMethod.GET)
-    public String tohome() {
+    @RequestMapping(value = "toenter", method = RequestMethod.GET)
+    public String toEnterCode() {
         return "czcode/entercode";
     }
-
-    @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String toLogin() {
-        return "czcode/login";
+    
+    @RequestMapping(value = "todestroy", method = RequestMethod.GET)
+    public String toDestroyCode(Model model){
+        List<String> persons = codeService.allWorks();
+        model.addAttribute("persons", persons);
+        return "czcode/destroycode";
     }
+    
+    @RequestMapping(value = "destroycode", method = RequestMethod.POST)
+    public String destroyCode(String person){
+        return null;
+    }
+
+//    @RequestMapping(value = "login", method = RequestMethod.GET)
+//    public String toLogin() {
+//        return "czcode/login";
+//    }
 
     @RequestMapping(value = "checkcode", method = RequestMethod.POST)
     @ResponseBody
@@ -74,6 +84,12 @@ public class CodeController {
     public boolean creatCodeFile() {
         codeService.createfile();
         return true;
+    }
+    
+    @RequestMapping(value = "getworks", method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> allWorks(){
+        return codeService.allWorks();
     }
 
     @RequestMapping(value = "downfile", method = RequestMethod.GET)

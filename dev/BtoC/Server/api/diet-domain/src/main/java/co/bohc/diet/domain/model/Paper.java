@@ -1,6 +1,6 @@
 package co.bohc.diet.domain.model;
 
-// Generated 2015-4-16 11:18:12 by Hibernate Tools 3.2.2.GA
+// Generated 2015-4-17 11:55:01 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -27,32 +27,43 @@ import javax.persistence.UniqueConstraint;
         @UniqueConstraint(columnNames = "report_code") })
 public class Paper implements java.io.Serializable {
 
+    /**
+     * 
+     */
     private static final long serialVersionUID = 1L;
     private Integer paperId;
     private String paperCode;
     private String carLicensePlate;
     private String reportCode;
+    private Integer printNum;
+    private Integer printSize;
     private Date creDt;
     private Date entryDt;
     private Date checkDt;
+    private String delFlg;
     private Set<Code> codes = new HashSet<Code>(0);
 
     public Paper() {
     }
 
-    public Paper(Integer paperId) {
+    public Paper(Integer paperId, Integer printNum, Integer printSize) {
         this.paperId = paperId;
+        this.printNum = printNum;
+        this.printSize = printSize;
     }
 
-    public Paper(Integer paperId, String paperCode, String carLicensePlate, String reportCode, Date creDt,
-            Date entryDt, Date checkDt, Set<Code> codes) {
+    public Paper(Integer paperId, String paperCode, String carLicensePlate, String reportCode, Integer printNum,
+            Integer printSize, Date creDt, Date entryDt, Date checkDt, String delFlg, Set<Code> codes) {
         this.paperId = paperId;
         this.paperCode = paperCode;
         this.carLicensePlate = carLicensePlate;
         this.reportCode = reportCode;
+        this.printNum = printNum;
+        this.printSize = printSize;
         this.creDt = creDt;
         this.entryDt = entryDt;
         this.checkDt = checkDt;
+        this.delFlg = delFlg;
         this.codes = codes;
     }
 
@@ -94,6 +105,24 @@ public class Paper implements java.io.Serializable {
         this.reportCode = reportCode;
     }
 
+    @Column(name = "print_num", nullable = false)
+    public Integer getPrintNum() {
+        return this.printNum;
+    }
+
+    public void setPrintNum(Integer printNum) {
+        this.printNum = printNum;
+    }
+
+    @Column(name = "print_size", nullable = false)
+    public Integer getPrintSize() {
+        return this.printSize;
+    }
+
+    public void setPrintSize(Integer printSize) {
+        this.printSize = printSize;
+    }
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "cre_dt", length = 23)
     public Date getCreDt() {
@@ -122,6 +151,15 @@ public class Paper implements java.io.Serializable {
 
     public void setCheckDt(Date checkDt) {
         this.checkDt = checkDt;
+    }
+
+    @Column(name = "del_flg", length = 4)
+    public String getDelFlg() {
+        return this.delFlg;
+    }
+
+    public void setDelFlg(String delFlg) {
+        this.delFlg = delFlg;
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "paper")
