@@ -22,7 +22,7 @@
 <title>残值管理系统</title>
 <style type="text/css">
 #line-chart {
-    height: 300px;
+	height: 300px;
 	width: 800px;
 	margin: 0px auto;
 	margin-top: 1em;
@@ -90,12 +90,12 @@
 						<li><a href="../codes/toenter">残值单录入</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
-                        data-target="#accounts-menu">
-                        <i class="icon-briefcase"></i>残值统计
-                    </div>
-                    <ul id="accounts-menu" class="nav nav-list collapse in">
-                        <li><a href="../papers/tototal">残值回收账目</a></li>
-                    </ul>
+						data-target="#accounts-menu">
+						<i class="icon-briefcase"></i>残值统计
+					</div>
+					<ul id="accounts-menu" class="nav nav-list collapse in">
+						<li><a href="../papers/tototal">残值回收账目</a></li>
+					</ul>
 				</div>
 			</div>
 			<div class="span9">
@@ -115,21 +115,36 @@
 										<tr>
 											<td>需要生产编码数量：</td>
 											<td><select name="num" id="num">
+													<option value="1100">1100</option>
+													<option value="1050">1050</option>
+													<option value="1000">1000</option>
+													<option value="950">950</option>
+													<option value="900">900</option>
+													<option value="850">850</option>
+													<option value="800">800</option>
+													<option value="750">750</option>
+													<option value="650">650</option>
+													<option value="600">600</option>
 													<option value="550">550</option>
+													<option value="500">500</option>
+													<option value="450">450</option>
+													<option value="400">400</option>
+													<option value="350">350</option>
+													<option value="300">300</option>
+													<option value="250">250</option>
 											</select></td>
 										</tr>
 										<tr>
 											<td>编码归属地：</td>
-											<td><select name="local" id="local">
-													<option value="1">东部</option>
-													<option value="2">西部</option>
-													<option value="3">南部</option>
-													<option value="4">北部</option>
-											</select></td>
+											<td><input type="text" name = "local" id = "local"/></td>
 										</tr>
 										<tr>
 											<td>编码归属人：</td>
-											<td><input type="text" name="person" id="person" /></td>
+											<td><select name="workerId" id="workerId">
+													<c:forEach items="${workers}" var="worker">
+														<option value="${worker.workerId}">${worker.workerName}</option>
+													</c:forEach>
+											</select></td>
 											<td><input type="button" class="number" value="生成编码"
 												onclick="crecode();"></td>
 											<td><a href="downfile">下载文件</a></td>

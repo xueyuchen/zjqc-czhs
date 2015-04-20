@@ -12,9 +12,9 @@ public interface CodeService extends CrudService<Code, Integer> {
 
     public Map<String, Object> checkCode(String codeNum);
 
-    public List<Code> createCode(Integer num, String local, String person);
+    public String createCode(Integer num, String local, Integer workerId);
 
-    public void createfile();
+    public void createfile(String workerName);
     
     public List<String> allWorks();
     

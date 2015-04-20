@@ -14,15 +14,16 @@ public interface CodeRepository extends JpaRepository<Code, Integer>{
 
     public Code findByCodeNum(String codeNum);
     
-    @Query(value = "SELECT TOP 1 * FROM code where local = :local ORDER BY code_id DESC", nativeQuery = true)
-    public Code findLastCodeNum(@Param("local")String local);
+    @Query(value = "SELECT TOP 1 * FROM code where worker_id = :workerId ORDER BY code_id DESC", nativeQuery = true)
+    public Code findLastCodeNum(@Param("workerId")Integer workerId);
     
     @Query(value = "SELECT c FROM Code c WHERE c.creDt >= :fromTime and c.creDt <= :endTime")
     public List<Code> findByCreDt(@Param("fromTime")Date fromTime, @Param("endTime")Date endTime);
     
-    @Query(value = "SELECT c.person FROM Code c WHERE c.codeKbn IS NULL GROUP BY c.person")
+    @Query(value = "SELECT c.worker.workerName FROM Code c WHERE c.codeKbn IS NULL GROUP BY c.worker.workerId")
     public List<String> allWorks();
     
-    @Query(value = "SELECT c FROM Code c where c.person = :person AND c.codeKbn IS NULL")
-    public List<Code> findByPerson(@Param("person")String person);
+    @Query(value = "SELECT c FROM Code c where c.worker.workerId = :workerId AND c.codeKbn IS NULL")
+    public List<Code> findByPerson(@Param("workerId")String workerId);
+    
 }

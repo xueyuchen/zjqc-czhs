@@ -1,13 +1,9 @@
 function crecode() {
 	var local = $("#local").val();
 	var num = $("#num").val();
-	var person = $("#person").val();
-	if (!num || num == '') {
-		alert('请输入需要创建的残值编码数量');
-		return false;
-	}
-	if (!person || person == '') {
-		alert('请输入此批条码对应人员姓名');
+	var workerId = $("#workerId").val();
+	if (!local || local == '') {
+		alert('请输入此批条码归属地');
 		return false;
 	}
 	$.ajax({
@@ -18,7 +14,7 @@ function crecode() {
 		data : {
 			local : local,
 			num : num,
-			person : person
+			workerId : workerId
 		},
 		success : function(data) {
 			alert('残值编码生成成功！');
