@@ -16,7 +16,7 @@
 	href="../resources/app/lib/font-awesome/css/font-awesome.css">
 <script type="text/javascript"
 	src="../resources/app/js/js_lib/jquery.js" /></script>
-<script type="text/javascript" src='../resources/app/js/checkcode.js'></script>
+	<script type="text/javascript" src="../resources/app/js/worker/createworker.js"></script>
 <title>残值管理系统</title>
 <style type="text/css">
 #line-chart {
@@ -112,38 +112,30 @@
 				<div class="row-fluid">
 					<div class="block">
 						<p class="block-heading" data-toggle="collapse"
-							data-target="#chart-container">残值编码检测</p>
+							data-target="#chart-container">残值单单号生成</p>
 						<div id="chart-container" class="block-body collapse in">
 							<div id="line-chart">
-								<fieldset>
-									<table>
-										<tr>
-											<td>请输入要检测的残值编码：</td>
-											<td><input type='text' name='codeNum' id='codeNum' /></td>
-										</tr>
-										<tr>
-											<td></td>
-											<td><input type='button' onclick='checkcode();'
-												value='检测' /></td>
-										</tr>
-										<tr>
-											<td>&nbsp</td>
-										</tr>
-										<tr>
-											<td>定损员：</td>
-											<td><input type='text' id='workerName'
-												readonly="readonly" /></td>
-											<td>生成日期：</td>
-											<td><input type='text' id='creDt' readonly="readonly" /></td>
-										</tr>
-										<tr>
-											<td>归属地：</td>
-											<td><input type='text' id='local' readonly="readonly" /></td>
-											<td>查询结果：</td>
-											<td><input type='text' id='message' readonly="readonly" /></td>
-										</tr>
-									</table>
-								</fieldset>
+								<form action="createworker" method="post">
+									<fieldset>
+										<table>
+											<tr>
+												<td>定损员姓名：</td>
+												<td><input type="text" name="workerName"
+													id="workerName" /></td>
+												<td>片区：</td>
+												<td><select name="local" id="local">
+														<option value="东">东</option>
+														<option value="南">南</option>
+														<option value="西">西</option>
+														<option value="北">北</option>
+												</select></td>
+											</tr>
+											<tr>
+												<td><input type="button" class="number" value="录入员工" onclick="createworker();"></td>
+											</tr>
+										</table>
+									</fieldset>
+								</form>
 							</div>
 						</div>
 					</div>

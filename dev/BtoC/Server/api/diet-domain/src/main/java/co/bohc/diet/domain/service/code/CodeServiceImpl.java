@@ -2,12 +2,9 @@ package co.bohc.diet.domain.service.code;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,13 +18,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.bohc.diet.domain.common.Environment;
-import co.bohc.diet.domain.common.enums.CodeKbn;
 import co.bohc.diet.domain.common.utils.TimeUtils;
 import co.bohc.diet.domain.model.Code;
 import co.bohc.diet.domain.model.Worker;
 import co.bohc.diet.domain.repository.code.CodeRepository;
 import co.bohc.diet.domain.repository.worker.WorkerRepository;
 import co.bohc.diet.domain.service.CrudServiceImpl;
+import co.bohc.diet.domain.service.worker.WorkerOutput;
 
 @Service
 @Transactional(readOnly = true)
@@ -37,7 +34,7 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
     public void setRepository(CodeRepository repository) {
         super.setRepository(repository);
     }
-    
+
     @Inject
     private WorkerRepository workerRepository;
 
@@ -53,24 +50,34 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
         Code code = repository.findByCodeNum(codeNum);
         Map<String, Object> map = new HashMap<String, Object>();
         if (code == null) {
-            String message = "此编码不存在！";
-            map.put("codeNum", codeNum);
+            String message = "此残值编码不存在！";
             map.put("message", message);
             return map;
         }
-        if (code.getCodeKbn() == null) {
-            Date date = new Date();
-            code.setCheckDt(date);
-            code.setCodeKbn(CodeKbn.NG.getLabel());
-            repository.save(code);
-            String message = "残值编码扫描通过！";
+        if (code.getDelFlg() != null && code.getDelFlg().equals(String.valueOf(1))) {
+            String message = "此残值编码已被销毁！";
+            map.put("codeNum", code.getCheckNum());
             map.put("message", message);
-            map.put("codeNum", codeNum);
+            map.put("creDt", TimeUtils.datetimeToStr(code.getCreDt()));
+            map.put("local", code.getLocal());
+            map.put("workerName", code.getWorker().getWorkerName());
+            return map;
+        }
+        if (code.getCheckDt() != null) {
+            String message = "此残值编码已于：" + TimeUtils.datetimeToStr(code.getCheckDt()) + "录入过！";
+            map.put("codeNum", code.getCheckNum());
+            map.put("message", message);
+            map.put("creDt", TimeUtils.datetimeToStr(code.getCreDt()));
+            map.put("local", code.getLocal());
+            map.put("workerName", code.getWorker().getWorkerName());
             return map;
         } else {
-            String message = "此残值编码在 " + code.getCheckDt() + " 已扫描过！";
-            map.put("codeNum", codeNum);
+            String message = "此残值编码未被使用！";
+            map.put("codeNum", code.getCheckNum());
             map.put("message", message);
+            map.put("creDt", TimeUtils.datetimeToStr(code.getCreDt()));
+            map.put("local", code.getLocal());
+            map.put("workerName", code.getWorker().getWorkerName());
             return map;
         }
     }
@@ -79,7 +86,7 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
      * 批量生成code
      */
     @Transactional
-    public String createCode(Integer num, String local, Integer workerId) {
+    public WorkerOutput createCode(Integer num, Integer workerId) {
         Calendar cal = Calendar.getInstance();
         Integer month = cal.get(Calendar.MONTH) + 1;
         Integer year = cal.get(Calendar.YEAR) % 10;
@@ -88,11 +95,12 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
         String monthStr = null;
         String workerIdStr = null;
         String localStr = null;
+        Worker codeWorker = workerRepository.findByWorkerName(workerId);
         if (String.valueOf(month).length() == 1) {
             monthStr = "0" + String.valueOf(month);
         }
-        if (local.length() == 1) {
-            localStr = "0" + local;
+        if (codeWorker.getLocal().length() == 1) {
+            localStr = "0" + codeWorker.getLocal();
         }
         switch (String.valueOf(workerId).length()) {
         case 1:
@@ -111,17 +119,20 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
             code = new Code();
             worker = new Worker();
             String codeNum = String.valueOf(year) + monthStr + localStr + workerIdStr + creatCodeSeq(lastCodeSeq + i);
-            code.setLocal(local);
+            code.setLocal(codeWorker.getLocal());
             code.setCreDt(date);
             code.setCodeNum(codeNum);
             worker.setWorkerId(workerId);
             code.setWorker(worker);
             repository.save(code);
         }
-        return workerRepository.findByWorkerName(workerId).getWorkerName();
+        WorkerOutput output = new WorkerOutput();
+        output.setWorkerId(codeWorker.getWorkerId());
+        output.setWorkerName(codeWorker.getWorkerName());
+        return output;
     }
 
-    private Integer codeIndex( Integer month, Integer year, Integer workerId) {
+    private Integer codeIndex(Integer month, Integer year, Integer workerId) {
         Code lastCode = repository.findLastCodeNum(workerId);
         if (lastCode == null) {
             return 0;
@@ -149,12 +160,12 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
     }
 
     @Override
-    public void createfile(String workerName) {
+    public void createfile(WorkerOutput worker) {
         File dir = new File(env.getCodeFilePath());
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        File file = new File(dir, workerName);
+        File file = new File(dir, worker.getWorkerName());
         if (file.exists()) {
             file.delete();
         }
@@ -164,6 +175,10 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        Date date = new Date();
+        Date fromDt = TimeUtils.getStartTimeOfDay(date);
+        Date toDt = TimeUtils.getEndTimeOfDay(date);
+        List<Code> codes = repository.findByWorkerIdAndCreDt(worker.getWorkerId(), fromDt, toDt);
         try {
             FileOutputStream fos = new FileOutputStream(file);
             OutputStreamWriter osw = new OutputStreamWriter(fos);
@@ -186,10 +201,16 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
     }
 
     @Override
-    public void destroyCode(String person) {
-        List<Code> codes = repository.findByPerson(person);
+    @Transactional
+    public void destroyCode(Integer workerId) {
+        List<Code> codes = repository.findByWorkerId(workerId);
         Iterator<Code> it = codes.iterator();
+        Code code = null;
         while (it.hasNext()) {
+            code = it.next();
+            code.setDelFlg("1");
+            update(code);
         }
     }
+
 }

@@ -7,10 +7,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,9 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import co.bohc.diet.domain.common.utils.TimeUtils;
-import co.bohc.diet.domain.model.Code;
+import co.bohc.diet.domain.model.Worker;
 import co.bohc.diet.domain.service.code.CodeService;
+import co.bohc.diet.domain.service.worker.WorkerOutput;
 import co.bohc.diet.domain.service.worker.WorkerService;
 
 @Controller
@@ -35,9 +36,10 @@ public class CodeController {
     @Inject
     private CodeService codeService;
 
-    private static final String FILEPATH = "D:/codefile";
+    private static final String FILEPATH = "c:/codefile";
 
     @RequestMapping(value = "tocre", method = RequestMethod.GET)
+    @RolesAllowed(value = { "ROLE_SU", "ROLE_KE" })
     public String toCreCode(Model model) {
         model.addAttribute("workers", workerService.findWorkers());
         return "czcode/crecode";
@@ -55,14 +57,18 @@ public class CodeController {
 
     @RequestMapping(value = "todestroy", method = RequestMethod.GET)
     public String toDestroyCode(Model model) {
-        List<String> persons = codeService.allWorks();
-        model.addAttribute("persons", persons);
+        List<Worker> workers = workerService.findWorkers();
+        model.addAttribute("workers", workers);
         return "czcode/destroycode";
     }
 
     @RequestMapping(value = "destroycode", method = RequestMethod.POST)
-    public String destroyCode(String person) {
-        return null;
+    @ResponseBody
+    public Map<String, String> destroyCode(Integer workerId) {
+        codeService.destroyCode(workerId);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("message", "编码销毁成功！");
+        return map;
     }
 
     // @RequestMapping(value = "login", method = RequestMethod.GET)
@@ -72,28 +78,16 @@ public class CodeController {
 
     @RequestMapping(value = "checkcode", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> checkCode(Code code, HttpServletResponse resp) {
-        resp.addHeader("Content-Type", "application/json");
-        Map<String, Object> map = codeService.checkCode(code.getCodeNum());
+    public Map<String, Object> checkCode(String codeNum) {
+        Map<String, Object> map = codeService.checkCode(codeNum);
         return map;
     }
 
     @RequestMapping(value = "createcode", method = RequestMethod.POST)
-    @ResponseBody
-    public void creatCode(Integer num, String local, Integer workerId, HttpServletResponse response) {
-        String workerName = codeService.createCode(num, local, workerId);
-        codeService.createfile(workerName);
-        downLoadFile(response, workerName);
-    }
-
-    @RequestMapping(value = "getworks", method = RequestMethod.GET)
-    @ResponseBody
-    public List<String> allWorks() {
-        return codeService.allWorks();
-    }
-
-    private void downLoadFile(HttpServletResponse response, String workerName) {
-        String fileName = "/" + workerName;
+    public void creatCode(Integer num, Integer workerId, HttpServletResponse response) {
+        WorkerOutput worker = codeService.createCode(num, workerId);
+        codeService.createfile(worker);
+        String fileName = "/" + worker.getWorkerName();
         try {
             File file = new File(FILEPATH + fileName);// path是根据日志路径和文件名拼接出来的
             String filename = file.getName();// 获取日志文件名称
@@ -115,4 +109,11 @@ public class CodeController {
 
         }
     }
+
+    @RequestMapping(value = "getworks", method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> allWorks() {
+        return codeService.allWorks();
+    }
+
 }

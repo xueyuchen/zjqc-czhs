@@ -15,4 +15,7 @@ public interface WorkerRepository extends JpaRepository<Worker, Integer> {
     
     @Query(value = "SELECT w FROM Worker w WHERE w.delFlg IS NULL")
     public List<Worker> findAllWorkerByDelFlg();
+    
+    @Query(value = "SELECT w FROM Worker w WHERE w.workerName = :workerName AND w.delFlg IS NULL")
+    public Worker findByWorkerName(@Param("workerName")String workerName);
 }

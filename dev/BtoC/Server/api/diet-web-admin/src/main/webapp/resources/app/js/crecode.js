@@ -1,18 +1,11 @@
 function crecode() {
-	var local = $("#local").val();
 	var num = $("#num").val();
 	var workerId = $("#workerId").val();
-	if (!local || local == '') {
-		alert('请输入此批条码归属地');
-		return false;
-	}
 	$.ajax({
-		type : "post",
+		type : "get",
 		url : "createcode.do",
 		async : false,
-		dataType : "json",
 		data : {
-			local : local,
 			num : num,
 			workerId : workerId
 		},

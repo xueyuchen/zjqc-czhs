@@ -1,15 +1,13 @@
 function destroycode(){
-	var person = $("#persons").val();
+	var workerId = $("#worker").val();
 	$.ajax({
 		type : "post",
-		url : "destroycode.do",
-		async : false,
-		dataType : "json",
+		url : "destroycode",
 		data : {
-			person : person,
+			workerId : workerId,
 		},
 		success : function(data) {
-			alert('残值编码销毁成功！');
+			alert(data.message);
 		},
 		error : function(data) {
 			alert(data.message);

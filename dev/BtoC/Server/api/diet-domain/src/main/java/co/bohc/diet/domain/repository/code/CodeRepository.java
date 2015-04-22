@@ -3,7 +3,6 @@ package co.bohc.diet.domain.repository.code;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,6 +23,9 @@ public interface CodeRepository extends JpaRepository<Code, Integer>{
     public List<String> allWorks();
     
     @Query(value = "SELECT c FROM Code c where c.worker.workerId = :workerId AND c.codeKbn IS NULL")
-    public List<Code> findByPerson(@Param("workerId")String workerId);
+    public List<Code> findByWorkerId(@Param("workerId")Integer workerId);
+    
+    @Query(value = "SELECT c FROM Code c WHERE c.worker.workerId = :workerId AND c.creDt >= :fromDt AND c.creDt <= :toDt")
+    public List<Code> findByWorkerIdAndCreDt(@Param("workerId")Integer workerId, @Param("fromDt")Date fromDt, @Param("toDt")Date toDt);
     
 }

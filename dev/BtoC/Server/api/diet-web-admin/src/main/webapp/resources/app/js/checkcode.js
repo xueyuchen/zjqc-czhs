@@ -1,7 +1,18 @@
-document.write("script language='javascript' src='/js_lib/jquery.js'></script");
-function sendForm(){
-	alert("123");
-	$.ajax({url:"code/checkcode", data:$("#codeNum"), success:function(data){
-		alert(data.map.message);
-	}});
+function checkcode() {
+	var codeNum = $('#codeNum').val();
+	$.ajax({
+		type : "post",
+		url : "checkcode",
+		async : false,
+		data : {
+			codeNum: codeNum
+		},
+		success : function(data) {
+			alert(data.message);
+			$('#workerName').val(data.workerName);
+			$('#creDt').val(data.creDt);
+			$('#message').val(data.message).css('color','red');
+			$('#local').val(data.local);
+		}
+	});
 }

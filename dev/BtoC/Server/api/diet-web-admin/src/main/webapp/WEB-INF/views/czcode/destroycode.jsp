@@ -71,6 +71,13 @@
 			<div class="span3">
 				<div class="sidebar-nav">
 					<div class="nav-header" data-toggle="collapse"
+						data-target="#accounts-menu">
+						<i class="icon-briefcase"></i>定损员管理
+					</div>
+					<ul id="accounts-menu" class="nav nav-list collapse in">
+						<li><a href="../workers/tocre">定损员录入</a></li>
+					</ul>
+					<div class="nav-header" data-toggle="collapse"
 						data-target="#dashboard-menu">
 						<i class="icon-dashboard"></i>残值编码管理
 					</div>
@@ -88,12 +95,12 @@
 						<li><a href="../codes/toenter">残值单录入</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
-                        data-target="#accounts-menu">
-                        <i class="icon-briefcase"></i>残值统计
-                    </div>
-                    <ul id="accounts-menu" class="nav nav-list collapse in">
-                        <li><a href="../papers/tototal">残值回收账目</a></li>
-                    </ul>
+						data-target="#accounts-menu">
+						<i class="icon-briefcase"></i>残值统计
+					</div>
+					<ul id="accounts-menu" class="nav nav-list collapse in">
+						<li><a href="../papers/tototal">残值回收账目</a></li>
+					</ul>
 				</div>
 			</div>
 			<div class="span9">
@@ -112,13 +119,16 @@
 									<table>
 										<tr>
 											<td>请输入要销毁的人员姓名：</td>
-											<td><select name="persons" id="persons">
-													<c:forEach items="${persons}" var="person">
-														<option value="${person}">${person}</option>
+											<td><select name="worker" id="worker">
+													<c:forEach items="${workers}" var="worker">
+														<option value="${worker.workerId}">${worker.workerName}</option>
 													</c:forEach>
 											</select></td>
-											<td><input type='button' onclick='checkcode();'
-												value='检测' /></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td><input type='button' onclick='destroycode();'
+												value='销毁' /></td>
 										</tr>
 									</table>
 								</fieldset>

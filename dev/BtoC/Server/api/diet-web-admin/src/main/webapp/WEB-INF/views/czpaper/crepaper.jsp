@@ -19,7 +19,7 @@
 <title>残值管理系统</title>
 <style type="text/css">
 #line-chart {
-    height: 300px;
+	height: 300px;
 	width: 800px;
 	margin: 0px auto;
 	margin-top: 1em;
@@ -70,6 +70,13 @@
 			<div class="span3">
 				<div class="sidebar-nav">
 					<div class="nav-header" data-toggle="collapse"
+						data-target="#accounts-menu">
+						<i class="icon-briefcase"></i>定损员管理
+					</div>
+					<ul id="accounts-menu" class="nav nav-list collapse in">
+						<li><a href="../workers/tocre">定损员录入</a></li>
+					</ul>
+					<div class="nav-header" data-toggle="collapse"
 						data-target="#dashboard-menu">
 						<i class="icon-dashboard"></i>残值编码管理
 					</div>
@@ -87,12 +94,12 @@
 						<li><a href="../codes/toenter">残值单录入</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
-                        data-target="#accounts-menu">
-                        <i class="icon-briefcase"></i>残值统计
-                    </div>
-                    <ul id="accounts-menu" class="nav nav-list collapse in">
-                        <li><a href="../papers/tototal">残值回收账目</a></li>
-                    </ul>
+						data-target="#accounts-menu">
+						<i class="icon-briefcase"></i>残值统计
+					</div>
+					<ul id="accounts-menu" class="nav nav-list collapse in">
+						<li><a href="../papers/tototal">残值回收账目</a></li>
+					</ul>
 				</div>
 			</div>
 			<div class="span9">
@@ -107,21 +114,22 @@
 							data-target="#chart-container">残值单单号生成</p>
 						<div id="chart-container" class="block-body collapse in">
 							<div id="line-chart">
-								<fieldset>
-									<table>
-										<tr>
-											<td>编号生成批次：</td>
-											<td><input type="text" name="person" id="person" readonly="readonly"/></td>
-											<td>生成数量：</td>
-                                            <td><input type="text" name="person" id="person"/></td>
-										</tr>
-										<tr>
-											<td><input type="button" class="number" value="生成单号"
-												onclick="crecode();"></td>
-											<td><a href="downfile">下载文件</a></td>
-										</tr>
-									</table>
-								</fieldset>
+								<form action="createpaper" method="post">
+									<fieldset>
+										<table>
+											<tr>
+												<td>编号生成批次：</td>
+												<td><input type="text" name="printNum" id="printNum"
+													readonly="readonly" value="${countNum}" /></td>
+												<td>生成数量：</td>
+												<td><input type="text" name="printSize" id="printSize" /></td>
+											</tr>
+											<tr>
+												<td><input type="submit" class="number" value="生成单号"></td>
+											</tr>
+										</table>
+									</fieldset>
+								</form>
 							</div>
 						</div>
 					</div>

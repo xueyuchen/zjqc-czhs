@@ -28,6 +28,7 @@
             </div>
             <div class="clearfix"></div>
         </div>
+        <h4 ><a href='users/login'>login in</a></h4>
     </div>
 	<div class="header">
 		<div class="container">
@@ -36,10 +37,10 @@
 				<form>
 					<input type="text" value="Enter a Job Description"
 						onfocus="this.value = '';"
-						onblur="if (this.value = 'Enter a Job Description') {this.value = 'Enter a Job Description';}">
+						onblur="if (this.value = '请输入需要查询的编号') {this.value = '请输入需要查询的编号';}">
 					<input type="submit" class="ser" value="查询"><br> <select
 						name="cars">
-						<option value="select your location">残值单号</option>
+						<option value="选择">残值单号</option>
 						<option value="saab">残值编码</option>
 					</select>
 				</form>

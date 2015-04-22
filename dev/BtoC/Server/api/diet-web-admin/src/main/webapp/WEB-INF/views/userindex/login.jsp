@@ -23,17 +23,16 @@
 	function sendForm() {
 		$.ajax({
 			type : "post",
-			url : "checkcode.do",
-			async : false,
+			url : "/diet-web-admin/login",
+			async : true,
 			dataType : "json",
+			timeout: 3000,
 			data : {
-				codeNum : $("#codeNum").val()
+				loginId : $("#username").val(),
+				password : $("#password").val()
 			},
 			success : function(data) {
-				var length = $("#table").find("tr").length;
-				$("#table").append(
-						"<tr><td>" + length + "</td><td>" + data.codeNum
-								+ "</td><td>" + data.message + "</td<></tr>");
+				window.location.href = 'codes/tocre';
 			},
 			error : function(data) {
 				alert(data.message);
@@ -93,28 +92,8 @@
 	<div class="container-fluid">
 
 		<div class="row-fluid">
-			<div class="span3">
-				<div class="sidebar-nav">
-					<div class="nav-header" data-toggle="collapse"
-						data-target="#dashboard-menu">
-						<i class="icon-dashboard"></i>残值编码管理
-					</div>
-					<ul id="dashboard-menu" class="nav nav-list collapse in">
-						<li><a href="./tocre">残值编码生成 </a></li>
-						<li><a href="./home">残值编码检验</a></li>
-						<li><a href="./tocre">残值编码查询</a></li>
-					</ul>
-					<div class="nav-header" data-toggle="collapse"
-						data-target="#accounts-menu">
-						<i class="icon-briefcase"></i>残值单管理
-					</div>
-					<ul id="accounts-menu" class="nav nav-list collapse in">
-						<li><a href="sign-in.html">残值单单号生成</a></li>
-						<li><a href="sign-up.html">残值单查询</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="span9">
+		
+			<div>
 				<script type="text/javascript" src="lib/jqplot/jquery.jqplot.min.js"></script>
 				<script type="text/javascript" charset="utf-8"
 					src="javascripts/graphDemo.js"></script>
@@ -124,10 +103,10 @@
 					<div class="block">
 						<div class="block-heading">登录</div>
 						<div class="block-body">
-							<form>
-								<label>用户名</label> <input type="text" class="span12">
-								<label>密码</label> <input type="password" class="span12">
-								<a href="index.html" class="btn btn-primary pull-right">登录</a>
+							<form action="/api/login" method="post">
+								<label>用户名</label> <input type="text" class="span12" id="username">
+								<label>密码</label> <input type="password" class="span12" id="password">
+								<a href="javascript:void(0);" onclick="sendForm()">登录</a>
 								<div class="clearfix"></div>
 							</form>
 						</div>

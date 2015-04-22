@@ -73,6 +73,13 @@
 			<div class="span3">
 				<div class="sidebar-nav">
 					<div class="nav-header" data-toggle="collapse"
+						data-target="#accounts-menu">
+						<i class="icon-briefcase"></i>定损员管理
+					</div>
+					<ul id="accounts-menu" class="nav nav-list collapse in">
+						<li><a href="../workers/tocre">定损员录入</a></li>
+					</ul>
+					<div class="nav-header" data-toggle="collapse"
 						data-target="#dashboard-menu">
 						<i class="icon-dashboard"></i>残值编码管理
 					</div>
@@ -110,47 +117,46 @@
 							data-target="#chart-container">残值编码检生成</p>
 						<div id="chart-container" class="block-body collapse in">
 							<div id="line-chart">
-								<fieldset>
-									<table>
-										<tr>
-											<td>需要生产编码数量：</td>
-											<td><select name="num" id="num">
-													<option value="1100">1100</option>
-													<option value="1050">1050</option>
-													<option value="1000">1000</option>
-													<option value="950">950</option>
-													<option value="900">900</option>
-													<option value="850">850</option>
-													<option value="800">800</option>
-													<option value="750">750</option>
-													<option value="650">650</option>
-													<option value="600">600</option>
-													<option value="550">550</option>
-													<option value="500">500</option>
-													<option value="450">450</option>
-													<option value="400">400</option>
-													<option value="350">350</option>
-													<option value="300">300</option>
-													<option value="250">250</option>
-											</select></td>
-										</tr>
-										<tr>
-											<td>编码归属地：</td>
-											<td><input type="text" name = "local" id = "local"/></td>
-										</tr>
-										<tr>
-											<td>编码归属人：</td>
-											<td><select name="workerId" id="workerId">
-													<c:forEach items="${workers}" var="worker">
-														<option value="${worker.workerId}">${worker.workerName}</option>
-													</c:forEach>
-											</select></td>
-											<td><input type="button" class="number" value="生成编码"
-												onclick="crecode();"></td>
-											<td><a href="downfile">下载文件</a></td>
-										</tr>
-									</table>
-								</fieldset>
+								<form action="createcode" , method="post">
+									<fieldset>
+										<table>
+											<tr>
+												<td>需要生产编码数量：</td>
+												<td><select name="num" id="num">
+														<option value="1100">1100</option>
+														<option value="1050">1050</option>
+														<option value="1000">1000</option>
+														<option value="950">950</option>
+														<option value="900">900</option>
+														<option value="850">850</option>
+														<option value="800">800</option>
+														<option value="750">750</option>
+														<option value="650">650</option>
+														<option value="600">600</option>
+														<option value="550">550</option>
+														<option value="500">500</option>
+														<option value="450">450</option>
+														<option value="400">400</option>
+														<option value="350">350</option>
+														<option value="300">300</option>
+														<option value="250">250</option>
+												</select></td>
+											</tr>
+											<tr>
+												<td>编码归属人：</td>
+												<td><select name="workerId" id="workerId">
+														<c:forEach items="${workers}" var="worker">
+															<option value="${worker.workerId}">${worker.workerName}</option>
+														</c:forEach>
+												</select></td>
+											</tr>
+											<tr>
+												<td></td>
+												<td><input type="submit" class="number" value="生成编码"></td>
+											</tr>
+										</table>
+									</fieldset>
+								</form>
 							</div>
 						</div>
 					</div>

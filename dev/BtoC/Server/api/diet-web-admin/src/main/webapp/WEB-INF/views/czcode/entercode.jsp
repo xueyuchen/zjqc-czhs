@@ -45,7 +45,7 @@
 <title>残值管理系统</title>
 <style type="text/css">
 #line-chart {
-    height: 500px;
+	height: 500px;
 	width: 800px;
 	margin: 0px auto;
 	margin-top: 1em;
@@ -96,13 +96,20 @@
 			<div class="span3">
 				<div class="sidebar-nav">
 					<div class="nav-header" data-toggle="collapse"
+						data-target="#accounts-menu">
+						<i class="icon-briefcase"></i>定损员管理
+					</div>
+					<ul id="accounts-menu" class="nav nav-list collapse in">
+						<li><a href="../workers/tocre">定损员录入</a></li>
+					</ul>
+					<div class="nav-header" data-toggle="collapse"
 						data-target="#dashboard-menu">
 						<i class="icon-dashboard"></i>残值编码管理
 					</div>
 					<ul id="dashboard-menu" class="nav nav-list collapse in">
 						<li><a href="../codes/tocre">残值编码生成 </a></li>
 						<li><a href="../codes/tocheck">残值编码检测</a></li>
-                        <li><a href="../codes/todestroy">残值编码销毁</a></li>
+						<li><a href="../codes/todestroy">残值编码销毁</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
 						data-target="#accounts-menu">
@@ -113,12 +120,12 @@
 						<li><a href="../codes/toenter">残值单录入</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
-                        data-target="#accounts-menu">
-                        <i class="icon-briefcase"></i>残值统计
-                    </div>
-                    <ul id="accounts-menu" class="nav nav-list collapse in">
-                        <li><a href="../papers/tototal">残值回收账目</a></li>
-                    </ul>
+						data-target="#accounts-menu">
+						<i class="icon-briefcase"></i>残值统计
+					</div>
+					<ul id="accounts-menu" class="nav nav-list collapse in">
+						<li><a href="../papers/tototal">残值回收账目</a></li>
+					</ul>
 				</div>
 			</div>
 			<div class="span9">
@@ -147,9 +154,11 @@
 										</tr>
 										<tr>
 											<td>残值编号：</td>
-											<td><textarea name="reportCode" id="reportCode" style="height: 330px"></textarea></td>
+											<td><textarea name="reportCode" id="reportCode"
+													style="height: 330px"></textarea></td>
 											<td>警告信息：</td>
-											<td><textarea name="reportCode" id="reportCode" style="height: 330px; color: 0xfff" readonly></textarea></td>
+											<td><textarea name="reportCode" id="reportCode"
+													style="height: 330px; color: 0xfff" readonly></textarea></td>
 										</tr>
 									</table>
 								</fieldset>

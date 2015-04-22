@@ -98,6 +98,8 @@ public final class Environment {
 
     private String codeFilePath;
 
+    private String paperFilePath;
+
     public String getGmoCheckStatusUrl() {
         return gmoCheckStatusUrl;
     }
@@ -488,6 +490,14 @@ public final class Environment {
 
     public void setCodeFilePath(String codeFilePath) {
         this.codeFilePath = codeFilePath;
+    }
+
+    public String getPaperFilePath() {
+        return paperFilePath;
+    }
+
+    public void setPaperFilePath(String paperFilePath) {
+        this.paperFilePath = paperFilePath;
     }
 
 }
