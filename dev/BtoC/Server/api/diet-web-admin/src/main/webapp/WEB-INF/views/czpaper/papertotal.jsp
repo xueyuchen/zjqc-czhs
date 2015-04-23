@@ -16,10 +16,11 @@
 	href="../resources/app/lib/font-awesome/css/font-awesome.css">
 <script type="text/javascript"
 	src="../resources/app/js/js_lib/jquery.js" /></script>
+<script type="text/javascript"
+	src="../resources/app/js/paper/papertotal.js"></script>
 <title>残值管理系统</title>
 <style type="text/css">
 #line-chart {
-	height: 300px;
 	width: 800px;
 	margin: 0px auto;
 	margin-top: 1em;
@@ -37,6 +38,31 @@
 .brand .second {
 	color: #fff;
 	font-weight: bold;
+}
+
+table.gridtable {
+	font-family: verdana, arial, sans-serif;
+	font-size: 11px;
+	color: #333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+}
+
+table.gridtable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedede;
+}
+
+table.gridtable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
 }
 </style>
 </head>
@@ -91,7 +117,7 @@
 					</div>
 					<ul id="accounts-menu" class="nav nav-list collapse in">
 						<li><a href="../papers/tocre">残值单单号生成</a></li>
-						<li><a href="../codes/toenter">残值单录入</a></li>
+						<li><a href="../papers/toenter">残值单录入</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
 						data-target="#accounts-menu">
@@ -117,32 +143,22 @@
 								<fieldset>
 									<table>
 										<tr>
-											<td>查询开始日期：<input type="text" /></td>
-											<td>查询结束日期：<input type="text" /></td>
+											<td>查询开始日期：</td>
+											<td><input type="text" id="fromDt" /></td>
+											<td>查询结束日期：</td>
+											<td><input type="text" id="toDt" /></td>
+											<td><input type="button" onclick="countPaper();"
+												value="查询" /></td>
 										</tr>
+									</table>
+								</fieldset>
+								<fieldset>
+									<table id="table" class="gridtable">
 										<tr>
-											<td>残值单单号：</td>
-											<td>残值数量：</td>
-										</tr>
-										<tr>
-											<td>50401010001</td>
-											<td>5</td>
-										</tr>
-										<tr>
-											<td>50401010001</td>
-											<td>5</td>
-										</tr>
-										<tr>
-											<td>50401010001</td>
-											<td>5</td>
-										</tr>
-										<tr>
-											<td>50401010001</td>
-											<td>5</td>
-										</tr>
-										<tr>
-											<td>总残值单数：5</td>
-											<td>总残值数量：20</td>
+											<th style="width: 250px">残值单单号：</th>
+											<th style="width: 250px">车牌号：</th>
+											<th style="width: 250px">报案号：</th>
+											<th style="width: 250px">收残数量：</th>
 										</tr>
 									</table>
 								</fieldset>

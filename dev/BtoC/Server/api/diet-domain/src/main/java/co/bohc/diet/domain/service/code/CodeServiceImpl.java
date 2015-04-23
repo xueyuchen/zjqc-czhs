@@ -213,4 +213,13 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
         }
     }
 
+    @Override
+    @Transactional
+    public void saveCodes(List<Code> codes) {
+        Iterator<Code> it = codes.iterator();
+        while(it.hasNext()){
+            update(it.next());
+        }
+    }
+
 }

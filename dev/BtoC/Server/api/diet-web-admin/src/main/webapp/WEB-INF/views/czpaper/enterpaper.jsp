@@ -16,32 +16,8 @@
 	href="../resources/app/lib/font-awesome/css/font-awesome.css">
 <script type="text/javascript"
 	src="../resources/app/js/js_lib/jquery.js" /></script>
-<script type="text/javascript">
-	
-</script>
-<script type="text/javascript">
-	function sendForm() {
-		$.ajax({
-			type : "post",
-			url : "checkcode.do",
-			async : false,
-			dataType : "json",
-			data : {
-				codeNum : $("#codeNum").val()
-			},
-			success : function(data) {
-				var length = $("#table").find("tr").length;
-				$("#table").append(
-						"<tr><td>" + length + "</td><td>" + data.codeNum
-								+ "</td><td>" + data.message + "</td<></tr>");
-			},
-			error : function(data) {
-				alert(data.message);
-			}
-		});
-		return false;
-	}
-</script>
+<script type="text/javascript"
+	src='../resources/app/js/paper/enterpaper.js'></script>
 <title>残值管理系统</title>
 <style type="text/css">
 #line-chart {
@@ -117,7 +93,7 @@
 					</div>
 					<ul id="accounts-menu" class="nav nav-list collapse in">
 						<li><a href="../papers/tocre">残值单单号生成</a></li>
-						<li><a href="../codes/toenter">残值单录入</a></li>
+						<li><a href="../papers/toenter">残值单录入</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
 						data-target="#accounts-menu">
@@ -144,21 +120,26 @@
 									<table>
 										<tr>
 											<td>残值单号：</td>
-											<td><input type="text" name="codeNum" id="codeNum"></td>
+											<td><input type="text" name="paperCode" id="paperCode"></td>
 											<td>报案号：</td>
 											<td><input type="text" name="reportCode" id="reportCode"></td>
 										</tr>
 										<tr>
 											<td>车牌号：</td>
-											<td><input type="text" name="reportCode" id="reportCode"></td>
+											<td><input type="text" name="carLicensePlate"
+												id="carLicensePlate"></td>
 										</tr>
 										<tr>
 											<td>残值编号：</td>
-											<td><textarea name="reportCode" id="reportCode"
+											<td><textarea name="reportCode" id="codeArray"
 													style="height: 330px"></textarea></td>
 											<td>警告信息：</td>
-											<td><textarea name="reportCode" id="reportCode"
-													style="height: 330px; color: 0xfff" readonly></textarea></td>
+											<td><textarea name="reportCode" id="codeArrayInfos"
+													style="height: 330px; color: red; width: 400px" readonly></textarea></td>
+										</tr>
+										<tr>
+										  <td></td>
+										  <td><input type="button" value="录入" onclick="enterpaper();"/></td>
 										</tr>
 									</table>
 								</fieldset>

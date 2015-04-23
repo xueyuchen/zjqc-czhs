@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -16,36 +19,44 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.bohc.diet.domain.common.utils.TimeUtils;
+import co.bohc.diet.domain.model.Paper;
+import co.bohc.diet.domain.service.paper.PaperOutput;
 import co.bohc.diet.domain.service.paper.PaperService;
 
 @Controller
 @RequestMapping(value = "papers")
 public class PaperController {
-    
+
     private static final String FILEPATH = "c:/paperfile";
-    
+
     @Inject
     private PaperService paperService;
-    
+
+    @RequestMapping(value = "toenter", method = RequestMethod.GET)
+    public String toEnterCode() {
+        return "czpaper/enterpaper";
+    }
+
     @RequestMapping(value = "tocre", method = RequestMethod.GET)
-    public String toCrePaper(Model model){
+    public String toCrePaper(Model model) {
         Integer countNum = paperService.countNum();
-        if(countNum == null){
+        if (countNum == null) {
             countNum = 0;
         }
-        model.addAttribute("countNum", countNum+1);
+        model.addAttribute("countNum", countNum + 1);
         return "czpaper/crepaper";
     }
-    
+
     @RequestMapping(value = "tototal", method = RequestMethod.GET)
-    public String toPaperTatol(){
+    public String toPaperTatol() {
         return "czpaper/papertotal";
     }
-    
+
     @RequestMapping(value = "createpaper", method = RequestMethod.POST)
-    public void createpaper(HttpServletResponse response, Integer printNum, Integer printSize){
+    public void createpaper(HttpServletResponse response, Integer printNum, Integer printSize) {
         paperService.createpaper(printNum, printSize);
         paperService.createfile();
         String fileName = "/" + TimeUtils.dateToStr(new Date());
@@ -69,6 +80,20 @@ public class PaperController {
         } catch (IOException e) {
 
         }
+    }
+
+    @RequestMapping(value = "enter", method = RequestMethod.POST)
+    @ResponseBody
+    public List<String> enterPaper(String paperCode, String reportCode, String carLicensePlate, String codeArray) {
+        List<String> messages = paperService.enterInfos(paperCode, reportCode, carLicensePlate, codeArray);
+        return messages;
+    }
+    
+    @RequestMapping(value = "StatisticsPaper", method = RequestMethod.GET)
+    @ResponseBody
+    public List<PaperOutput> countPaper(Date fromDt, Date toDt){
+        return paperService.countPaper(fromDt, toDt);
+        
     }
 
 }

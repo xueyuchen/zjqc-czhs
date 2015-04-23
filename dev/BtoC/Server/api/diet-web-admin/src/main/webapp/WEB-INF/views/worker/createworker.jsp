@@ -16,7 +16,8 @@
 	href="../resources/app/lib/font-awesome/css/font-awesome.css">
 <script type="text/javascript"
 	src="../resources/app/js/js_lib/jquery.js" /></script>
-	<script type="text/javascript" src="../resources/app/js/worker/createworker.js"></script>
+<script type="text/javascript"
+	src="../resources/app/js/worker/createworker.js"></script>
 <title>残值管理系统</title>
 <style type="text/css">
 #line-chart {
@@ -131,7 +132,9 @@
 												</select></td>
 											</tr>
 											<tr>
-												<td><input type="button" class="number" value="录入员工" onclick="createworker();"></td>
+												<td></td>
+												<td><input type="button" class="number" value="录入员工"
+													onclick="createworker();"></td>
 											</tr>
 										</table>
 									</fieldset>

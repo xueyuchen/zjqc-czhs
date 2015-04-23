@@ -19,6 +19,7 @@ public class PaperOutput implements Serializable{
     private Date entryDt;
     private Date checkDt;
     private String delFlg;
+    private Integer countCode;
 
     public Integer getPaperId() {
         return paperId;
@@ -98,6 +99,14 @@ public class PaperOutput implements Serializable{
 
     public void setDelFlg(String delFlg) {
         this.delFlg = delFlg;
+    }
+
+    public Integer getCountCode() {
+        return countCode;
+    }
+
+    public void setCountCode(Integer countCode) {
+        this.countCode = countCode;
     }
 
 }

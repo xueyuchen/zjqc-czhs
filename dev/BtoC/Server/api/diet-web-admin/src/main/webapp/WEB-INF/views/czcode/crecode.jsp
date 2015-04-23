@@ -94,7 +94,7 @@
 					</div>
 					<ul id="accounts-menu" class="nav nav-list collapse in">
 						<li><a href="../papers/tocre">残值单单号生成</a></li>
-						<li><a href="../codes/toenter">残值单录入</a></li>
+						<li><a href="../papers/toenter">残值单录入</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
 						data-target="#accounts-menu">

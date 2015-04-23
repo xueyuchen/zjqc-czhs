@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -16,21 +17,33 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.bohc.diet.domain.common.Environment;
 import co.bohc.diet.domain.common.utils.TimeUtils;
+import co.bohc.diet.domain.model.Code;
 import co.bohc.diet.domain.model.Paper;
+import co.bohc.diet.domain.repository.code.CodeRepository;
 import co.bohc.diet.domain.repository.paper.PaperRepository;
 import co.bohc.diet.domain.service.CrudServiceImpl;
+import co.bohc.diet.domain.service.code.CodeService;
 
 @Service
 @Transactional(readOnly = true)
 public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepository> implements PaperService {
 
+    private static final String HASNOCODE = "无效条码！";
+    private static final String HASDELETE = "条码已被删除！";
+
     @Inject
     private Environment env;
+
+    @Inject
+    private CodeService codeService;
 
     @Inject
     public void setRepository(PaperRepository repository) {
         super.setRepository(repository);
     }
+
+    @Inject
+    private CodeRepository codeRepository;
 
     @Override
     public Integer countNum() {
@@ -112,4 +125,68 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
         }
     }
 
+    @Override
+    @Transactional
+    public List<String> enterInfos(String paperCode, String reportCode, String carLicensePlate, String codeArray) {
+        Paper paper = repository.findOneByPaperCode(paperCode);
+        List<String> errors = new ArrayList<String>();
+        if (paper == null) {
+            errors.add("残值单号无效！");
+            return errors;
+        }
+        Date date = new Date();
+        String[] codes = codeArray.split("\n");
+        List<Code> codesSave = new ArrayList<Code>();
+        if (codes != null) {
+            for (int i = 0; i < codes.length; i++) {
+                Code code = codeRepository.findByCodeNum(codes[i]);
+                if (code == null) {
+                    errors.add(codes[i] + "：" + HASNOCODE);
+                } else if (code != null && code.getDelFlg() != null) {
+                    errors.add(codes[i] + "：" + HASDELETE + "\n" + "条码归属：" + code.getLocal() + " "
+                            + code.getWorker().getWorkerName());
+                } else if (code != null && code.getCheckDt() != null) {
+                    errors.add(codes[i] + "：" + "该条码已于：" + TimeUtils.datetimeToStr(code.getCheckDt()) + "扫描通过！" + "\n"
+                            + "条码归属：" + code.getLocal() + " " + code.getWorker().getWorkerName());
+                } else {
+                    codesSave.add(code);
+                }
+            }
+            if (errors.size() == 0) {
+                Iterator<Code> it = codesSave.iterator();
+                while(it.hasNext()){
+                    Code c = it.next();
+                    c.setCheckDt(date);
+                    c.setCodeKbn("CK");
+                    c.setPaper(paper);
+                }
+                paper.setCarLicensePlate(carLicensePlate);
+                paper.setReportCode(reportCode);
+                paper.setEntryDt(date);
+            } else {
+                return errors;
+            }
+        }
+        errors.add("录入完成！");
+        return errors;
+    }
+
+    @Override
+    public List<PaperOutput> countPaper(Date fromDt, Date toDt) {
+        List<Paper> papers = repository.findByEntryDt(fromDt, toDt);
+        List<PaperOutput> outputs = new ArrayList<PaperOutput>();
+        PaperOutput output = null;
+        Iterator<Paper> it = papers.iterator();
+        while(papers != null && it.hasNext()){
+            output = new PaperOutput();
+            Paper paper = it.next();
+            output.setCarLicensePlate(paper.getCarLicensePlate());
+            output.setEntryDt(paper.getEntryDt());
+            output.setPaperCode(paper.getPaperCode());
+            output.setReportCode(paper.getReportCode());
+            output.setCountCode(paper.getCodes().size());
+            outputs.add(output);
+        }
+        return outputs;
+    }
 }

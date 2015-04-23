@@ -39,7 +39,6 @@ public class CodeController {
     private static final String FILEPATH = "c:/codefile";
 
     @RequestMapping(value = "tocre", method = RequestMethod.GET)
-    @RolesAllowed(value = { "ROLE_SU", "ROLE_KE" })
     public String toCreCode(Model model) {
         model.addAttribute("workers", workerService.findWorkers());
         return "czcode/crecode";
@@ -48,11 +47,6 @@ public class CodeController {
     @RequestMapping(value = "tocheck", method = RequestMethod.GET)
     public String toCheckcode() {
         return "czcode/checkcode";
-    }
-
-    @RequestMapping(value = "toenter", method = RequestMethod.GET)
-    public String toEnterCode() {
-        return "czcode/entercode";
     }
 
     @RequestMapping(value = "todestroy", method = RequestMethod.GET)

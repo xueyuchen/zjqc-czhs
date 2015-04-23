@@ -16,4 +16,9 @@ public interface PaperRepository extends JpaRepository<Paper, Integer>{
     
     @Query(value = "SELECT p FROM Paper p WHERE p.creDt >= :fromDt AND p.creDt <= :toDt")
     public List<Paper> findAllByDate(@Param("fromDt")Date fromDt, @Param("toDt")Date toDt);
+    
+    public Paper findOneByPaperCode(String paperCode);
+    
+    @Query(value = "SELECT p FROM Paper p WHERE p.entryDt >= :fromDt AND p.entryDt <= :toDt AND p.delFlg IS NULL")
+    public List<Paper> findByEntryDt(@Param("fromDt")Date fromDt, @Param("toDt")Date toDt);
 }

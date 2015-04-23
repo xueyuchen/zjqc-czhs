@@ -23,7 +23,7 @@
 	function sendForm() {
 		$.ajax({
 			type : "post",
-			url : "/diet-web-admin/login",
+			url : "/login",
 			async : true,
 			dataType : "json",
 			timeout: 3000,

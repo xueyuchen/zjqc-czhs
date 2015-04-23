@@ -18,5 +18,7 @@ public interface CodeService extends CrudService<Code, Integer> {
     public List<String> allWorks();
     
     public void destroyCode(Integer workerId);
+    
+    public void saveCodes(List<Code> codes);
 
 }
