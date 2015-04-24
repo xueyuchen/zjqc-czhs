@@ -8,11 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.bohc.diet.domain.common.utils.TimeUtils;
-import co.bohc.diet.domain.model.Paper;
 import co.bohc.diet.domain.service.paper.PaperOutput;
 import co.bohc.diet.domain.service.paper.PaperService;
 
@@ -36,7 +34,16 @@ public class PaperController {
     private PaperService paperService;
 
     @RequestMapping(value = "toenter", method = RequestMethod.GET)
-    public String toEnterCode() {
+    public String toEnterCode(HttpServletRequest req, HttpServletResponse resp) {
+        String _ = (String) req.getSession().getAttribute("_");
+        if (_ == null || !_.equals("1234")) {
+            try {
+                resp.sendRedirect("../users/login");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
         return "czpaper/enterpaper";
     }
 
@@ -56,8 +63,8 @@ public class PaperController {
     }
 
     @RequestMapping(value = "createpaper", method = RequestMethod.POST)
-    public void createpaper(HttpServletResponse response, Integer printNum, Integer printSize) {
-        paperService.createpaper(printNum, printSize);
+    public void createpaper(HttpServletResponse response, Integer printSize) {
+        paperService.createpaper(printSize);
         paperService.createfile();
         String fileName = "/" + TimeUtils.dateToStr(new Date());
         try {
@@ -88,12 +95,12 @@ public class PaperController {
         List<String> messages = paperService.enterInfos(paperCode, reportCode, carLicensePlate, codeArray);
         return messages;
     }
-    
+
     @RequestMapping(value = "StatisticsPaper", method = RequestMethod.GET)
     @ResponseBody
-    public List<PaperOutput> countPaper(Date fromDt, Date toDt){
+    public List<PaperOutput> countPaper(Date fromDt, Date toDt) {
         return paperService.countPaper(fromDt, toDt);
-        
+
     }
 
 }

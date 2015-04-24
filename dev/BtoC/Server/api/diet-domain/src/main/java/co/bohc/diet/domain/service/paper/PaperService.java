@@ -10,7 +10,7 @@ public interface PaperService extends CrudService<Paper, Integer> {
 
     public Integer countNum();
     
-    public void createpaper(Integer printNum, Integer printSize);
+    public void createpaper(Integer printSize);
     
     public void createfile();
     

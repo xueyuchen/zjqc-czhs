@@ -23,7 +23,7 @@
 	function sendForm() {
 		$.ajax({
 			type : "post",
-			url : "/login",
+			url : "lgi",
 			async : true,
 			dataType : "json",
 			timeout: 3000,
@@ -32,7 +32,6 @@
 				password : $("#password").val()
 			},
 			success : function(data) {
-				window.location.href = 'codes/tocre';
 			},
 			error : function(data) {
 				alert(data.message);
@@ -103,10 +102,11 @@
 					<div class="block">
 						<div class="block-heading">登录</div>
 						<div class="block-body">
-							<form action="/api/login" method="post">
+							<form action="lgi" method="post">
 								<label>用户名</label> <input type="text" class="span12" id="username">
 								<label>密码</label> <input type="password" class="span12" id="password">
 								<a href="javascript:void(0);" onclick="sendForm()">登录</a>
+								<input type="submit" value="登录"/>
 								<div class="clearfix"></div>
 							</form>
 						</div>

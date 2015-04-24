@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -52,16 +53,17 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
     }
 
     @Override
-    public void createpaper(Integer printNum, Integer printSize) {
-        String printNumStr = printNumStr(printNum);
-        String printSizeStr = printSizeStr(printSize);
+    public void createpaper(Integer printSize) {
+        Calendar cal = Calendar.getInstance();
+        Integer year = cal.get(Calendar.YEAR);
+        Integer season = getSeason();
         Paper paper = null;
         for (int i = 1; i <= printSize; i++) {
-            for (int j = 0; j < 100; j++) {
+            for (int j = 1; j <= 100; j++) {
                 paper = new Paper();
                 paper.setCreDt(new Date());
-                paper.setPaperCode(printNumStr + printSizeStr + printSizeStr(i) + printNumStr(j));
-                paper.setPrintNum(printNum);
+                paper.setPaperCode(String.valueOf(year%10) + String.valueOf(season) + printSizeStr(i) + printNumStr(j));
+                paper.setPrintNum(season);
                 paper.setPrintSize(printSize);
                 repository.save(paper);
             }
@@ -188,5 +190,38 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
             outputs.add(output);
         }
         return outputs;
+    }
+    
+    private Integer getSeason(){
+        int season = 0;  
+        
+        Calendar c = Calendar.getInstance();  
+        c.setTime(new Date());  
+        int month = c.get(Calendar.MONTH);  
+        switch (month) {  
+        case Calendar.JANUARY:  
+        case Calendar.FEBRUARY:  
+        case Calendar.MARCH:  
+            season = 1;  
+            break;  
+        case Calendar.APRIL:  
+        case Calendar.MAY:  
+        case Calendar.JUNE:  
+            season = 2;  
+            break;  
+        case Calendar.JULY:  
+        case Calendar.AUGUST:  
+        case Calendar.SEPTEMBER:  
+            season = 3;  
+            break;  
+        case Calendar.OCTOBER:  
+        case Calendar.NOVEMBER:  
+        case Calendar.DECEMBER:  
+            season = 4;  
+            break;  
+        default:  
+            break;  
+        }  
+        return season;  
     }
 }
