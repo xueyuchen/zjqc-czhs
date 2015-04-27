@@ -1,5 +1,9 @@
 package co.bohc.diet.domain.service.paper;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,9 +12,12 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -23,7 +30,6 @@ import co.bohc.diet.domain.model.Paper;
 import co.bohc.diet.domain.repository.code.CodeRepository;
 import co.bohc.diet.domain.repository.paper.PaperRepository;
 import co.bohc.diet.domain.service.CrudServiceImpl;
-import co.bohc.diet.domain.service.code.CodeService;
 
 @Service
 @Transactional(readOnly = true)
@@ -34,9 +40,6 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 
     @Inject
     private Environment env;
-
-    @Inject
-    private CodeService codeService;
 
     @Inject
     public void setRepository(PaperRepository repository) {
@@ -56,35 +59,32 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
     public void createpaper(Integer printSize) {
         Calendar cal = Calendar.getInstance();
         Integer year = cal.get(Calendar.YEAR);
-        Integer season = getSeason();
+        Integer month = cal.get(Calendar.MONTH) + 1;
+        String monthStr = null;
+        if (month <= 10) {
+            monthStr = "0" + String.valueOf(month);
+        }
         Paper paper = null;
         for (int i = 1; i <= printSize; i++) {
-            for (int j = 1; j <= 100; j++) {
-                paper = new Paper();
-                paper.setCreDt(new Date());
-                paper.setPaperCode(String.valueOf(year%10) + String.valueOf(season) + printSizeStr(i) + printNumStr(j));
-                paper.setPrintNum(season);
-                paper.setPrintSize(printSize);
-                repository.save(paper);
-            }
+            paper = new Paper();
+            paper.setCreDt(new Date());
+            paper.setPaperCode(String.valueOf(year % 10) + monthStr + printSizeStr(i));
+            paper.setPrintSize(printSize);
+            paper.setPrintNum(printSize);
+            repository.save(paper);
         }
-    }
-
-    private String printNumStr(Integer printNum) {
-        String printNumStr = String.valueOf(printNum);
-        if (printNumStr.length() == 1) {
-            printNumStr = "0" + printNumStr;
-        }
-        return printNumStr;
     }
 
     private String printSizeStr(Integer printSize) {
         String printSizeStr = String.valueOf(printSize);
         switch (printSizeStr.length()) {
         case 1:
-            printSizeStr = "00" + printSizeStr;
+            printSizeStr = "000" + printSizeStr;
             break;
         case 2:
+            printSizeStr = "00" + printSizeStr;
+            break;
+        case 3:
             printSizeStr = "0" + printSizeStr;
             break;
         }
@@ -156,7 +156,7 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
             }
             if (errors.size() == 0) {
                 Iterator<Code> it = codesSave.iterator();
-                while(it.hasNext()){
+                while (it.hasNext()) {
                     Code c = it.next();
                     c.setCheckDt(date);
                     c.setCodeKbn("CK");
@@ -179,7 +179,7 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
         List<PaperOutput> outputs = new ArrayList<PaperOutput>();
         PaperOutput output = null;
         Iterator<Paper> it = papers.iterator();
-        while(papers != null && it.hasNext()){
+        while (papers != null && it.hasNext()) {
             output = new PaperOutput();
             Paper paper = it.next();
             output.setCarLicensePlate(paper.getCarLicensePlate());
@@ -191,37 +191,85 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
         }
         return outputs;
     }
-    
-    private Integer getSeason(){
-        int season = 0;  
-        
-        Calendar c = Calendar.getInstance();  
-        c.setTime(new Date());  
-        int month = c.get(Calendar.MONTH);  
-        switch (month) {  
-        case Calendar.JANUARY:  
-        case Calendar.FEBRUARY:  
-        case Calendar.MARCH:  
-            season = 1;  
-            break;  
-        case Calendar.APRIL:  
-        case Calendar.MAY:  
-        case Calendar.JUNE:  
-            season = 2;  
-            break;  
-        case Calendar.JULY:  
-        case Calendar.AUGUST:  
-        case Calendar.SEPTEMBER:  
-            season = 3;  
-            break;  
-        case Calendar.OCTOBER:  
-        case Calendar.NOVEMBER:  
-        case Calendar.DECEMBER:  
-            season = 4;  
-            break;  
-        default:  
-            break;  
-        }  
-        return season;  
+
+    private Integer getSeason() {
+        int season = 0;
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        int month = c.get(Calendar.MONTH);
+        switch (month) {
+        case Calendar.JANUARY:
+        case Calendar.FEBRUARY:
+        case Calendar.MARCH:
+            season = 1;
+            break;
+        case Calendar.APRIL:
+        case Calendar.MAY:
+        case Calendar.JUNE:
+            season = 2;
+            break;
+        case Calendar.JULY:
+        case Calendar.AUGUST:
+        case Calendar.SEPTEMBER:
+            season = 3;
+            break;
+        case Calendar.OCTOBER:
+        case Calendar.NOVEMBER:
+        case Calendar.DECEMBER:
+            season = 4;
+            break;
+        default:
+            break;
+        }
+        return season;
+    }
+
+    @Override
+    public Map<String, String> queryPaper(String option, String code) {
+        Paper paper = repository.findOneByPaperCode(code);
+        String message = null;
+        Map<String, String> map = new HashMap<String, String>();
+        if (paper == null) {
+            message = "此残值单号无效！";
+        } else if (paper != null && paper.getEntryDt() == null) {
+            message = "此残值单号未被录入！";
+        } else {
+            try {
+                BufferedImage buffImage = ImageIO.read(new File("c:/czhdb.jpg"));
+                Graphics g = buffImage.getGraphics();
+                Font font = new Font("黑体", Font.ITALIC, 20);
+                g.setFont(font);
+                g.setColor(Color.RED);
+                g.drawString(paper.getPaperCode(), 606, 94);
+                font = new Font("黑体", Font.ITALIC, 20);
+                g.setFont(font);
+                g.setColor(Color.BLACK);
+                g.drawString(paper.getReportCode(), 206, 164);
+                font = new Font("黑体", Font.ITALIC, 20);
+                g.setFont(font);
+                g.setColor(Color.BLACK);
+                g.drawString(paper.getCarLicensePlate(), 206, 201);
+                font = new Font("黑体", Font.ITALIC, 20);
+                g.setFont(font);
+                g.setColor(Color.BLACK);
+                g.drawString(String.valueOf((paper.getCodes().size())), 206, 233);
+                font = new Font("黑体", Font.ITALIC, 20);
+                g.setFont(font);
+                g.setColor(Color.BLACK);
+                g.drawString(TimeUtils.dateToStr(paper.getEntryDt()), 206, 264);
+
+                FileOutputStream outImg = new FileOutputStream(new File("c:/queryfile/" + paper.getReportCode() + ".jpg"));
+                ImageIO.write(buffImage, "jpg", outImg);
+                outImg.flush();
+                outImg.close();
+                map.put("reportCode", paper.getReportCode());
+            } catch (Exception e) {
+
+            }
+            message = "此残值单号已录入完成！";
+        }
+        map.put("message", message);
+        return map;
     }
 }

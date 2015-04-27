@@ -5,49 +5,44 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>残值单、残值编码查询系统</title>
-<link href="./resources/app/cssuser/bootstrap.css" rel="stylesheet"
-	type="text/css" media="all">
-<link href="./resources/app/cssuser/style.css" rel="stylesheet"
-	type="text/css" media="all" />
-<!--web-fonts-->
-<link
-	href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
-	rel='stylesheet' type='text/css'>
-<!--js-->
 <script src="./resources/app/jsuser/jquery.min.js"></script>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href="./resources/app/cssuser/index.css" rel="stylesheet">
+<script type="text/javascript" src="./resources/app/js/index.js"></script>
 </head>
 <body>
-<div class="intro">
-        <div class="container">
-            <div class="intro-main">
-                <h2>PICC人保成都分公司</h2>
-                <h3>欢迎使用残值查询系统</h3>
-                <span class="b"> </span>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <h4 ><a href='users/login'>login in</a></h4>
-    </div>
-	<div class="header">
-		<div class="container">
-			<div class="header-bottom">
-				<h1>残值单查询</h1>
-				<form>
-					<input type="text" value="Enter a Job Description"
-						onfocus="this.value = '';"
-						onblur="if (this.value = '请输入需要查询的编号') {this.value = '请输入需要查询的编号';}">
-					<input type="submit" class="ser" value="查询"><br> <select
-						name="cars">
-						<option value="选择">残值单号</option>
-						<option value="saab">残值编码</option>
-					</select>
+	<div id="header">
+		<h1 class="logo">
+			<a href="http://www.epicc.com.cn" title="PICC中国人民财险"> <img
+				src="./resources/app/images/logo.png">
+			</a>
+		</h1>
+		<div class="tel">
+			<h1>
+				<a href="http://www.epicc.com.cn" title="PICC中国人民财险">中保官网 </a> |<a
+					href="users/login">管理登陆</a>
+			</h1>
+		</div>
+	</div>
+	<div class="main">
+		<div class="query">
+			<div
+				style="height: 40%; line-height: 40%; overflow: hidden; text-align: center;">
+			</div>
+			<div style="margin: 0 auto; width: 80%;">
+				<form action="users/downjpg" method="post">
+					<select id="option" style="border: none; padding: 10px">
+						<option value="czdh">残值单号</option>
+						<option value="czbm">残值编码</option>
+					</select> <input type="text" id="code" name="code"/> <input type="submit" value="下载"
+						style="width: 55px; height: 44px; float: right;" /><input
+						type="button" value="查询" onclick="querycode();"
+						style="width: 55px; height: 44px; float: right;" />
+						<input type="text" id="reportCode" name="reportCode" style="display:none;"/>
 				</form>
 			</div>
 		</div>
 	</div>
-	<div class="intro-strip"></div>
-	<!--about start here-->
 </body>
 </html>

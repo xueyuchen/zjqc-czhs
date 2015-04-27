@@ -118,7 +118,7 @@
 									<fieldset>
 										<table>
 											<tr>
-												<td>编号生成批次：</td>
+												<td>当月已生产数量：</td>
 												<td><input type="text" name="printNum" id="printNum"
 													readonly="readonly" value="${countNum}" /></td>
 												<td>生成数量：</td>

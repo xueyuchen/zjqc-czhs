@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -34,16 +33,7 @@ public class PaperController {
     private PaperService paperService;
 
     @RequestMapping(value = "toenter", method = RequestMethod.GET)
-    public String toEnterCode(HttpServletRequest req, HttpServletResponse resp) {
-        String _ = (String) req.getSession().getAttribute("_");
-        if (_ == null || !_.equals("1234")) {
-            try {
-                resp.sendRedirect("../users/login");
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+    public String toEnterCode() {
         return "czpaper/enterpaper";
     }
 

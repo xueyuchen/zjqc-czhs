@@ -103,9 +103,8 @@
 						<div class="block-heading">登录</div>
 						<div class="block-body">
 							<form action="lgi" method="post">
-								<label>用户名</label> <input type="text" class="span12" id="username">
-								<label>密码</label> <input type="password" class="span12" id="password">
-								<a href="javascript:void(0);" onclick="sendForm()">登录</a>
+								<label>用户名</label> <input type="text" class="span12" id="userName" name="userName">
+								<label>密码</label> <input type="password" class="span12" id="password" name="password">
 								<input type="submit" value="登录"/>
 								<div class="clearfix"></div>
 							</form>

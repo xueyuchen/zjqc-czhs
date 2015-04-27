@@ -117,7 +117,7 @@
 							data-target="#chart-container">残值编码检生成</p>
 						<div id="chart-container" class="block-body collapse in">
 							<div id="line-chart">
-								<form action="createcode" , method="post">
+								<form action="createcode" method="post">
 									<fieldset>
 										<table>
 											<tr>
