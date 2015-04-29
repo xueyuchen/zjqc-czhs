@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +44,7 @@ public class PaperController {
         if (countNum == null) {
             countNum = 0;
         }
-        model.addAttribute("countNum", countNum + 1);
+        model.addAttribute("countNum", countNum);
         return "czpaper/crepaper";
     }
 
@@ -54,7 +55,7 @@ public class PaperController {
 
     @RequestMapping(value = "createpaper", method = RequestMethod.POST)
     public void createpaper(HttpServletResponse response, Integer printSize) {
-        paperService.createpaper(printSize);
+        Date date = paperService.createpaper(printSize);
         paperService.createfile();
         String fileName = "/" + TimeUtils.dateToStr(new Date());
         try {
@@ -79,10 +80,17 @@ public class PaperController {
         }
     }
 
+    @RequestMapping(value = "check", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> checkPaper(String paperCode, String reportCode, String carLicensePlate, String codeArray) {
+        Map<String, Object> messages = paperService.enterInfos(paperCode, reportCode, carLicensePlate, codeArray, false);
+        return messages;
+    }
+    
     @RequestMapping(value = "enter", method = RequestMethod.POST)
     @ResponseBody
-    public List<String> enterPaper(String paperCode, String reportCode, String carLicensePlate, String codeArray) {
-        List<String> messages = paperService.enterInfos(paperCode, reportCode, carLicensePlate, codeArray);
+    public Map<String, Object> enterPaper(String paperCode, String reportCode, String carLicensePlate, String codeArray) {
+        Map<String, Object> messages = paperService.enterInfos(paperCode, reportCode, carLicensePlate, codeArray, true);
         return messages;
     }
 

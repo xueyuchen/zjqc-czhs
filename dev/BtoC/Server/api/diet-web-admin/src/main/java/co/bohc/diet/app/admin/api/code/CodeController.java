@@ -57,10 +57,11 @@ public class CodeController {
 
     @RequestMapping(value = "destroycode", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> destroyCode(Integer workerId) {
-        codeService.destroyCode(workerId);
-        Map<String, String> map = new HashMap<String, String>();
+    public Map<String, Object> destroyCode(Integer workerId) {
+        List<Worker> workers = codeService.destroyCode(workerId);
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("message", "编码销毁成功！");
+        map.put("workers", workers);
         return map;
     }
 

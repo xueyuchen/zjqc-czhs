@@ -9,7 +9,6 @@ import org.joda.time.Days;
 import org.springframework.security.core.GrantedAuthority;
 
 import co.bohc.diet.domain.common.enums.DelFlg;
-import co.bohc.diet.domain.common.enums.ExamStatus;
 import co.bohc.diet.domain.common.enums.UserRoleKbn;
 import co.bohc.diet.domain.model.TUser;
 
@@ -58,7 +57,7 @@ public class BohUserDetails implements CustomUserDetails {
     @JsonIgnore
     private UserRoleKbn getUserRoleKbn() {
 
-        if (ExamStatus.SS.toString().equals(this.tExamStatusKbn)){
+        if (false){
             return UserRoleKbn.UNPAID_USER;
         } else if (isTrial()){
             return UserRoleKbn.TRIAL_USER;
@@ -68,6 +67,19 @@ public class BohUserDetails implements CustomUserDetails {
             return UserRoleKbn.USER;
         }
     }
+//    @JsonIgnore
+//    private UserRoleKbn getUserRoleKbn() {
+//
+//        if (ExamStatus.SS.toString().equals(this.tExamStatusKbn)){
+//            return UserRoleKbn.UNPAID_USER;
+//        } else if (isTrial()){
+//            return UserRoleKbn.TRIAL_USER;
+//        } else if (isExpired()) {
+//            return UserRoleKbn.EXPIRED_USER;
+//        } else {
+//            return UserRoleKbn.USER;
+//        }
+//    }
 
     @Override
     @JsonIgnore

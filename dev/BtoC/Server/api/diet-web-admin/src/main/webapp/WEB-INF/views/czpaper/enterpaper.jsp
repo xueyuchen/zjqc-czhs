@@ -116,33 +116,74 @@
 							data-target="#chart-container">残值单录入</p>
 						<div id="chart-container" class="block-body collapse in">
 							<div id="line-chart">
-								<fieldset>
-									<table>
-										<tr>
-											<td>残值单号：</td>
-											<td><input type="text" name="paperCode" id="paperCode"></td>
-											<td>报案号：</td>
-											<td><input type="text" name="reportCode" id="reportCode"></td>
-										</tr>
-										<tr>
-											<td>车牌号：</td>
-											<td><input type="text" name="carLicensePlate"
-												id="carLicensePlate"></td>
-										</tr>
-										<tr>
-											<td>残值编号：</td>
-											<td><textarea name="reportCode" id="codeArray"
-													style="height: 330px"></textarea></td>
-											<td>警告信息：</td>
-											<td><textarea name="reportCode" id="codeArrayInfos"
-													style="height: 330px; color: red; width: 400px" readonly></textarea></td>
-										</tr>
-										<tr>
-										  <td></td>
-										  <td><input type="button" value="录入" onclick="enterpaper();"/></td>
-										</tr>
-									</table>
-								</fieldset>
+								<table>
+									<tr>
+										<td width="80">残值单号：</td>
+										<td><input type="text" name="paperCode" id="paperCode"></td>
+										<td width="80">报案号：</td>
+										<td><input type="text" name="reportCode"
+											id="reportCode"></td>
+									</tr>
+								</table>
+								<table>
+									<tr>
+										<td width="80">车牌号：</td>
+										<td><select style="width: 70px" id="abbr" name="abbr">
+												<option value="川">川</option>
+												<option value="渝 ">渝 </option>
+												<option value="贵">黔</option>
+												<option value="京">京</option>
+												<option value="津">津</option>
+												<option value="沪">沪</option>
+												<option value="冀">冀</option>
+												<option value="晋">晋</option>
+												<option value="辽">辽</option>
+												<option value="吉">吉</option>
+												<option value="黑">黑</option>
+												<option value="苏">苏</option>
+												<option value="浙">浙</option>
+												<option value="皖">皖</option>
+												<option value="豫">豫</option>
+												<option value="鲁">鲁</option>
+												<option value="赣">赣</option>
+												<option value="闽">闽</option>
+												<option value="鄂">鄂</option>
+												<option value="湘">湘</option>
+												<option value="粤">粤</option>
+												<option value="琼">琼</option>
+												<option value="云">云</option>
+												<option value="甘">甘</option>
+												<option value="青">青</option>
+												<option value="桂">桂</option>
+												<option value="宁">宁</option>
+												<option value="藏">藏</option>
+												<option value="新">新</option>
+										</select></td>
+										<td><input type="text" name="carLicensePlate"
+											id="carLicensePlate" style="width: 134px"></td>
+										<td width="80">残值总数：</td>
+										<td><input type="text" name="codeTotal" id="codeTotal"
+											readonly="readonly"></td>
+									</tr>
+								</table>
+								<table>
+									<tr>
+										<td width="80">残值编号：</td>
+										<td><textarea name="reportCode" id="codeArray"
+												style="height: 330px; width: 110px"></textarea></td>
+										<td width="80">警告信息：</td>
+										<td><textarea name="reportCode" id="codeArrayInfos"
+												style="height: 330px; color: red; width: 400px" readonly></textarea></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td><input type="button" value="检测"
+											onclick="checkpaper();" /></td>
+										<td></td>
+										<td><input type="button" value="录入"
+											onclick="entrypaper();" /></td>
+									</tr>
+								</table>
 							</div>
 						</div>
 					</div>

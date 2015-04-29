@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import co.bohc.diet.domain.model.Code;
+import co.bohc.diet.domain.model.Worker;
 import co.bohc.diet.domain.service.CrudService;
 import co.bohc.diet.domain.service.worker.WorkerOutput;
 
@@ -17,7 +18,7 @@ public interface CodeService extends CrudService<Code, Integer> {
     
     public List<String> allWorks();
     
-    public void destroyCode(Integer workerId);
+    public List<Worker> destroyCode(Integer workerId);
     
     public void saveCodes(List<Code> codes);
 

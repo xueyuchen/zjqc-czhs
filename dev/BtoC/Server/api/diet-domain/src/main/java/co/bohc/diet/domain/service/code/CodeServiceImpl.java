@@ -202,7 +202,7 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
 
     @Override
     @Transactional
-    public void destroyCode(Integer workerId) {
+    public List<Worker> destroyCode(Integer workerId) {
         List<Code> codes = repository.findByWorkerId(workerId);
         Iterator<Code> it = codes.iterator();
         Code code = null;
@@ -211,13 +211,23 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
             code.setDelFlg("1");
             update(code);
         }
+        Worker worker = workerRepository.findOne(workerId);
+        worker.setDelFlg("1");
+        List<Worker> workers = workerRepository.findAllWorkerByDelFlg();
+        if(workers != null){
+            Iterator<Worker> itw = workers.iterator();
+            while(itw.hasNext()){
+                itw.next().setCodes(null);
+            }
+        }
+        return workers;
     }
 
     @Override
     @Transactional
     public void saveCodes(List<Code> codes) {
         Iterator<Code> it = codes.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             update(it.next());
         }
     }

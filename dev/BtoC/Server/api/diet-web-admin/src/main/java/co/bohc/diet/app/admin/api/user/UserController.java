@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.bohc.diet.domain.model.Paper;
+import co.bohc.diet.domain.repository.paper.PaperRepository;
 import co.bohc.diet.domain.service.admin.AdminService;
 import co.bohc.diet.domain.service.paper.PaperService;
 
@@ -26,7 +28,7 @@ import co.bohc.diet.domain.service.paper.PaperService;
 public class UserController {
 
     private static final String FILEPATH = "c:/queryfile";
-    
+
     @Inject
     private AdminService adminService;
 
@@ -60,10 +62,10 @@ public class UserController {
         Map<String, String> map = paperService.queryPaper(option, code);
         return map;
     }
-    
+
     @RequestMapping(value = "downjpg", method = RequestMethod.POST)
-    public void downJpg(String reportCode, HttpServletResponse response) {
-        if(reportCode == null || "".equals(reportCode)){
+    public void downJpg(String carLicensePlate, String paperCode, HttpServletResponse response) {
+        if (carLicensePlate == null || "".equals(carLicensePlate)) {
             try {
                 response.sendRedirect("../");
             } catch (IOException e) {
@@ -71,7 +73,7 @@ public class UserController {
                 e.printStackTrace();
             }
         }
-        String fileName = "/" + reportCode + ".jpg";
+        String fileName = "/" + carLicensePlate + ".jpg";
         try {
             File file = new File(FILEPATH + fileName);// path是根据日志路径和文件名拼接出来的
             String filename = file.getName();// 获取日志文件名称

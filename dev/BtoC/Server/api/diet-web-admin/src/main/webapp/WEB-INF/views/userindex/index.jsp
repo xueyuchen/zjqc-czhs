@@ -40,6 +40,7 @@
 						type="button" value="查询" onclick="querycode();"
 						style="width: 55px; height: 44px; float: right;" />
 						<input type="text" id="reportCode" name="reportCode" style="display:none;"/>
+						<input type="text" id="carLicensePlate" name="carLicensePlate" style="display:none;"/>
 				</form>
 			</div>
 		</div>

@@ -118,11 +118,11 @@
 									<fieldset>
 										<table>
 											<tr>
-												<td>当月已生产数量：</td>
-												<td><input type="text" name="printNum" id="printNum"
-													readonly="readonly" value="${countNum}" /></td>
 												<td>生成数量：</td>
 												<td><input type="text" name="printSize" id="printSize" /></td>
+												<td>当月已生成数量合计：</td>
+												<td><input type="text" name="printNum" id="printNum"
+													readonly="readonly" value="${countNum}" /></td>
 											</tr>
 											<tr>
 												<td></td>

@@ -8,6 +8,7 @@ function destroycode(){
 		},
 		success : function(data) {
 			alert(data.message);
+			window.location.href = "todestroy";
 		},
 		error : function(data) {
 			alert(data.message);

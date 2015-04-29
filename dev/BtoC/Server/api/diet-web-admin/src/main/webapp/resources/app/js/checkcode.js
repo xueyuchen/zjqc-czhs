@@ -12,7 +12,15 @@ function checkcode() {
 			$('#workerName').val(data.workerName);
 			$('#creDt').val(data.creDt);
 			$('#message').val(data.message).css('color','red');
-			$('#local').val(data.local);
+			if(data.local == "1"){
+				$('#local').val("东");
+			}else if(data.local == "2"){
+				$('#local').val("西");
+			}else if(data.local == "3"){
+				$('#local').val("南");
+			}else{
+				$('#local').val("北");
+			}
 		}
 	});
 }

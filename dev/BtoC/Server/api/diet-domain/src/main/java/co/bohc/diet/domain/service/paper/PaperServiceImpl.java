@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.bohc.diet.domain.common.Environment;
+import co.bohc.diet.domain.common.enums.LocalEnums;
 import co.bohc.diet.domain.common.utils.TimeUtils;
 import co.bohc.diet.domain.model.Code;
 import co.bohc.diet.domain.model.Paper;
@@ -51,12 +52,20 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 
     @Override
     public Integer countNum() {
-        Integer printNum = repository.countNum();
-        return printNum;
+        Date date = new Date();
+        Integer count = repository.countNum(TimeUtils.getStartTimeOfMonth(date), TimeUtils.getEndTimeOfMonth(date));
+        return count;
     }
 
     @Override
-    public void createpaper(Integer printSize) {
+    public Date createpaper(Integer printSize) {
+        Date date = new Date();
+        String s = repository
+                .findLastOneByMonth(TimeUtils.getStartTimeOfMonth(date), TimeUtils.getEndTimeOfMonth(date));
+        Integer beginCodeNum = 1;
+        if (s != null) {
+            beginCodeNum = Integer.valueOf(s.substring(3)) + 1;
+        }
         Calendar cal = Calendar.getInstance();
         Integer year = cal.get(Calendar.YEAR);
         Integer month = cal.get(Calendar.MONTH) + 1;
@@ -65,14 +74,15 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
             monthStr = "0" + String.valueOf(month);
         }
         Paper paper = null;
-        for (int i = 1; i <= printSize; i++) {
+        for (int i = beginCodeNum; i <= beginCodeNum + printSize - 1; i++) {
             paper = new Paper();
-            paper.setCreDt(new Date());
+            paper.setCreDt(date);
             paper.setPaperCode(String.valueOf(year % 10) + monthStr + printSizeStr(i));
             paper.setPrintSize(printSize);
             paper.setPrintNum(printSize);
             repository.save(paper);
         }
+        return date;
     }
 
     private String printSizeStr(Integer printSize) {
@@ -129,32 +139,48 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 
     @Override
     @Transactional
-    public List<String> enterInfos(String paperCode, String reportCode, String carLicensePlate, String codeArray) {
+    public Map<String, Object> enterInfos(String paperCode, String reportCode, String carLicensePlate,
+            String codeArray, Boolean isSave) {
+        Boolean isCodeRight = true;
+        Integer codeTotal = null;
         Paper paper = repository.findOneByPaperCode(paperCode);
         List<String> errors = new ArrayList<String>();
+        Map<String, Object> map = new HashMap<String, Object>();
         if (paper == null) {
             errors.add("残值单号无效！");
-            return errors;
+            map.put("errors", errors);
+            return map;
         }
         Date date = new Date();
         String[] codes = codeArray.split("\n");
+        codeTotal = codes.length;
         List<Code> codesSave = new ArrayList<Code>();
         if (codes != null) {
             for (int i = 0; i < codes.length; i++) {
                 Code code = codeRepository.findByCodeNum(codes[i]);
-                if (code == null) {
-                    errors.add(codes[i] + "：" + HASNOCODE);
-                } else if (code != null && code.getDelFlg() != null) {
-                    errors.add(codes[i] + "：" + HASDELETE + "\n" + "条码归属：" + code.getLocal() + " "
-                            + code.getWorker().getWorkerName());
-                } else if (code != null && code.getCheckDt() != null) {
-                    errors.add(codes[i] + "：" + "该条码已于：" + TimeUtils.datetimeToStr(code.getCheckDt()) + "扫描通过！" + "\n"
-                            + "条码归属：" + code.getLocal() + " " + code.getWorker().getWorkerName());
+                if (!"000000000000".equals(codes[i])) {
+                    if (code == null) {
+                        errors.add(codes[i] + "：" + HASNOCODE);
+                        isCodeRight = false;
+                    } else if (code != null && code.getDelFlg() != null) {
+                        errors.add(codes[i] + "：" + HASDELETE + "\n" + "条码归属：" + code.getLocal() + " "
+                                + code.getWorker().getWorkerName());
+                        isCodeRight = false;
+                    } else if (code != null && code.getCheckDt() != null) {
+                        errors.add(codes[i] + "：" + "该条码已于：" + TimeUtils.datetimeToStr(code.getCheckDt()) + "扫描通过！"
+                                + "\n" + "条码归属：" + LocalEnums.getByName(code.getLocal()) + " "
+                                + code.getWorker().getWorkerName());
+                        isCodeRight = false;
+                    } else {
+                        errors.add(codes[i] + "：" + "该条码扫描通过！条码归属：" + LocalEnums.getByName(code.getLocal()) + " "
+                                + code.getWorker().getWorkerName());
+                        codesSave.add(code);
+                    }
                 } else {
-                    codesSave.add(code);
+                    errors.add(codes[i] + "：" + "该条码扫为通用条码！");
                 }
             }
-            if (errors.size() == 0) {
+            if (isSave && isCodeRight) {
                 Iterator<Code> it = codesSave.iterator();
                 while (it.hasNext()) {
                     Code c = it.next();
@@ -165,12 +191,16 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
                 paper.setCarLicensePlate(carLicensePlate);
                 paper.setReportCode(reportCode);
                 paper.setEntryDt(date);
+                paper.setPrintNum(codes.length);
             } else {
-                return errors;
+                map.put("errors", errors);
+                return map;
             }
         }
         errors.add("录入完成！");
-        return errors;
+        map.put("errors", errors);
+        map.put("codeTotal", codeTotal);
+        return map;
     }
 
     @Override
@@ -253,17 +283,19 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
                 font = new Font("黑体", Font.ITALIC, 20);
                 g.setFont(font);
                 g.setColor(Color.BLACK);
-                g.drawString(String.valueOf((paper.getCodes().size())), 206, 233);
+                g.drawString(String.valueOf(paper.getPrintNum()), 206, 233);
                 font = new Font("黑体", Font.ITALIC, 20);
                 g.setFont(font);
                 g.setColor(Color.BLACK);
                 g.drawString(TimeUtils.dateToStr(paper.getEntryDt()), 206, 264);
 
-                FileOutputStream outImg = new FileOutputStream(new File("c:/queryfile/" + paper.getReportCode() + ".jpg"));
+                FileOutputStream outImg = new FileOutputStream(new File("c:/queryfile/" + paper.getCarLicensePlate()
+                        + ".jpg"));
                 ImageIO.write(buffImage, "jpg", outImg);
                 outImg.flush();
                 outImg.close();
-                map.put("reportCode", paper.getReportCode());
+                map.put("paperCode", paper.getPaperCode());
+                map.put("carLicensePlate", paper.getCarLicensePlate());
             } catch (Exception e) {
 
             }
@@ -271,5 +303,17 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
         }
         map.put("message", message);
         return map;
+    }
+
+    @Override
+    public String WCQueryPaper(String code) {
+        Paper paper = repository.findOneByPaperCode(code);
+        if (paper == null) {
+            return "残值单号不存在！\n has no paper code!";
+        } else if (paper != null && paper.getEntryDt() == null) {
+            return "此残值单号未被录入！\n has no entry!";
+        } else {
+            return "此残值单号已录入完成！\n has entry!";
+        }
     }
 }

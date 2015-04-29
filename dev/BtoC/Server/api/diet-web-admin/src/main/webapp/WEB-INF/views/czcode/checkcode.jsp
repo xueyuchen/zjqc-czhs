@@ -140,7 +140,8 @@
 											<td>归属地：</td>
 											<td><input type='text' id='local' readonly="readonly" /></td>
 											<td>查询结果：</td>
-											<td><input type='text' id='message' readonly="readonly" /></td>
+											<td><textarea id='message'
+													style="height: 130px; color: red; width: 206px" readonly></textarea></td>
 										</tr>
 									</table>
 								</fieldset>

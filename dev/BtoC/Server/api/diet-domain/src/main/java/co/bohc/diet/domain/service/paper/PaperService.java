@@ -11,13 +11,15 @@ public interface PaperService extends CrudService<Paper, Integer> {
 
     public Integer countNum();
     
-    public void createpaper(Integer printSize);
+    public Date createpaper(Integer printSize);
     
     public void createfile();
     
-    public List<String> enterInfos(String paperCode, String reportCode, String carLicensePlate, String codeArray);
+    public Map<String, Object> enterInfos(String paperCode, String reportCode, String carLicensePlate, String codeArray, Boolean isSave);
 
     public List<PaperOutput> countPaper(Date fromDt, Date toDt);
     
     public Map<String, String> queryPaper(String option, String code);
+    
+    public String WCQueryPaper(String code);
 }
