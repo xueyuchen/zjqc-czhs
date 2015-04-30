@@ -93,12 +93,12 @@ public class MessageUtils {
         Map<String, String> map = new HashMap<String, String>();
 
         // 从request中取得输入流
-        InputStream inputStream = new ByteArrayInputStream(msg.getBytes("UTF-8"));
+        InputStream inputStream = new ByteArrayInputStream(msg.getBytes("GBK"));
 
         // 读取输入流
         SAXReader reader = new SAXReader();
         Document document = reader.read(inputStream);
-        document.setXMLEncoding("UTF-8");
+        document.setXMLEncoding("GBK");
         // 得到xml根元素
         Element root = document.getRootElement();
         // 得到根元素的所有子节点

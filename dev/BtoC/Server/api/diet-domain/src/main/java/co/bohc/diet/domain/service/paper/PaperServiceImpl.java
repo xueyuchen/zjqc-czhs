@@ -256,10 +256,10 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
     }
 
     @Override
-    public Map<String, String> queryPaper(String option, String code) {
+    public Map<String, Object> queryPaper(String option, String code) {
         Paper paper = repository.findOneByPaperCode(code);
         String message = null;
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, Object> map = new HashMap<String, Object>();
         if (paper == null) {
             message = "此残值单号无效！";
         } else if (paper != null && paper.getEntryDt() == null) {
@@ -309,11 +309,11 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
     public String WCQueryPaper(String code) {
         Paper paper = repository.findOneByPaperCode(code);
         if (paper == null) {
-            return "残值单号不存在！\n has no paper code!";
+            return "残值单号不存在！\n 感谢使用PICC残值查询服务！";
         } else if (paper != null && paper.getEntryDt() == null) {
-            return "此残值单号未被录入！\n has no entry!";
+            return "此残值单号未被录入！\n 感谢使用PICC残值查询服务！";
         } else {
-            return "此残值单号已录入完成！\n has entry!";
+            return "此残值单号已录入完成！\n 感谢使用PICC残值查询服务！";
         }
     }
 }

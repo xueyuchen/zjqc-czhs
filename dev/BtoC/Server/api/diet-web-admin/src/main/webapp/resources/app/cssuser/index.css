@@ -16,6 +16,6 @@ a:hover{ text-decoration:none; color:#e23520;}
 .logo{ float:left; margin:15px 0 0 10px; display:inline; font-size:12px;}
 .tel{ float:right; background:url(../images/tel.png) right center no-repeat; color:#666; height:42px; padding-top:26px; line-height:26px; padding-right:180px; margin-right:10px;}
 .tel a{ margin:0 15px;}
-.main{margin:0 auto; height:500px; width:100%;}
-.query{background-image: url(../images/banner.png); width: 70%; margin: 0 auto; height: 500px}
+.main{margin:0 auto; height:900px; width:100%;}
+.query{background-image: url(../images/banner.png); width: 70%; margin: 0 auto; height: 900px}
 #code{ width:65%; padding: 1em; font-size: 1.1em; border:none; margin:0 auto}

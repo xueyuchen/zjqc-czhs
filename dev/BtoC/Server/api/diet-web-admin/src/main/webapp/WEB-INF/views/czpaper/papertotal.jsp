@@ -93,7 +93,7 @@ table.gridtable td {
 	<div class="container-fluid">
 
 		<div class="row-fluid">
-			<div class="span3">
+			<div class="span3" style="height: 750px">
 				<div class="sidebar-nav">
 					<div class="nav-header" data-toggle="collapse"
 						data-target="#accounts-menu">

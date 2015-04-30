@@ -19,7 +19,7 @@ public interface PaperService extends CrudService<Paper, Integer> {
 
     public List<PaperOutput> countPaper(Date fromDt, Date toDt);
     
-    public Map<String, String> queryPaper(String option, String code);
+    public Map<String, Object> queryPaper(String option, String code);
     
     public String WCQueryPaper(String code);
 }

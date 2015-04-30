@@ -28,7 +28,7 @@
 	<div class="main">
 		<div class="query">
 			<div
-				style="height: 40%; line-height: 40%; overflow: hidden; text-align: center;">
+				style="height: 220px; line-height: 40%; overflow: hidden; text-align: center;">
 			</div>
 			<div style="margin: 0 auto; width: 80%;">
 				<form action="users/downjpg" method="post">

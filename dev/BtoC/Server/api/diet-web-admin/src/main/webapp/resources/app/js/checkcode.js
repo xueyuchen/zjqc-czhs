@@ -18,7 +18,7 @@ function checkcode() {
 				$('#local').val("西");
 			}else if(data.local == "3"){
 				$('#local').val("南");
-			}else{
+			}else if(data.local == "4"){
 				$('#local').val("北");
 			}
 		}

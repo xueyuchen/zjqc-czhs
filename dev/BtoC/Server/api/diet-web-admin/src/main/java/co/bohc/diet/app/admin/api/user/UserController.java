@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import co.bohc.diet.domain.model.Paper;
 import co.bohc.diet.domain.repository.paper.PaperRepository;
 import co.bohc.diet.domain.service.admin.AdminService;
+import co.bohc.diet.domain.service.code.CodeService;
 import co.bohc.diet.domain.service.paper.PaperService;
 
 @Controller
@@ -34,6 +35,9 @@ public class UserController {
 
     @Inject
     private PaperService paperService;
+    
+    @Inject
+    private CodeService codeService;
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String login() {
@@ -58,9 +62,14 @@ public class UserController {
 
     @RequestMapping(value = "querypaper", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, String> queryPaper(String option, String code) {
-        Map<String, String> map = paperService.queryPaper(option, code);
-        return map;
+    public Map<String, Object> queryPaper(String option, String code) {
+        if ("czdh".equals(option)) {
+            Map<String, Object> map = paperService.queryPaper(option, code);
+            return map;
+        } else if ("czbm".equals(option)) {
+            return codeService.checkCode(code);
+        }
+        return null;
     }
 
     @RequestMapping(value = "downjpg", method = RequestMethod.POST)

@@ -68,7 +68,7 @@
 	<div class="container-fluid">
 
 		<div class="row-fluid">
-			<div class="span3">
+			<div class="span3" style="height: 750px">
 				<div class="sidebar-nav">
 					<div class="nav-header" data-toggle="collapse"
 						data-target="#accounts-menu">
@@ -110,7 +110,7 @@
 
 
 				<div class="row-fluid">
-					<div class="block">
+					<div class="block-height">
 						<p class="block-heading" data-toggle="collapse"
 							data-target="#chart-container">残值编码检测</p>
 						<div id="chart-container" class="block-body collapse in">
