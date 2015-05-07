@@ -3,6 +3,10 @@ function checkpaper() {
 	var reportCode = $('#reportCode').val();
 	var carLicensePlate = $('#carLicensePlate').val();
 	var codeArray = $('#codeArray').val();
+	if(!paperCode || !reportCode || !carLicensePlate || !codeArray){
+		alert("请输入完整的录入信息！");
+		return;
+	}
 	$.ajax({
 		type : "post",
 		url : "check",
@@ -19,6 +23,7 @@ function checkpaper() {
 				allMessage = allMessage + data.errors[i] + "\n";
 			}
 			$("#codeArrayInfos").text(allMessage);
+			$("#codeTotal").val(data.codeTotal);
 		}
 	});
 }
@@ -47,4 +52,13 @@ function entrypaper() {
 			$("#codeTotal").val(data.codeTotal);
 		}
 	});
+}
+
+function reset() {
+	$("#codeArrayInfos").text("");
+	$("#codeTotal").val("");
+	$("#paperCode").val("");
+	$("#reportCode").val("");
+	$("#carLicensePlate").val("");
+	$("#codeArray").val("");
 }

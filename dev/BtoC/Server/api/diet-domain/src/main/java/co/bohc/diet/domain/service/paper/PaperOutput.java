@@ -3,6 +3,8 @@ package co.bohc.diet.domain.service.paper;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class PaperOutput implements Serializable{
 
     /**
@@ -16,6 +18,7 @@ public class PaperOutput implements Serializable{
     private Integer printNum;
     private Integer printSize;
     private Date creDt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone= "CCT")
     private Date entryDt;
     private Date checkDt;
     private String delFlg;

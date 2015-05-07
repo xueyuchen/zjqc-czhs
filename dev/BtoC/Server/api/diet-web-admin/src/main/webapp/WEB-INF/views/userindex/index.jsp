@@ -35,13 +35,57 @@
 					<select id="option" style="border: none; padding: 10px">
 						<option value="czdh">残值单号</option>
 						<option value="czbm">残值编码</option>
-					</select> <input type="text" id="code" name="code"/> <input type="submit" value="下载"
-						style="width: 55px; height: 44px; float: right;" /><input
+					</select> <input type="text" id="code" name="code" /> <input type="submit"
+						value="下载" style="width: 55px; height: 44px; float: right;" /><input
 						type="button" value="查询" onclick="querycode();"
-						style="width: 55px; height: 44px; float: right;" />
-						<input type="text" id="reportCode" name="reportCode" style="display:none;"/>
-						<input type="text" id="carLicensePlate" name="carLicensePlate" style="display:none;"/>
+						style="width: 55px; height: 44px; float: right;" /> <input
+						type="text" id="carLicensePlate" name="carLicensePlate"
+						style="font-size: 15px; display: none" readonly="readonly" />
 				</form>
+			</div>
+			<div class="result1" style="display: none" id="result1">
+				<table>
+					<tr>
+						<td style="font-size: 20px;">报案号：</td>
+						<td><input type="text" id="reportCode" name="reportCode"
+							style="font-size: 15px;" readonly="readonly" /></td>
+					</tr>
+					<tr>
+						<td style="font-size: 20px;">车牌号：</td>
+						<td><input type="text" id="carLicensePlate2"
+							name="carLicensePlate" style="font-size: 15px;"
+							readonly="readonly" /></td>
+					</tr>
+					<tr>
+						<td style="font-size: 20px;">残值上缴数量：</td>
+						<td><input type="text" id="countNum" name="countNum"
+							style="font-size: 15px;" readonly="readonly" /></td>
+					</tr>
+					<tr>
+						<td style="font-size: 20px;">残值录入日期：</td>
+						<td><input type="text" id="entryDt" name="entryDt"
+							style="font-size: 15px;" readonly="readonly" /></td>
+					</tr>
+				</table>
+			</div>
+			<div class="result2" style="display: none;" id="result2">
+				<table>
+					<tr>
+						<td style="font-size: 20px;">定损员：</td>
+						<td><input type="text" style="font-size: 15px;"
+							id="workerName" name="workerName" /></td>
+					</tr>
+					<tr>
+						<td style="font-size: 20px;">归属地：</td>
+						<td><input type="text" style="font-size: 15px;" id="local"
+							name="local" /></td>
+					</tr>
+					<tr>
+						<td style="font-size: 20px;">生成日期：</td>
+						<td><input type="text" style="font-size: 15px;" id="creDt"
+							name="creDt" /></td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>

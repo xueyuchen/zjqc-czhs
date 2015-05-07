@@ -121,8 +121,7 @@
 										<td width="80">残值单号：</td>
 										<td><input type="text" name="paperCode" id="paperCode"></td>
 										<td width="80">报案号：</td>
-										<td><input type="text" name="reportCode"
-											id="reportCode"></td>
+										<td><input type="text" name="reportCode" id="reportCode"></td>
 									</tr>
 								</table>
 								<table>
@@ -130,7 +129,7 @@
 										<td width="80">车牌号：</td>
 										<td><select style="width: 70px" id="abbr" name="abbr">
 												<option value="川">川</option>
-												<option value="渝 ">渝 </option>
+												<option value="渝 ">渝</option>
 												<option value="贵">黔</option>
 												<option value="京">京</option>
 												<option value="津">津</option>
@@ -181,7 +180,8 @@
 											onclick="checkpaper();" /></td>
 										<td></td>
 										<td><input type="button" value="录入"
-											onclick="entrypaper();" /></td>
+											onclick="entrypaper();" /> <input type="button" value="清空"
+											onclick="reset();" /></td>
 									</tr>
 								</table>
 							</div>

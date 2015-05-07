@@ -151,6 +151,11 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
             map.put("errors", errors);
             return map;
         }
+        if (paper.getEntryDt() != null) {
+            errors.add("残值单已被录入过！"+ "\n" + "录入时间：" + TimeUtils.datetimeToStr(paper.getEntryDt()));
+            map.put("errors", errors);
+            return map;
+        }
         Date date = new Date();
         String[] codes = codeArray.split("\n");
         codeTotal = codes.length;
@@ -194,6 +199,7 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
                 paper.setPrintNum(codes.length);
             } else {
                 map.put("errors", errors);
+                map.put("codeTotal", codeTotal);
                 return map;
             }
         }
@@ -264,6 +270,9 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
             message = "此残值单号无效！";
         } else if (paper != null && paper.getEntryDt() == null) {
             message = "此残值单号未被录入！";
+            PaperOutput output = new PaperOutput();
+            output.setCreDt(paper.getCreDt());
+            map.put("paper", output);
         } else {
             try {
                 BufferedImage buffImage = ImageIO.read(new File("c:/czhdb.jpg"));
@@ -275,19 +284,19 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
                 font = new Font("黑体", Font.ITALIC, 20);
                 g.setFont(font);
                 g.setColor(Color.BLACK);
-                g.drawString(paper.getReportCode(), 206, 164);
+                g.drawString(paper.getReportCode(), 506, 164);
                 font = new Font("黑体", Font.ITALIC, 20);
                 g.setFont(font);
                 g.setColor(Color.BLACK);
-                g.drawString(paper.getCarLicensePlate(), 206, 201);
+                g.drawString(paper.getCarLicensePlate(), 506, 201);
                 font = new Font("黑体", Font.ITALIC, 20);
                 g.setFont(font);
                 g.setColor(Color.BLACK);
-                g.drawString(String.valueOf(paper.getPrintNum()), 206, 233);
+                g.drawString(String.valueOf(paper.getPrintNum()), 506, 233);
                 font = new Font("黑体", Font.ITALIC, 20);
                 g.setFont(font);
                 g.setColor(Color.BLACK);
-                g.drawString(TimeUtils.dateToStr(paper.getEntryDt()), 206, 264);
+                g.drawString(TimeUtils.dateToStr(paper.getEntryDt()), 506, 264);
 
                 FileOutputStream outImg = new FileOutputStream(new File("c:/queryfile/" + paper.getCarLicensePlate()
                         + ".jpg"));
@@ -300,6 +309,14 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 
             }
             message = "此残值单号已录入完成！";
+            PaperOutput output = new PaperOutput();
+            output.setCarLicensePlate(paper.getCarLicensePlate());
+            output.setCheckDt(paper.getCheckDt());
+            output.setEntryDt(paper.getEntryDt());
+            output.setReportCode(paper.getReportCode());
+            Integer countNum = paper.getPrintNum();
+            map.put("paper", output);
+            map.put("countNum", countNum);
         }
         map.put("message", message);
         return map;

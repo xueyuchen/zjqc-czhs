@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -125,40 +126,43 @@ public class WeChatController {
         return buffer.toString();
     }
 
-    // /**
-    // * Function:微信验证方法
-    // * @author JLC
-    // * @param signature 微信加密签名
-    // * @param timestamp 时间戳
-    // * @param nonce 随机数
-    // * @param echostr 随机字符串
-    // * @return
-    // */
-    // private String checkAuthentication(String signature,String
-    // timestamp,String nonce,String echostr) {
-    // String result ="";
-    // // 将获取到的参数放入数组
-    // String[] ArrTmp = { Token, timestamp, nonce };
-    // // 按微信提供的方法，对数据内容进行排序
-    // Arrays.sort(ArrTmp);
-    // StringBuffer sb = new StringBuffer();
-    // for (int i = 0; i < ArrTmp.length; i++) {
-    // sb.append(ArrTmp[i]);
-    // }
-    // // 对排序后的字符串进行SHA-1加密
-    // String pwd = Encrypt(sb.toString());
-    // if (pwd.equals(signature)) {
-    // try {
-    // System.out.println("微信平台签名消息验证成功！");
-    // result = echostr;
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // }
-    // } else {
-    // System.out.println("微信平台签名消息验证失败！");
-    // }
-    // return result;
-    // }
+     /**
+     * Function:微信验证方法
+     * @author JLC
+     * @param signature 微信加密签名
+     * @param timestamp 时间戳
+     * @param nonce 随机数
+     * @param echostr 随机字符串
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+     public String checkAuthentication(String signature,String
+     timestamp,String nonce,String echostr) {
+     String result ="";
+     String Token = "czhsCdZhouQiang";
+     // 将获取到的参数放入数组
+     String[] ArrTmp = { Token, timestamp, nonce };
+     // 按微信提供的方法，对数据内容进行排序
+     Arrays.sort(ArrTmp);
+     StringBuffer sb = new StringBuffer();
+     for (int i = 0; i < ArrTmp.length; i++) {
+     sb.append(ArrTmp[i]);
+     }
+     // 对排序后的字符串进行SHA-1加密
+     String pwd = Encrypt(sb.toString());
+     if (pwd.equals(signature)) {
+     try {
+     System.out.println("微信平台签名消息验证成功！");
+     result = echostr;
+     } catch (Exception e) {
+     e.printStackTrace();
+     }
+     } else {
+     System.out.println("微信平台签名消息验证失败！");
+     }
+     return result;
+     }
 
     /**
      * 用SHA-1算法加密字符串并返回16进制串
