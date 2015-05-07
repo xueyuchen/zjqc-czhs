@@ -12,6 +12,8 @@
 	href="../resources/app/lib/bootstrap/css/bootstrap.css">
 <link rel="stylesheet" type="text/css"
 	href="../resources/app/stylesheets/theme.css">
+<link rel="stylesheet" type="text/css"
+	href="../resources/app/js/bootstrap-datetimepicker.css">
 <link rel="stylesheet"
 	href="../resources/app/lib/font-awesome/css/font-awesome.css">
 <script type="text/javascript"
@@ -144,9 +146,11 @@ table.gridtable td {
 									<table>
 										<tr>
 											<td>查询开始日期：</td>
-											<td><input type="text" id="fromDt" /></td>
+											<td><input type="text" id="fromDt" class="form_datetime"
+												data-date-format="yyyy-mm-dd" /></td>
 											<td>查询结束日期：</td>
-											<td><input type="text" id="toDt" /></td>
+											<td><input type="text" id="toDt" class="form_datetime"
+												data-date-format="yyyy-mm-dd" /></td>
 											<td><input type="button" onclick="countPaper();"
 												value="查询" /></td>
 										</tr>
@@ -154,12 +158,14 @@ table.gridtable td {
 								</fieldset>
 								<fieldset>
 									<table id="table" class="gridtable">
-										<tr>
-											<th style="width: 250px">残值单单号：</th>
-											<th style="width: 250px">车牌号：</th>
-											<th style="width: 250px">报案号：</th>
-											<th style="width: 250px">收残数量：</th>
-										</tr>
+										<thead>
+											<tr>
+												<th style="width: 250px">残值单单号：</th>
+												<th style="width: 250px">车牌号：</th>
+												<th style="width: 250px">报案号：</th>
+												<th style="width: 250px">收残数量：</th>
+											</tr>
+										</thead>
 									</table>
 								</fieldset>
 							</div>
@@ -169,5 +175,22 @@ table.gridtable td {
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="../resources/app/js/bootstrap.js"></script>
+	<script type="text/javascript"
+		src="../resources/app/js/bootstrap-datetimepicker.js"></script>
+	<script type="text/javascript"
+		src="../resources/app/js/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script type="text/javascript">
+		$(".form_datetime").datetimepicker({
+			language : 'zh-CN',
+			weekStart : 1,
+			todayBtn : 1,
+			autoclose : 1,
+			todayHighlight : 1,
+			startView : 2,
+			minView : 2,
+			forceParse : 0
+		});
+	</script>
 </body>
 </html>

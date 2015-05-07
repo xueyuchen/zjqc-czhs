@@ -1,4 +1,5 @@
 function countPaper() {
+	$('#table tbody').empty();
 	var fromDt = new Date($("#fromDt").val());
 	var toDt = new Date($("#toDt").val());
 	$.ajax({
