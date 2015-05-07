@@ -49,7 +49,12 @@ public class UserController {
         if (adminService.checkUserName(userName, password)) {
             req.getSession().setAttribute("_", "czhs");
             req.getSession().setMaxInactiveInterval(300);
-            return "czpaper/papertotal";
+            try {
+                resp.sendRedirect("../papers/toenter");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
         try {
             resp.sendRedirect("login");

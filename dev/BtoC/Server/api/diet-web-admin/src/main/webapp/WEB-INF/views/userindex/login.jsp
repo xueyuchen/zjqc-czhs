@@ -26,7 +26,7 @@
 			url : "lgi",
 			async : true,
 			dataType : "json",
-			timeout: 3000,
+			timeout : 3000,
 			data : {
 				loginId : $("#username").val(),
 				password : $("#password").val()
@@ -82,16 +82,16 @@
 						</ul></li>
 
 				</ul>
-				<a class="brand" href="index.html"><span class="first"></span> <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+				<a class="brand" href="#"><span class="first"></span> <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
 					<span><img alt="center"
 						src="../resources/app/images/piccandczhs.png"></span></a>
 			</div>
 		</div>
 	</div>
-	<div class="container-fluid">
+	<div class="container-fluid" style="height: 500px;">
 
 		<div class="row-fluid">
-		
+
 			<div>
 				<script type="text/javascript" src="lib/jqplot/jquery.jqplot.min.js"></script>
 				<script type="text/javascript" charset="utf-8"
@@ -103,20 +103,14 @@
 						<div class="block-heading">登录</div>
 						<div class="block-body">
 							<form action="lgi" method="post">
-								<label>用户名</label> <input type="text" class="span12" id="userName" name="userName">
-								<label>密码</label> <input type="password" class="span12" id="password" name="password">
-								<input type="submit" value="登录"/>
+								<label>用户名</label> <input type="text" class="span12"
+									id="userName" name="userName"> <label>密码</label> <input
+									type="password" class="span12" id="password" name="password">
+								<input type="submit" value="登录" />
 								<div class="clearfix"></div>
 							</form>
 						</div>
 					</div>
-					<p>
-					   <a href="index.html" class="pull-left">获取登录权限</a>
-					</p>
-					<hr>
-					<p>
-						<a href="reset-password.html">忘记密码？</a>
-					</p>
 				</div>
 			</div>
 		</div>
