@@ -75,5 +75,7 @@
         <property name="m0018Title" value = "${m0018_mail_title}"/>
         <property name="p0002Title" value = "${p0002_mail_title}"/>
         <property name="p0006Title" value = "${p0006_mail_title}"/>
+        <property name="codeFilePath" value = "${code.file.path}"/>
+        <property name="paperFilePath" value = "${paper.file.path}"/>
 	</bean>
 </beans>

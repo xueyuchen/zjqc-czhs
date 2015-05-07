@@ -9,32 +9,8 @@
     <context:component-scan base-package="co.bohc.diet.app.common.api.result" />
     <context:component-scan base-package="co.bohc.diet.app.common.api.security" />
     <sec:http pattern="/resources/**" security="none"/>
-    <sec:http auto-config="false" entry-point-ref="apiAuthenticationEntryPoint">
-    	<sec:intercept-url pattern="/api/login" access="ROLE_ANONYMOUS"/> 
-        <sec:http-basic entry-point-ref="apiBasicAuthenticationEntryPoint" />
-        <sec:custom-filter ref="userIdMDCPutFilter" after="ANONYMOUS_FILTER"/>
- 		<sec:custom-filter ref="formLoginAuthenticationFilter"  position="FORM_LOGIN_FILTER" />  
- 		<sec:custom-filter ref="rememberMeFilter"  position="REMEMBER_ME_FILTER" />  
-        <sec:session-management session-authentication-strategy-ref="sessionAuthenticationStrategy" />
-        <sec:logout invalidate-session="true" logout-success-url="/success.json" logout-url="/api/logout"/>
-    </sec:http>
 
-	<bean id="formLoginAuthenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
-	    <property name="authenticationManager" ref="authenticationManager"/>  
-        <property name="authenticationFailureHandler" ref="apiAuthenticationFailureHandler"/>  
-        <property name="authenticationSuccessHandler" ref="apiAuthenticationSuccessHandler"/>  
-        <property name="usernameParameter" value="email"/> 
-        <property name="passwordParameter" value="password"/>  
-	    <property name="filterProcessesUrl" value="/api/login"></property>
-	    <property name="rememberMeServices" ref="rememberMeServices" />
-	</bean>
 
-	<bean id="rememberMeFilter"
-		class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
-		<constructor-arg index="0" ref="authenticationManager" />
-		<constructor-arg index="1" ref="rememberMeServices" />
-	</bean>
-	
     <sec:global-method-security jsr250-annotations="enabled"/> 
 
     <sec:authentication-manager alias="authenticationManager">
@@ -86,14 +62,6 @@
          <property name="realmName" value="bohc_front"></property>
     </bean>   
     
-    <bean id="rememberMeServices"
-		class="co.bohc.diet.app.common.api.security.PersistentTokenBasedRememberMeServices">
-		<constructor-arg index="0" value="thisIsTheKeyValueForHashCreation" />
-		<constructor-arg index="1" ref="bohUserDetailsService" />
-		<constructor-arg index="2" ref="userRepository" />
-		<property name="tokenValiditySeconds" value="10368000"/>
-		<property name="parameter" value="rememberMe"/> 
-	</bean>
 
     <!-- CSRF Protection -->
     <bean id="csrfTokenRepository"

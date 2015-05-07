@@ -58,7 +58,7 @@
         <property name="authenticationSuccessHandler" ref="apiAuthenticationSuccessHandler"/>  
         <property name="usernameParameter" value="loginId"/>
         <property name="passwordParameter" value="password"/>  
-	    <property name="filterProcessesUrl" value="/api/login"/>
+	    <property name="filterProcessesUrl" value="/diet_web_admin/login"/>
 	    
 	</bean>
 	

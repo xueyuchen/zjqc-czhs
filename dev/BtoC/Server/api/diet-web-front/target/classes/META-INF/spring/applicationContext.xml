@@ -65,11 +65,9 @@
         <property name="exceptionLogger" ref="exceptionLogger" />
     </bean>
     
-    <bean id="gmoService" class="co.bohc.diet.domain.service.common.gmo.GmoServiceImpl">
-        <property name="environment" ref="environment"/>
-        <property name="userRepository" ref="userRepository"/>
-        <property name="examRepository" ref="examRepository"/>
-        <property name="examKbnHistRepository" ref="examKbnHistRepository"/>
-        <property name="javaMailSender" ref = "mailSender4Happylth"></property>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
+    
 </beans>

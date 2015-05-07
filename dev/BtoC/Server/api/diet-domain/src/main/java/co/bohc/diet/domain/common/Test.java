@@ -1,31 +1,25 @@
 package co.bohc.diet.domain.common;
 
-import java.io.IOException;
-import java.util.Map;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Date;
 
-import org.apache.commons.lang.time.DateUtils;
+import javax.imageio.ImageIO;
 
-import co.bohc.diet.domain.common.utils.CryptUtil;
-import co.bohc.diet.domain.common.utils.EncryptUtils;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import org.joda.time.DateTime;
 
 public class Test {
-	
-	private static final String KEY = "123"; 
-	
 
-	public static void main(String[] args) {
-		Environment env = new Environment();
-		String userId = "9";
-		String userIdStr = CryptUtil.decryptAES("d86695ac93db9f0b826a74ab5584be06", env.getEncryptSeed());
-		System.out.println(env.getEncryptSeed());
-		System.out.println(CryptUtil.encryptAES(userId, "Q4DoV6UF"));
-		System.out.println(userIdStr);
-		long l = System.currentTimeMillis() + DateUtils.MILLIS_PER_DAY
-                * 7;
-		System.out.println(l);
-		System.out.println(EncryptUtils.encodeMD5("20" + "$" + "1425532382107" + "a9091ebef3877a48d2a5fa0751d4d995dc5daa6b"));
-	}
+    public static void main(String[] args) {
+        Date date = new Date();
+        if (date != null) {
+            DateTime time = new DateTime(date.getTime());
+            System.out.println(new DateTime(time.getYear(), time.getMonthOfYear(), 1, 0, 0, 0).toDate());
+            System.out.println(Integer.valueOf("5041022".substring(3)));
+        }
+    }
 }

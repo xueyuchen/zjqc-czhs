@@ -19,36 +19,33 @@ import co.bohc.diet.app.common.api.result.ApiError;
 import co.bohc.diet.app.common.api.result.ApiErrorCreator;
 import co.bohc.diet.app.common.util.JsonResponseUtils;
 
-
 public class ApiAuthenticationEntryPoint implements AuthenticationEntryPoint, InitializingBean {
-    //~ Static fields/initializers =====================================================================================
+    // ~ Static fields/initializers
+    // =====================================================================================
 
     @SuppressWarnings("unused")
-	private static final Log logger = LogFactory.getLog(ApiAuthenticationEntryPoint.class);
+    private static final Log logger = LogFactory.getLog(ApiAuthenticationEntryPoint.class);
 
     @Inject
     private ApiErrorCreator apiErrorCreator;
 
     @Inject
     private ExceptionCodeResolver exceptionCodeResolver;
-	
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		
-	}
 
-	@Override
-	public void commence(HttpServletRequest request,
-			HttpServletResponse response, AuthenticationException authException)
-			throws IOException, ServletException {
+    @Override
+    public void afterPropertiesSet() throws Exception {
 
+    }
+
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+            throws IOException, ServletException {
 
         String errorCode = exceptionCodeResolver.resolveExceptionCode(authException);
         ApiError apiError = apiErrorCreator.createApiError(request, errorCode, authException.getLocalizedMessage());
 
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		JsonResponseUtils.writeJson(response, apiError);
-	}
-
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        JsonResponseUtils.writeJson(response, apiError);
+    }
 
 }
