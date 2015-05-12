@@ -32,10 +32,10 @@
 			</div>
 			<div style="margin: 0 auto; width: 80%;">
 				<form action="users/downjpg" method="post">
-					<select id="option" style="border: none; padding: 10px">
+					<select id="option" style="border: none; padding: 10px" onchange="empty();">
 						<option value="czdh">残值单号</option>
 						<option value="czbm">残值编码</option>
-					</select> <input type="text" id="code" name="code" /> <input type="submit"
+					</select> <input type="text" id="code" name="code" /> <input id="submit" type="submit"
 						value="下载" style="width: 55px; height: 44px; float: right;" /><input
 						type="button" value="查询" onclick="querycode();"
 						style="width: 55px; height: 44px; float: right;" /> <input
@@ -57,12 +57,12 @@
 							readonly="readonly" /></td>
 					</tr>
 					<tr>
-						<td style="font-size: 20px;">残值上缴数量：</td>
+						<td style="font-size: 20px;">上缴数量：</td>
 						<td><input type="text" id="countNum" name="countNum"
 							style="font-size: 15px;" readonly="readonly" /></td>
 					</tr>
 					<tr>
-						<td style="font-size: 20px;">残值录入日期：</td>
+						<td style="font-size: 20px;">录入日期：</td>
 						<td><input type="text" id="entryDt" name="entryDt"
 							style="font-size: 15px;" readonly="readonly" /></td>
 					</tr>
@@ -85,6 +85,11 @@
 						<td><input type="text" style="font-size: 15px;" id="creDt"
 							name="creDt" /></td>
 					</tr>
+					<tr>
+                        <td style="font-size: 20px;">录入日期：</td>
+                        <td><input type="text" style="font-size: 15px;" id="entryDt1"
+                            name="entryDt1" /></td>
+                    </tr>
 				</table>
 			</div>
 		</div>

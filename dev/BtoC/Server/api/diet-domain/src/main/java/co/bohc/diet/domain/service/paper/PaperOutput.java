@@ -18,7 +18,7 @@ public class PaperOutput implements Serializable{
     private Integer printNum;
     private Integer printSize;
     private Date creDt;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone= "CCT")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone= "GMT+8")
     private Date entryDt;
     private Date checkDt;
     private String delFlg;

@@ -1,5 +1,13 @@
 function checkcode() {
+	$("#workerName").val("");
+	$("#creDt").val("");
+	$("#local").val("");
+	$("#message").val("");
 	var codeNum = $('#codeNum').val();
+	if(!codeNum){
+		alert("请输入残值编码！");
+		return;
+	}
 	$.ajax({
 		type : "post",
 		url : "checkcode",

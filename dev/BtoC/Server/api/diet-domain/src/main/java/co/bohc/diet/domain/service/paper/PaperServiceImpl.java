@@ -158,6 +158,11 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
         }
         Date date = new Date();
         String[] codes = codeArray.split("\n");
+        if(compareArrays(codes)){
+            errors.add("残值编码有重复，请重新确认！");
+            map.put("errors", errors);
+            return map;
+        }
         codeTotal = codes.length;
         List<Code> codesSave = new ArrayList<Code>();
         if (codes != null) {
@@ -185,6 +190,9 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
                     errors.add(codes[i] + "：" + "该条码扫为通用条码！");
                 }
             }
+            if(isCodeRight){
+                map.put("ispass", true);
+            }
             if (isSave && isCodeRight) {
                 Iterator<Code> it = codesSave.iterator();
                 while (it.hasNext()) {
@@ -211,6 +219,8 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 
     @Override
     public List<PaperOutput> countPaper(Date fromDt, Date toDt) {
+        fromDt = TimeUtils.getStartTimeOfDay(fromDt);
+        toDt = TimeUtils.getEndTimeOfDay(toDt);
         List<Paper> papers = repository.findByEntryDt(fromDt, toDt);
         List<PaperOutput> outputs = new ArrayList<PaperOutput>();
         PaperOutput output = null;
@@ -222,7 +232,7 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
             output.setEntryDt(paper.getEntryDt());
             output.setPaperCode(paper.getPaperCode());
             output.setReportCode(paper.getReportCode());
-            output.setCountCode(paper.getCodes().size());
+            output.setPrintNum(paper.getPrintNum());
             outputs.add(output);
         }
         return outputs;
@@ -332,5 +342,19 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
         } else {
             return "此残值单号已录入完成！\n 感谢使用PICC残值查询服务！";
         }
+    }
+    
+    public boolean compareArrays(String[] strs){
+        boolean result = false;
+       //从第一个元素开始比较元素是不是有相同的出现
+       for(int i=0;i<strs.length;i++){
+            for(int j=i+1;j<strs.length;j++){
+                //如果元素相同，保存到set中
+                if(strs[i].equals(strs[j])){
+                     result = true;
+                }
+           }
+       }
+    return result;
     }
 }

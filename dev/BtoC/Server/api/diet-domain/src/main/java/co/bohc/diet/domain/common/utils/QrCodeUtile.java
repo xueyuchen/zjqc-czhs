@@ -61,7 +61,7 @@ public class QrCodeUtile {
         }
     }
 
-    public static void readQrCode(InputStream inputStream) throws IOException {
+    public static String readQrCode(InputStream inputStream) throws IOException {
 
         // get the data from the input stream
         BufferedImage image = ImageIO.read(inputStream);
@@ -81,7 +81,7 @@ public class QrCodeUtile {
             e.printStackTrace();
         }
 
-        System.out.println(result.getText());
+        return result.getText();
     }
 
     public static void main(String[] args) throws IOException {

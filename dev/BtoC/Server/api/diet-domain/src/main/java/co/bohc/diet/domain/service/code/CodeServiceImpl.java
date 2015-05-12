@@ -63,13 +63,14 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
             map.put("workerName", code.getWorker().getWorkerName());
             return map;
         }
-        if (code.getCheckDt() != null) {
-            String message = "此残值编码已于：" + TimeUtils.datetimeToStr(code.getCheckDt()) + "录入过！";
+        if (code.getCodeKbn() != null) {
+            String message = "此残值编码已于：" + TimeUtils.datetimeToStr(code.getPaper().getEntryDt()) + "录入过！";
             map.put("codeNum", code.getCheckNum());
             map.put("message", message);
             map.put("creDt", TimeUtils.datetimeToStr(code.getCreDt()));
             map.put("local", code.getLocal());
             map.put("workerName", code.getWorker().getWorkerName());
+            map.put("entryDt", TimeUtils.datetimeToStr(code.getPaper().getEntryDt()));
             return map;
         } else {
             String message = "此残值编码未被使用！";
@@ -214,9 +215,9 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
         Worker worker = workerRepository.findOne(workerId);
         worker.setDelFlg("1");
         List<Worker> workers = workerRepository.findAllWorkerByDelFlg();
-        if(workers != null){
+        if (workers != null) {
             Iterator<Worker> itw = workers.iterator();
-            while(itw.hasNext()){
+            while (itw.hasNext()) {
                 itw.next().setCodes(null);
             }
         }

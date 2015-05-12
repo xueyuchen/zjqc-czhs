@@ -16,10 +16,11 @@ function countPaper() {
 				var html = "";
 				for ( var i in data) {
 					console.log(data[i].carLicensePlate);
-					html += "<tr><td>" + data[i].paperCode + "</td><td>"
+					html += "<tr><td>" + data[i].entryDt + "</td><td>"
+							+ data[i].paperCode + "</td><td>"
 							+ data[i].carLicensePlate + "</td><td>"
 							+ data[i].reportCode + "</td><td>"
-							+ data[i].countCode + "</td></tr>";
+							+ data[i].printNum + "</td></tr>";
 				}
 			}
 			$("#table").append(html);

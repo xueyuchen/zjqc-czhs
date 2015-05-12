@@ -48,7 +48,7 @@ public class UserController {
     public String checklogin(HttpServletResponse resp, HttpServletRequest req, String userName, String password) {
         if (adminService.checkUserName(userName, password)) {
             req.getSession().setAttribute("_", "czhs");
-            req.getSession().setMaxInactiveInterval(300);
+            req.getSession().setMaxInactiveInterval(9000);
             try {
                 resp.sendRedirect("../papers/toenter");
             } catch (IOException e) {

@@ -116,6 +116,15 @@
 							data-target="#chart-container">残值单录入</p>
 						<div id="chart-container" class="block-body collapse in">
 							<div id="line-chart">
+								<div id="pass" style="float: right; display: none;">
+									<img alt="123" src="../resources/app/images/pass.jpg">
+								</div>
+								<div id="fail" style="float: right; display: none;">
+									<img alt="123" src="../resources/app/images/fail.jpg">
+								</div>
+								<div id="checkpass" style="float: right; display: none;">
+									<img alt="123" src="../resources/app/images/checkpass.jpg">
+								</div>
 								<table>
 									<tr>
 										<td width="80">残值单号：</td>
@@ -168,8 +177,8 @@
 								<table>
 									<tr>
 										<td width="80">残值编号：</td>
-										<td><textarea name="reportCode" id="codeArray"
-												style="height: 330px; width: 110px"></textarea></td>
+										<td><textarea name="codes" id="codeArray"
+												style="height: 330px; width: 120px"></textarea></td>
 										<td width="80">警告信息：</td>
 										<td><textarea name="reportCode" id="codeArrayInfos"
 												style="height: 330px; color: red; width: 400px" readonly></textarea></td>

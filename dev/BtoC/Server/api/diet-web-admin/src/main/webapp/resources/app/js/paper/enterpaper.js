@@ -1,9 +1,12 @@
 function checkpaper() {
+	$("#pass").hide();
+	$("#fail").hide();
+	$("#checkpass").hide();
 	var paperCode = $('#paperCode').val();
 	var reportCode = $('#reportCode').val();
 	var carLicensePlate = $('#carLicensePlate').val();
 	var codeArray = $('#codeArray').val();
-	if(!paperCode || !reportCode || !carLicensePlate || !codeArray){
+	if (!paperCode || !reportCode || !carLicensePlate || !codeArray) {
 		alert("请输入完整的录入信息！");
 		return;
 	}
@@ -24,15 +27,27 @@ function checkpaper() {
 			}
 			$("#codeArrayInfos").text(allMessage);
 			$("#codeTotal").val(data.codeTotal);
+			if (data.ispass) {
+				$("#checkpass").show();
+			} else {
+				$("#fail").show();
+			}
 		}
 	});
 }
 
 function entrypaper() {
+	$("#pass").hide();
+	$("#fail").hide();
+	$("#checkpass").hide();
 	var paperCode = $('#paperCode').val();
 	var reportCode = $('#reportCode').val();
 	var carLicensePlate = $('#abbr').val() + $('#carLicensePlate').val();
 	var codeArray = $('#codeArray').val();
+	if (!paperCode || !reportCode || !carLicensePlate || !codeArray) {
+		alert("请先检查残值编码！");
+		return;
+	}
 	$.ajax({
 		type : "post",
 		url : "enter",
@@ -50,6 +65,11 @@ function entrypaper() {
 			}
 			$("#codeArrayInfos").text(allMessage);
 			$("#codeTotal").val(data.codeTotal);
+			if (data.ispass) {
+				$("#pass").show();
+			} else {
+				$("#fail").show();
+			}
 		}
 	});
 }
@@ -61,4 +81,7 @@ function reset() {
 	$("#reportCode").val("");
 	$("#carLicensePlate").val("");
 	$("#codeArray").val("");
+	$("#pass").hide();
+	$("#fail").hide();
+	$("#checkpass").hide();
 }

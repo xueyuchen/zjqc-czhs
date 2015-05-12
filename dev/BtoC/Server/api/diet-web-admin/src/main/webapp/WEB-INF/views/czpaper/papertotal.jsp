@@ -160,6 +160,7 @@ table.gridtable td {
 									<table id="table" class="gridtable">
 										<thead>
 											<tr>
+												<th style="width: 250px">录入时间：</th>
 												<th style="width: 250px">残值单单号：</th>
 												<th style="width: 250px">车牌号：</th>
 												<th style="width: 250px">报案号：</th>
