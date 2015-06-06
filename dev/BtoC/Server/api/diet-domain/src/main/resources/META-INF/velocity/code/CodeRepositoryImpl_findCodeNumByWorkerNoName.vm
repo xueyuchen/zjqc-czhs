@@ -1,0 +1,14 @@
+SELECT
+    w.worker_id AS workerId,
+    w.worker_name AS workerName,
+    c.cre_dt AS creDt,
+    COUNT (c.code_id) AS codeNum
+FROM
+    worker w
+INNER JOIN code c ON w.worker_id = c.worker_id
+AND c.cre_dt > :fromDt
+AND c.cre_dt < :toDt
+GROUP BY
+    w.worker_id,
+    w.worker_name,
+    c.cre_dt

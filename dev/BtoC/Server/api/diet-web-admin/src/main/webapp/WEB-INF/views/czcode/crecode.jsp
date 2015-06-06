@@ -78,6 +78,7 @@
 					</div>
 					<ul id="accounts-menu" class="nav nav-list collapse in">
 						<li><a href="../workers/tocre">定损员录入</a></li>
+						<li><a href="../workers/tostatistics">定损员使用统计</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
 						data-target="#dashboard-menu">

@@ -64,6 +64,16 @@ public class UserController {
         }
         return null;
     }
+    
+    @RequestMapping(value = "lgiphone", method = RequestMethod.POST)
+    public String checkloginPhone(HttpServletResponse resp, HttpServletRequest req, String userName, String password) {
+        if (adminService.checkUserName(userName, password)) {
+            req.getSession().setAttribute("_", "czhs");
+            req.getSession().setMaxInactiveInterval(9000);
+            return "success";
+        }
+        return null;
+    }
 
     @RequestMapping(value = "querypaper", method = RequestMethod.GET)
     @ResponseBody

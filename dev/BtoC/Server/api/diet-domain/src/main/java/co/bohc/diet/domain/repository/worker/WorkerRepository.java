@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import co.bohc.diet.domain.model.Worker;
+import co.bohc.diet.domain.service.worker.WorkerCodeOutput;
 
 public interface WorkerRepository extends JpaRepository<Worker, Integer> {
 
@@ -18,4 +19,5 @@ public interface WorkerRepository extends JpaRepository<Worker, Integer> {
     
     @Query(value = "SELECT w FROM Worker w WHERE w.workerName = :workerName AND w.delFlg IS NULL")
     public Worker findByWorkerName(@Param("workerName")String workerName);
+    
 }

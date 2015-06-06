@@ -8,8 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import co.bohc.diet.domain.model.Code;
+import co.bohc.diet.domain.service.worker.WorkerCodeOutput;
 
-public interface CodeRepository extends JpaRepository<Code, Integer>{
+public interface CodeRepository extends JpaRepository<Code, Integer>, CodeRepositoryCustom{
 
     public Code findByCodeNum(String codeNum);
     
@@ -27,5 +28,5 @@ public interface CodeRepository extends JpaRepository<Code, Integer>{
     
     @Query(value = "SELECT c FROM Code c WHERE c.worker.workerId = :workerId AND c.creDt >= :fromDt AND c.creDt <= :toDt")
     public List<Code> findByWorkerIdAndCreDt(@Param("workerId")Integer workerId, @Param("fromDt")Date fromDt, @Param("toDt")Date toDt);
-    
+
 }
