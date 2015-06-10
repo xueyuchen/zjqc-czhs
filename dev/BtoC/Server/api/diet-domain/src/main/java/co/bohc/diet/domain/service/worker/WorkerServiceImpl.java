@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,11 +51,22 @@ public class WorkerServiceImpl extends CrudServiceImpl<Worker, Integer, WorkerRe
     }
 
     @Override
-    public List<WorkerCodeOutput> findCodeNumByWorker(WorkerCriteria criteria) {
+    public Page<WorkerCodeOutput> findCodeNumByWorker(WorkerCriteria criteria, Pageable pageable) {
         if((criteria.getWorkerName() == null) || ("".equals(criteria.getWorkerName()))){
-            return codeRepository.findCodeNumByWorkerNoName(criteria);
+            List<WorkerCodeOutput> list = codeRepository.findCodeNumByWorkerNoName(criteria, pageable);
+            Integer count = codeRepository.countCodeNumByWorkerNoName(criteria).size();
+            Page<WorkerCodeOutput> page = new PageImpl<>(list, pageable, count);
+            return page;
+        }else if((criteria.getLocal() == null) || ("".equals(criteria.getLocal()))){
+            List<WorkerCodeOutput> list = codeRepository.findCodeNumByWorkerNoLocal(criteria, pageable);
+            Integer count = codeRepository.countCodeNumByWorkerNoLocal(criteria).size();
+            Page<WorkerCodeOutput> page = new PageImpl<>(list, pageable, count);
+            return page;
         }else{
-            return codeRepository.findCodeNumByWorker(criteria);
+            List<WorkerCodeOutput> list = codeRepository.findCodeNumByWorker(criteria, pageable);
+            Integer count = codeRepository.countCodeNumByWorker(criteria).size();
+            Page<WorkerCodeOutput> page = new PageImpl<>(list, pageable, count);
+            return page;
         }
     }
 

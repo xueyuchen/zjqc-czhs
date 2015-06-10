@@ -2,10 +2,10 @@ package co.bohc.diet.domain.common.enums;
 
 public enum LocalEnums {
 
-    E("东", "1"),
-    S("南", "2"),
-    W("西", "3"),
-    N("北", "4");
+    E("西南", "1"),
+    S("西北", "2");
+//    W("西", "3"),
+//    N("北", "4");
 
     private String value;
     

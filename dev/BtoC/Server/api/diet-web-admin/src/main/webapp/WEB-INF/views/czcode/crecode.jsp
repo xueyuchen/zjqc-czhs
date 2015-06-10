@@ -124,8 +124,6 @@
 											<tr>
 												<td>需要生产编码数量：</td>
 												<td><select name="num" id="num">
-														<option value="1100">1100</option>
-														<option value="1050">1050</option>
 														<option value="1000">1000</option>
 														<option value="950">950</option>
 														<option value="900">900</option>
@@ -141,6 +139,10 @@
 														<option value="350">350</option>
 														<option value="300">300</option>
 														<option value="250">250</option>
+														<option value="200">200</option>
+														<option value="150">150</option>
+														<option value="100">100</option>
+														<option value="50">50</option>
 												</select></td>
 											</tr>
 											<tr>

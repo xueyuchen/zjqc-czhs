@@ -31,13 +31,13 @@ function querycode() {
 				if (data.workerName) {
 					$("#workerName").val(data.workerName);
 					if (data.local == "1") {
-						$('#local').val("东");
+						$('#local').val("西南");
 					} else if (data.local == "2") {
-						$('#local').val("西");
-					} else if (data.local == "3") {
-						$('#local').val("南");
-					} else if (data.local == "4") {
-						$('#local').val("北");
+						$('#local').val("西北");
+//					} else if (data.local == "3") {
+//						$('#local').val("南");
+//					} else if (data.local == "4") {
+//						$('#local').val("北");
 					}
 					$("#creDt").val(data.creDt);
 					$("#entryDt1").val(data.entryDt);

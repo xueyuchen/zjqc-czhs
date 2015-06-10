@@ -80,8 +80,8 @@ public class CodeController {
     @RequestMapping(value = "createcode", method = RequestMethod.POST)
     public void creatCode(Integer num, Integer workerId, HttpServletResponse response) {
         WorkerOutput worker = codeService.createCode(num, workerId);
-        codeService.createfile(worker);
-        String fileName = "/" + worker.getWorkerName();
+        codeService.createfile(worker, num);
+        String fileName = "/" + worker.getWorkerName() + "-" + num + ".txt";
         try {
             File file = new File(FILEPATH + fileName);// path是根据日志路径和文件名拼接出来的
             String filename = file.getName();// 获取日志文件名称

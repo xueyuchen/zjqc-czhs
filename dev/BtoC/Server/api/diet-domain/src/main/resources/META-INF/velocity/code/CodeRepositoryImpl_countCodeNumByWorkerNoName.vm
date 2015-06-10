@@ -1,10 +1,5 @@
 SELECT
-    w.worker_id AS workerId,
-    w.worker_name AS workerName,
-    c.cre_dt AS creDt,
-    COUNT (c.code_id) AS codeNum,
-    COUNT (c.paper_id) AS usedNum,
-    w.[local]
+    COUNT(*) AS count
 FROM
     worker w
 INNER JOIN code c ON w.worker_id = c.worker_id

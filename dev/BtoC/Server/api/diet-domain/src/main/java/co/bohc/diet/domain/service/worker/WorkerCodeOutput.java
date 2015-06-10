@@ -11,6 +11,8 @@ public class WorkerCodeOutput {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone= "GMT+8")
     private Date creDt;
     private Integer codeNum;
+    private Integer usedNum;
+    private String local;
     public Integer getWorkerId() {
         return workerId;
     }
@@ -35,4 +37,17 @@ public class WorkerCodeOutput {
     public void setCodeNum(Integer codeNum) {
         this.codeNum = codeNum;
     }
+    public Integer getUsedNum() {
+        return usedNum;
+    }
+    public void setUsedNum(Integer usedNum) {
+        this.usedNum = usedNum;
+    }
+    public String getLocal() {
+        return local;
+    }
+    public void setLocal(String local) {
+        this.local = local;
+    }
+    
 }

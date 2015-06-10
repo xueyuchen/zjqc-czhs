@@ -6,6 +6,7 @@ public class WorkerCriteria {
     private Date fromDt;
     private Date toDt;
     private String workerName;
+    private String local;
     public Date getFromDt() {
         return fromDt;
     }
@@ -23,6 +24,12 @@ public class WorkerCriteria {
     }
     public void setWorkerName(String workerName) {
         this.workerName = workerName;
+    }
+    public String getLocal() {
+        return local;
+    }
+    public void setLocal(String local) {
+        this.local = local;
     }
     
     

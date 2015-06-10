@@ -14,7 +14,7 @@ public interface CodeService extends CrudService<Code, Integer> {
 
     public WorkerOutput createCode(Integer num, Integer workerId);
 
-    public void createfile(WorkerOutput worker);
+    public void createfile(WorkerOutput worker, Integer num);
     
     public List<String> allWorks();
     

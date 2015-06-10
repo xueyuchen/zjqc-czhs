@@ -13,13 +13,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +36,7 @@ import co.bohc.diet.domain.model.Paper;
 import co.bohc.diet.domain.repository.code.CodeRepository;
 import co.bohc.diet.domain.repository.paper.PaperRepository;
 import co.bohc.diet.domain.service.CrudServiceImpl;
+import co.bohc.diet.domain.service.worker.WorkerOutput;
 
 @Service
 @Transactional(readOnly = true)
@@ -218,10 +224,11 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
     }
 
     @Override
-    public List<PaperOutput> countPaper(Date fromDt, Date toDt) {
+    public Page<PaperOutput> countPaper(Date fromDt, Date toDt, Pageable pageable) {
         fromDt = TimeUtils.getStartTimeOfDay(fromDt);
         toDt = TimeUtils.getEndTimeOfDay(toDt);
-        List<Paper> papers = repository.findByEntryDt(fromDt, toDt);
+        List<Paper> papers = repository.findByEntryDt(fromDt, toDt, pageable);
+        Integer count = repository.countByEntryDt(fromDt, toDt);
         List<PaperOutput> outputs = new ArrayList<PaperOutput>();
         PaperOutput output = null;
         Iterator<Paper> it = papers.iterator();
@@ -233,9 +240,22 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
             output.setPaperCode(paper.getPaperCode());
             output.setReportCode(paper.getReportCode());
             output.setPrintNum(paper.getPrintNum());
+            Set<Code> codes = paper.getCodes();
+            Map<Integer, WorkerOutput> workers = new HashMap<Integer, WorkerOutput>();
+            Iterator<Code> itCode = codes.iterator();
+            WorkerOutput worker = null;
+            while(itCode.hasNext()){
+                Code code = itCode.next();
+                worker = new WorkerOutput();
+                worker.setLocal(code.getWorker().getLocal());
+                worker.setWorkerName(code.getWorker().getWorkerName());
+                workers.put(code.getWorker().getWorkerId(), worker);
+            }
+            output.setWorkers(workers);
             outputs.add(output);
         }
-        return outputs;
+        Page<PaperOutput> page = new PageImpl<>(outputs, pageable, count);
+        return page;
     }
 
     private Integer getSeason() {

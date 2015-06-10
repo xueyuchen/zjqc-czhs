@@ -126,10 +126,8 @@
 													id="workerName" /></td>
 												<td>片区：</td>
 												<td><select name="local" id="local">
-														<option value="1">东</option>
-														<option value="2">南</option>
-														<option value="3">西</option>
-														<option value="4">北</option>
+														<option value="1">西南</option>
+														<option value="2">西北</option>
 												</select></td>
 											</tr>
 											<tr>

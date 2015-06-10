@@ -3,6 +3,7 @@ package co.bohc.diet.domain.repository.paper;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,11 +22,14 @@ public interface PaperRepository extends JpaRepository<Paper, Integer> {
     public Paper findOneByPaperCode(String paperCode);
 
     @Query(value = "SELECT p FROM Paper p WHERE p.entryDt >= :fromDt AND p.entryDt <= :toDt AND p.delFlg IS NULL")
-    public List<Paper> findByEntryDt(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt);
+    public List<Paper> findByEntryDt(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt, Pageable pageable);
+
+    @Query(value = "SELECT COUNT(p) FROM Paper p WHERE p.entryDt >= :fromDt AND p.entryDt <= :toDt AND p.delFlg IS NULL")
+    public Integer countByEntryDt(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt);
 
     @Query(
            value = "SELECT TOP 1 p.paper_code FROM paper p WHERE p.cre_dt >= :fromDt AND p.cre_dt <= :toDt ORDER BY p.paper_id DESC",
            nativeQuery = true)
     public String findLastOneByMonth(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt);
-    
+
 }

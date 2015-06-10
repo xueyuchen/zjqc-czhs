@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,9 +48,11 @@ public class WorkerController {
     
     @RequestMapping(value = "statisticsworker", method = RequestMethod.POST)
     @ResponseBody
-    public List<WorkerCodeOutput> statisticsCode(WorkerCriteria criteria){
+    public Page<WorkerCodeOutput> statisticsCode(WorkerCriteria criteria, Pageable pageable){
 //        Date fromDt = TimeUtils.strToDate(fromDtStr);
 //        Date toDt = TimeUtils.strToDate(toDtStr);
-        return workerService.findCodeNumByWorker(criteria);
+        criteria.setFromDt(TimeUtils.getStartTimeOfDay(criteria.getFromDt()));
+        criteria.setToDt(TimeUtils.getEndTimeOfDay(criteria.getToDt()));
+        return workerService.findCodeNumByWorker(criteria, pageable);
     }
 }

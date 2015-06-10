@@ -2,6 +2,10 @@ package co.bohc.diet.domain.service.paper;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
+
+import co.bohc.diet.domain.service.worker.WorkerOutput;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -23,6 +27,7 @@ public class PaperOutput implements Serializable{
     private Date checkDt;
     private String delFlg;
     private Integer countCode;
+    private Map<Integer, WorkerOutput> workers;
 
     public Integer getPaperId() {
         return paperId;
@@ -112,4 +117,12 @@ public class PaperOutput implements Serializable{
         this.countCode = countCode;
     }
 
+    public Map<Integer, WorkerOutput> getWorkers() {
+        return workers;
+    }
+
+    public void setWorkers(Map<Integer, WorkerOutput> workers) {
+        this.workers = workers;
+    }
+    
 }

@@ -22,7 +22,7 @@
     <tiles:insertAttribute name="body" />
     <hr>
     <p style="text-align: center; background: #e5eCf9;">Copyright
-      &copy; 2015 子杰汽车</p>
+      &copy; 2015 子杰汽车 &nbsp&nbsp&nbsp&nbsp&nbsp<a href="http://www.miitbeian.gov.cn/">蜀ICP备15013643号</a></p>
   </div>
 </body>
 </html>

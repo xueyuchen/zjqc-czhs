@@ -161,12 +161,12 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
     }
 
     @Override
-    public void createfile(WorkerOutput worker) {
+    public void createfile(WorkerOutput worker, Integer num) {
         File dir = new File(env.getCodeFilePath());
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        File file = new File(dir, worker.getWorkerName());
+        File file = new File(dir, worker.getWorkerName() + "-" + num + ".txt");
         if (file.exists()) {
             file.delete();
         }

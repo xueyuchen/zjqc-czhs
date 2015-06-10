@@ -20,6 +20,7 @@
 	src="../resources/app/js/js_lib/jquery.js" /></script>
 <script type="text/javascript"
 	src="../resources/app/js/paper/papertotal.js"></script>
+<script type="text/javascript" src="../resources/app/lib/jquery.page.js"></script>
 <title>残值管理系统</title>
 <style type="text/css">
 #line-chart {
@@ -162,12 +163,22 @@ table.gridtable td {
 										<thead>
 											<tr>
 												<th style="width: 250px">录入时间：</th>
-												<th style="width: 250px">残值单单号：</th>
-												<th style="width: 250px">车牌号：</th>
-												<th style="width: 250px">报案号：</th>
-												<th style="width: 250px">收残数量：</th>
+												<th style="width: 150px">残值单单号：</th>
+												<th style="width: 150px">车牌号：</th>
+												<th style="width: 150px">报案号：</th>
+												<th style="width: 110px">收残数量：</th>
+												<th style="width: 350px">定损员</th>
 											</tr>
 										</thead>
+										<tbody>
+										</tbody>
+										<tfoot>
+											<tr>
+												<td colspan="6" align="center">
+													<div id="Pagination" class="digg"></div>
+												</td>
+											</tr>
+										</tfoot>
 									</table>
 								</fieldset>
 							</div>

@@ -10,7 +10,7 @@ FROM
 INNER JOIN code c ON w.worker_id = c.worker_id
 AND c.cre_dt > :fromDt
 AND c.cre_dt < :toDt
-AND w.[local] = :local
+AND w.worker_name = :workerName
 GROUP BY
     w.worker_id,
     w.worker_name,
