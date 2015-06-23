@@ -15,3 +15,23 @@ function destroycode(){
 		}
 	});
 }
+function showWorker() {
+	$('#worker').empty();
+	var local = $('#local').val();
+	$.ajax({
+		type : "get",
+		url : "getworkers",
+		async : false,
+		data : {
+			local : local
+		},
+		success : function(data) {
+			for(var i in data){
+				$('#worker').append('<option value='+ data[i].workerId +'>'+ data[i].workerName +'</option>');
+			}
+		},
+		error : function(data) {
+			alert(data.message);
+		}
+	});
+}

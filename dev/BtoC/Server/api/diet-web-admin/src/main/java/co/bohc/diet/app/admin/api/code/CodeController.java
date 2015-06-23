@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -38,9 +39,19 @@ public class CodeController {
     private static final String FILEPATH = "c:/codefile";
 
     @RequestMapping(value = "tocre", method = RequestMethod.GET)
-    public String toCreCode(Model model) {
-        model.addAttribute("workers", workerService.findWorkers());
+    public String toCreCode() {
         return "czcode/crecode";
+    }
+    
+    @RequestMapping(value = "getworkers", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Worker> getWorker(Model model, String local) {
+        List<Worker> list = workerService.findWorkers(local);
+        Iterator<Worker> it = list.iterator();
+        while(it.hasNext()){
+            it.next().setCodes(null);
+        }
+        return list;
     }
 
     @RequestMapping(value = "tocheck", method = RequestMethod.GET)
@@ -49,8 +60,8 @@ public class CodeController {
     }
 
     @RequestMapping(value = "todestroy", method = RequestMethod.GET)
-    public String toDestroyCode(Model model) {
-        List<Worker> workers = workerService.findWorkers();
+    public String toDestroyCode(Model model, String local) {
+        List<Worker> workers = workerService.findWorkers(local);
         model.addAttribute("workers", workers);
         return "czcode/destroycode";
     }

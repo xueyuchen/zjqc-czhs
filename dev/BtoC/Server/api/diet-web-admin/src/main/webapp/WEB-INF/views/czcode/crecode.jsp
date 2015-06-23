@@ -146,11 +146,16 @@
 												</select></td>
 											</tr>
 											<tr>
+												<td>区域：</td>
+												<td><select name="local" id="local" onchange="showWorker()">
+														<option value="1">西南</option>
+														<option value="2">西北</option>
+												</select></td>
+											</tr>
+											<tr>
 												<td>编码归属人：</td>
 												<td><select name="workerId" id="workerId">
-														<c:forEach items="${workers}" var="worker">
-															<option value="${worker.workerId}">${worker.workerName}</option>
-														</c:forEach>
+														
 												</select></td>
 											</tr>
 											<tr>

@@ -21,7 +21,7 @@ public interface PaperRepository extends JpaRepository<Paper, Integer> {
 
     public Paper findOneByPaperCode(String paperCode);
 
-    @Query(value = "SELECT p FROM Paper p WHERE p.entryDt >= :fromDt AND p.entryDt <= :toDt AND p.delFlg IS NULL")
+    @Query(value = "SELECT p FROM Paper p WHERE p.entryDt >= :fromDt AND p.entryDt <= :toDt AND p.delFlg IS NULL ORDER BY p.entryDt DESC")
     public List<Paper> findByEntryDt(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt, Pageable pageable);
 
     @Query(value = "SELECT COUNT(p) FROM Paper p WHERE p.entryDt >= :fromDt AND p.entryDt <= :toDt AND p.delFlg IS NULL")

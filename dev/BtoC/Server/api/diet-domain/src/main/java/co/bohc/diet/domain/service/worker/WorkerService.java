@@ -11,7 +11,7 @@ import co.bohc.diet.domain.service.CrudService;
 
 public interface WorkerService extends CrudService<Worker, Integer> {
 
-    public List<Worker> findWorkers();
+    public List<Worker> findWorkers(String local);
     
     public String createWorker(String workerName, String local);
     

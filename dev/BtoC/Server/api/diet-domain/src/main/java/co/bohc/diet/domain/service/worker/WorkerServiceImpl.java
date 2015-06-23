@@ -30,14 +30,14 @@ public class WorkerServiceImpl extends CrudServiceImpl<Worker, Integer, WorkerRe
     private CodeRepository codeRepository;
 
     @Override
-    public List<Worker> findWorkers() {
-        return repository.findAllWorkerByDelFlg();
+    public List<Worker> findWorkers(String local) {
+        return repository.findAllWorkerByDelFlg(local);
     }
 
     @Override
     @Transactional
     public String createWorker(String workerName, String local) {
-        Worker worker = repository.findByWorkerName(workerName);
+        Worker worker = repository.findByWorkerName(workerName, local);
         if (worker != null) {
             return "此用户名已存在，请重新命名！";
         } else {
