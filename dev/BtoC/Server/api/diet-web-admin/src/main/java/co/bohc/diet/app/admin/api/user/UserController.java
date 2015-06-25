@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -95,6 +96,16 @@ public class UserController {
             return map;
         } else if ("czbm".equals(option)) {
             return codeService.checkCode(code);
+        }else if("cph".equals(option)){
+            String str = null;
+            try {
+                str = new String(code.getBytes("ISO-8859-1"),"utf-8");
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Map<String, Object> map = paperService.queryPaperByCph(option, str);
+            return map;
         }
         return null;
     }

@@ -12,7 +12,7 @@ function countPaper(pageIndex) {
 		data : {
 			fromDt : fromDt,
 			toDt : toDt,
-			size: 10,
+			size: 20,
 			page: pageIndex
 		},
 		success : function(data) {

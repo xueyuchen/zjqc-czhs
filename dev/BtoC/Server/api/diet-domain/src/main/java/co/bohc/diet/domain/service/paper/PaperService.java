@@ -24,5 +24,7 @@ public interface PaperService extends CrudService<Paper, Integer> {
     
     public Map<String, Object> queryPaper(String option, String code);
     
+    public Map<String, Object> queryPaperByCph(String option, String code);
+    
     public String WCQueryPaper(String code);
 }

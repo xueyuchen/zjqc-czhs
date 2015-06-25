@@ -20,6 +20,9 @@ public interface PaperRepository extends JpaRepository<Paper, Integer> {
     public List<Paper> findAllByDate(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt);
 
     public Paper findOneByPaperCode(String paperCode);
+    
+    @Query(value = "SELECT TOP 1 * FROM paper p WHERE p.car_license_plate = :carLicensePlate ORDER BY p.entry_dt", nativeQuery = true)
+    public Paper findOneBycarLicensePlate(@Param("carLicensePlate") String carLicensePlate);
 
     @Query(value = "SELECT p FROM Paper p WHERE p.entryDt >= :fromDt AND p.entryDt <= :toDt AND p.delFlg IS NULL ORDER BY p.entryDt DESC")
     public List<Paper> findByEntryDt(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt, Pageable pageable);

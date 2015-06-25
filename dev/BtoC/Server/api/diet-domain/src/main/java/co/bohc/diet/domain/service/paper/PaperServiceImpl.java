@@ -351,6 +351,66 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
         map.put("message", message);
         return map;
     }
+    
+    public Map<String, Object> queryPaperByCph(String option, String carLicensePlate) {
+        Paper paper = repository.findOneBycarLicensePlate(carLicensePlate);
+        String message = null;
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (paper == null) {
+            message = "此残值单号无效！";
+        } else if (paper != null && paper.getEntryDt() == null) {
+            message = "此残值单号未被录入！";
+            PaperOutput output = new PaperOutput();
+            output.setCreDt(paper.getCreDt());
+            map.put("paper", output);
+        } else {
+            try {
+                BufferedImage buffImage = ImageIO.read(new File("c:/czhdb.jpg"));
+                Graphics g = buffImage.getGraphics();
+                Font font = new Font("黑体", Font.ITALIC, 20);
+                g.setFont(font);
+                g.setColor(Color.RED);
+                g.drawString(paper.getPaperCode(), 606, 94);
+                font = new Font("黑体", Font.ITALIC, 20);
+                g.setFont(font);
+                g.setColor(Color.BLACK);
+                g.drawString(paper.getReportCode(), 506, 164);
+                font = new Font("黑体", Font.ITALIC, 20);
+                g.setFont(font);
+                g.setColor(Color.BLACK);
+                g.drawString(paper.getCarLicensePlate(), 506, 201);
+                font = new Font("黑体", Font.ITALIC, 20);
+                g.setFont(font);
+                g.setColor(Color.BLACK);
+                g.drawString(String.valueOf(paper.getPrintNum()), 506, 233);
+                font = new Font("黑体", Font.ITALIC, 20);
+                g.setFont(font);
+                g.setColor(Color.BLACK);
+                g.drawString(TimeUtils.dateToStr(paper.getEntryDt()), 506, 264);
+
+                FileOutputStream outImg = new FileOutputStream(new File("c:/queryfile/" + paper.getCarLicensePlate()
+                        + ".jpg"));
+                ImageIO.write(buffImage, "jpg", outImg);
+                outImg.flush();
+                outImg.close();
+                map.put("paperCode", paper.getPaperCode());
+                map.put("carLicensePlate", paper.getCarLicensePlate());
+            } catch (Exception e) {
+
+            }
+            message = "此残值单号已录入完成！";
+            PaperOutput output = new PaperOutput();
+            output.setCarLicensePlate(paper.getCarLicensePlate());
+            output.setCheckDt(paper.getCheckDt());
+            output.setEntryDt(paper.getEntryDt());
+            output.setReportCode(paper.getReportCode());
+            Integer countNum = paper.getPrintNum();
+            map.put("paper", output);
+            map.put("countNum", countNum);
+        }
+        map.put("message", message);
+        return map;
+    }
 
     @Override
     public String WCQueryPaper(String code) {
