@@ -5,5 +5,5 @@ import co.bohc.diet.domain.service.CrudService;
 
 public interface AdminService extends CrudService<MAdminUser, Integer> {
 
-    public Boolean checkUserName(String loginId, String password);
+    public Integer checkUserName(String loginId, String password);
 }

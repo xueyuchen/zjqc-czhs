@@ -24,15 +24,15 @@ public class LoginFilter implements Filter {
             ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-        if(req.getServletPath().equals("/papers/querypaper")){
+        if (req.getServletPath().equals("/papers/querypaper")) {
             System.out.println(req.getServletPath());
             chain.doFilter(request, response);
         }
         String _ = (String) req.getSession().getAttribute("_");
-        if (_ == null || !_.equals("czhs") || "".equals(_)) {
-            resp.sendRedirect("../users/login");
-        }else{
+        if (_ != null && (_.equals("czhs") || _.equals("czhsUser"))) {
             chain.doFilter(request, response);
+        } else {
+            resp.sendRedirect("../users/login");
         }
     }
 

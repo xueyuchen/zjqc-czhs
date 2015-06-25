@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,7 +36,7 @@ public class UserController {
 
     @Inject
     private PaperService paperService;
-    
+
     @Inject
     private CodeService codeService;
 
@@ -46,12 +47,22 @@ public class UserController {
 
     @RequestMapping(value = "lgi", method = RequestMethod.POST)
     public String checklogin(HttpServletResponse resp, HttpServletRequest req, String userName, String password) {
-        if (adminService.checkUserName(userName, password)) {
+        Integer roleNum = adminService.checkUserName(userName, password);
+        if (roleNum == 0) {
+            req.getSession().setAttribute("_", "czhsUser");
+            req.getSession().setMaxInactiveInterval(4500);
+            try {
+                req.getRequestDispatcher("../papers/tototaluser").forward(req,resp);
+            } catch (ServletException | IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } else if (roleNum == 1) {
             req.getSession().setAttribute("_", "czhs");
             req.getSession().setMaxInactiveInterval(9000);
             try {
-                resp.sendRedirect("../papers/toenter");
-            } catch (IOException e) {
+                req.getRequestDispatcher("../papers/toenter").forward(req,resp);
+            } catch (IOException | ServletException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -64,10 +75,11 @@ public class UserController {
         }
         return null;
     }
-    
+
     @RequestMapping(value = "lgiphone", method = RequestMethod.POST)
     public String checkloginPhone(HttpServletResponse resp, HttpServletRequest req, String userName, String password) {
-        if (adminService.checkUserName(userName, password)) {
+        Integer roleNum = adminService.checkUserName(userName, password);
+        if (roleNum == 0 || roleNum == 1) {
             req.getSession().setAttribute("_", "czhs");
             req.getSession().setMaxInactiveInterval(9000);
             return "success";

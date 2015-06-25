@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -39,8 +40,13 @@ public class CodeController {
     private static final String FILEPATH = "c:/codefile";
 
     @RequestMapping(value = "tocre", method = RequestMethod.GET)
-    public String toCreCode() {
-        return "czcode/crecode";
+    public String toCreCode(HttpServletRequest req) {
+        String session = (String) req.getSession().getAttribute("_");
+        if(session != null && session == "czhs"){
+            return "czcode/crecode";
+        }else{
+            return null;
+        }
     }
     
     @RequestMapping(value = "getworkers", method = RequestMethod.GET)
@@ -55,15 +61,27 @@ public class CodeController {
     }
 
     @RequestMapping(value = "tocheck", method = RequestMethod.GET)
-    public String toCheckcode() {
-        return "czcode/checkcode";
+    public String toCheckcode(HttpServletRequest req) {
+        String session = (String) req.getSession().getAttribute("_");
+        if(session.equals("czhsUser")){
+            return "czcode/checkcode_user";
+        }else if(session.equals("czhs")){
+            return "czcode/checkcode";
+        }else{
+            return null;
+        }
     }
-
+    
     @RequestMapping(value = "todestroy", method = RequestMethod.GET)
-    public String toDestroyCode(Model model, String local) {
-        List<Worker> workers = workerService.findWorkers(local);
-        model.addAttribute("workers", workers);
-        return "czcode/destroycode";
+    public String toDestroyCode(HttpServletRequest req, Model model, String local) {
+        String session = (String) req.getSession().getAttribute("_");
+        if(session != null && session == "czhs"){
+            List<Worker> workers = workerService.findWorkers(local);
+            model.addAttribute("workers", workers);
+            return "czcode/destroycode";
+        }else{
+            return null;
+        }
     }
 
     @RequestMapping(value = "destroycode", method = RequestMethod.POST)
@@ -89,29 +107,33 @@ public class CodeController {
     }
 
     @RequestMapping(value = "createcode", method = RequestMethod.POST)
-    public void creatCode(Integer num, Integer workerId, HttpServletResponse response) {
-        WorkerOutput worker = codeService.createCode(num, workerId);
-        codeService.createfile(worker, num);
-        String fileName = "/" + worker.getWorkerName() + "-" + num + ".txt";
-        try {
-            File file = new File(FILEPATH + fileName);// path是根据日志路径和文件名拼接出来的
-            String filename = file.getName();// 获取日志文件名称
-            InputStream fis = new BufferedInputStream(new FileInputStream(FILEPATH + fileName));
-            byte[] buffer = new byte[fis.available()];
-            fis.read(buffer);
-            fis.close();
-            response.reset();
-            // 先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
-            response.addHeader("Content-Disposition", "attachment;filename="
-                    + new String(filename.replaceAll(" ", "").getBytes("utf-8"), "iso8859-1"));
-            response.addHeader("Content-Length", "" + file.length());
-            OutputStream os = new BufferedOutputStream(response.getOutputStream());
-            response.setContentType("application/octet-stream");
-            os.write(buffer);// 输出文件
-            os.flush();
-            os.close();
-        } catch (IOException e) {
+    public void creatCode(Integer num, Integer workerId, HttpServletResponse response, HttpServletRequest req) {
+        String session = (String) req.getSession().getAttribute("_");
+        if(session != null && session == "czhs"){
+            WorkerOutput worker = codeService.createCode(num, workerId);
+            codeService.createfile(worker, num);
+            String fileName = "/" + worker.getWorkerName() + "-" + num + ".txt";
+            try {
+                File file = new File(FILEPATH + fileName);// path是根据日志路径和文件名拼接出来的
+                String filename = file.getName();// 获取日志文件名称
+                InputStream fis = new BufferedInputStream(new FileInputStream(FILEPATH + fileName));
+                byte[] buffer = new byte[fis.available()];
+                fis.read(buffer);
+                fis.close();
+                response.reset();
+                // 先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
+                response.addHeader("Content-Disposition", "attachment;filename="
+                        + new String(filename.replaceAll(" ", "").getBytes("utf-8"), "iso8859-1"));
+                response.addHeader("Content-Length", "" + file.length());
+                OutputStream os = new BufferedOutputStream(response.getOutputStream());
+                response.setContentType("application/octet-stream");
+                os.write(buffer);// 输出文件
+                os.flush();
+                os.close();
+            } catch (IOException e) {
 
+            }
+        }else{
         }
     }
 

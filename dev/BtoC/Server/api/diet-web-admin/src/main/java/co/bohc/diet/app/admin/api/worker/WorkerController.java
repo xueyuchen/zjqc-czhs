@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.data.domain.Page;
@@ -28,13 +29,25 @@ public class WorkerController {
     private WorkerService workerService;
     
     @RequestMapping(value = "tocre")
-    public String tocreate(){
-        return "worker/createworker";
+    public String tocreate(HttpServletRequest req){
+        String session = (String) req.getSession().getAttribute("_");
+        if(session != null && session == "czhs"){
+            return "worker/createworker";
+        }else{
+            return null;
+        }
     }
     
     @RequestMapping(value = "tostatistics")
-    public String toWorkerTotal(){
-        return "worker/workertotal";
+    public String toWorkerTotal(HttpServletRequest req){
+        String session = (String) req.getSession().getAttribute("_");
+        if(session.equals("czhsUser")){
+            return "worker/workertotal_user";
+        }else if(session.equals("czhs")){
+            return "worker/workertotal";
+        }else{
+            return null;
+        }
     }
 
     @RequestMapping(value = "createworker", method = RequestMethod.POST)

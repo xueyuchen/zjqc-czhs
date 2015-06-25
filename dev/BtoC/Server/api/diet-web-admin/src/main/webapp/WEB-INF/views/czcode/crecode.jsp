@@ -147,7 +147,9 @@
 											</tr>
 											<tr>
 												<td>区域：</td>
-												<td><select name="local" id="local" onchange="showWorker()">
+												<td><select name="local" id="local"
+													onchange="showWorker()">
+														<option value=""></option>
 														<option value="1">西南</option>
 														<option value="2">西北</option>
 												</select></td>
@@ -155,7 +157,7 @@
 											<tr>
 												<td>编码归属人：</td>
 												<td><select name="workerId" id="workerId">
-														
+
 												</select></td>
 											</tr>
 											<tr>

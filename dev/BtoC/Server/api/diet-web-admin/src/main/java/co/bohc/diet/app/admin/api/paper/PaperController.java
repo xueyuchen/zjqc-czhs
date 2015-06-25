@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.data.domain.Page;
@@ -35,19 +36,29 @@ public class PaperController {
     @Inject
     private PaperService paperService;
 
-    @RequestMapping(value = "toenter", method = RequestMethod.GET)
-    public String toEnterCode() {
-        return "czpaper/enterpaper";
+    @RequestMapping(value = "toenter")
+    public String toEnterCode(HttpServletRequest req) {
+        String session = (String) req.getSession().getAttribute("_");
+        if (session != null && session == "czhs") {
+            return "czpaper/enterpaper";
+        } else {
+            return null;
+        }
     }
 
     @RequestMapping(value = "tocre", method = RequestMethod.GET)
-    public String toCrePaper(Model model) {
-        Integer countNum = paperService.countNum();
-        if (countNum == null) {
-            countNum = 0;
+    public String toCrePaper(Model model, HttpServletRequest req) {
+        String session = (String) req.getSession().getAttribute("_");
+        if (session != null && session == "czhs") {
+            Integer countNum = paperService.countNum();
+            if (countNum == null) {
+                countNum = 0;
+            }
+            model.addAttribute("countNum", countNum);
+            return "czpaper/crepaper";
+        } else {
+            return null;
         }
-        model.addAttribute("countNum", countNum);
-        return "czpaper/crepaper";
     }
 
     @RequestMapping(value = "tototal", method = RequestMethod.GET)
@@ -55,40 +66,50 @@ public class PaperController {
         return "czpaper/papertotal";
     }
 
-    @RequestMapping(value = "createpaper", method = RequestMethod.POST)
-    public void createpaper(HttpServletResponse response, Integer printSize) {
-        Date date = paperService.createpaper(printSize);
-        paperService.createfile();
-        String fileName = "/" + TimeUtils.dateToStr(new Date());
-        try {
-            File file = new File(FILEPATH + fileName);// path是根据日志路径和文件名拼接出来的
-            String filename = file.getName();// 获取日志文件名称
-            InputStream fis = new BufferedInputStream(new FileInputStream(FILEPATH + fileName));
-            byte[] buffer = new byte[fis.available()];
-            fis.read(buffer);
-            fis.close();
-            response.reset();
-            // 先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
-            response.addHeader("Content-Disposition", "attachment;filename="
-                    + new String(filename.replaceAll(" ", "").getBytes("utf-8"), "iso8859-1"));
-            response.addHeader("Content-Length", "" + file.length());
-            OutputStream os = new BufferedOutputStream(response.getOutputStream());
-            response.setContentType("application/octet-stream");
-            os.write(buffer);// 输出文件
-            os.flush();
-            os.close();
-        } catch (IOException e) {
+    @RequestMapping(value = "tototaluser")
+    public String toPaperTatolUser() {
+        return "czpaper/papertotal_user";
+    }
 
+    @RequestMapping(value = "createpaper", method = RequestMethod.POST)
+    public void createpaper(HttpServletResponse response, HttpServletRequest req, Integer printSize) {
+        String session = (String) req.getSession().getAttribute("_");
+        if (session != null && session == "czhs") {
+            Date date = paperService.createpaper(printSize);
+            paperService.createfile();
+            String fileName = "/" + TimeUtils.dateToStr(new Date());
+            try {
+                File file = new File(FILEPATH + fileName);// path是根据日志路径和文件名拼接出来的
+                String filename = file.getName();// 获取日志文件名称
+                InputStream fis = new BufferedInputStream(new FileInputStream(FILEPATH + fileName));
+                byte[] buffer = new byte[fis.available()];
+                fis.read(buffer);
+                fis.close();
+                response.reset();
+                // 先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
+                response.addHeader("Content-Disposition", "attachment;filename="
+                        + new String(filename.replaceAll(" ", "").getBytes("utf-8"), "iso8859-1"));
+                response.addHeader("Content-Length", "" + file.length());
+                OutputStream os = new BufferedOutputStream(response.getOutputStream());
+                response.setContentType("application/octet-stream");
+                os.write(buffer);// 输出文件
+                os.flush();
+                os.close();
+            } catch (IOException e) {
+
+            }
+        } else {
         }
     }
 
     @RequestMapping(value = "check", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> checkPaper(String paperCode, String reportCode, String carLicensePlate, String codeArray) {
-        Map<String, Object> messages = paperService.enterInfos(paperCode, reportCode, carLicensePlate, codeArray, false);
+        Map<String, Object> messages = paperService
+                .enterInfos(paperCode, reportCode, carLicensePlate, codeArray, false);
         return messages;
     }
-    
+
     @RequestMapping(value = "enter", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> enterPaper(String paperCode, String reportCode, String carLicensePlate, String codeArray) {

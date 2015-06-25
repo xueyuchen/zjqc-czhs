@@ -158,13 +158,13 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
             return map;
         }
         if (paper.getEntryDt() != null) {
-            errors.add("残值单已被录入过！"+ "\n" + "录入时间：" + TimeUtils.datetimeToStr(paper.getEntryDt()));
+            errors.add("残值单已被录入过！" + "\n" + "录入时间：" + TimeUtils.datetimeToStr(paper.getEntryDt()));
             map.put("errors", errors);
             return map;
         }
         Date date = new Date();
         String[] codes = codeArray.split("\n");
-        if(compareArrays(codes)){
+        if (compareArrays(codes)) {
             errors.add("残值编码有重复，请重新确认！");
             map.put("errors", errors);
             return map;
@@ -196,7 +196,7 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
                     errors.add(codes[i] + "：" + "该条码扫为通用条码！");
                 }
             }
-            if(isCodeRight){
+            if (isCodeRight) {
                 map.put("ispass", true);
             }
             if (isSave && isCodeRight) {
@@ -244,7 +244,7 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
             Map<Integer, WorkerOutput> workers = new HashMap<Integer, WorkerOutput>();
             Iterator<Code> itCode = codes.iterator();
             WorkerOutput worker = null;
-            while(itCode.hasNext()){
+            while (itCode.hasNext()) {
                 Code code = itCode.next();
                 worker = new WorkerOutput();
                 worker.setLocal(code.getWorker().getLocal());
@@ -356,25 +356,26 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
     public String WCQueryPaper(String code) {
         Paper paper = repository.findOneByPaperCode(code);
         if (paper == null) {
-            return "残值单号不存在！\n 感谢使用PICC残值查询服务！";
+            return "残值单号不存在！\n感谢使用PICC残值查询服务！";
         } else if (paper != null && paper.getEntryDt() == null) {
-            return "此残值单号未被录入！\n 感谢使用PICC残值查询服务！";
+            return "此残值单号未被录入！\n感谢使用PICC残值查询服务！";
         } else {
-            return "此残值单号已录入完成！\n 感谢使用PICC残值查询服务！";
+            return "此残值单号已录入完成！\n车牌号：" + paper.getCarLicensePlate() + "\n报案号" + paper.getReportCode()
+                    + "\n 感谢使用PICC残值查询服务！";
         }
     }
-    
-    public boolean compareArrays(String[] strs){
+
+    public boolean compareArrays(String[] strs) {
         boolean result = false;
-       //从第一个元素开始比较元素是不是有相同的出现
-       for(int i=0;i<strs.length;i++){
-            for(int j=i+1;j<strs.length;j++){
-                //如果元素相同，保存到set中
-                if(strs[i].equals(strs[j])){
-                     result = true;
+        // 从第一个元素开始比较元素是不是有相同的出现
+        for (int i = 0; i < strs.length; i++) {
+            for (int j = i + 1; j < strs.length; j++) {
+                // 如果元素相同，保存到set中
+                if (strs[i].equals(strs[j])) {
+                    result = true;
                 }
-           }
-       }
-    return result;
+            }
+        }
+        return result;
     }
 }
