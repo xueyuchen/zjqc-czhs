@@ -357,7 +357,7 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
         String message = null;
         Map<String, Object> map = new HashMap<String, Object>();
         if (paper == null) {
-            message = "此残值单号无效！";
+            message = "暂无查询结果！";
         } else if (paper != null && paper.getEntryDt() == null) {
             message = "此残值单号未被录入！";
             PaperOutput output = new PaperOutput();
@@ -398,7 +398,7 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
             } catch (Exception e) {
 
             }
-            message = "此残值单号已录入完成！";
+            message = "此车牌已录入完成！";
             PaperOutput output = new PaperOutput();
             output.setCarLicensePlate(paper.getCarLicensePlate());
             output.setCheckDt(paper.getCheckDt());
