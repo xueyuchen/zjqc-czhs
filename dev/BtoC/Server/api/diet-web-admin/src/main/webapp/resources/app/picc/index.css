@@ -107,6 +107,7 @@ a:hover {
 	position: absolute;
 	right: 0;
 	height: 368px;
+	margin-right: 11%;
 }
 
 .result1 {
@@ -138,6 +139,7 @@ a:hover {
 	height: 368px;
 	overflow: hidden;
 	position: absolute;
+	margin-left: 10%;
 }
 
 #slider .player {
@@ -184,7 +186,6 @@ a:hover {
 
 li img {
 	border: 0 none;
-	width: 990px
 }
 
 .result {

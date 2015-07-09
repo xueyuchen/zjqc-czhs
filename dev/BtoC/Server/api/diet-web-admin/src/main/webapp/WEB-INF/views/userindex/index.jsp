@@ -40,17 +40,12 @@
 	<div class="main">
 		<div id="slider">
 			<ol class="player">
-				<li><a><img src="./resources/app/images/top1.png"
-						alt="1" /></a></li>
-				<li><a><img src="./resources/app/images/top2.png"
-						alt="2" /></a></li>
-				<li><a><img src="./resources/app/images/banner.png"
-						alt="3" /></a></li>
+				<li><a><img src="./resources/app/images/top1-1.png" alt="1" /></a></li>
+				<li><a><img src="./resources/app/images/top2-2.png" alt="2" /></a></li>
 			</ol>
 			<ol class="btns">
 				<li>1</li>
 				<li>2</li>
-				<li>3</li>
 			</ol>
 		</div>
 		<div class="query">
@@ -147,17 +142,17 @@
 	<div class="form" style="margin-top: 10px;">
 		<span style="font-size: 24px;"><dt></dt>公司特色</span>
 		<div class="form-one">
-			<img alt="" src="./resources/app/images/czhdb.jpg">
-			<div>全国率先采用二维码技术，定位、跟踪残值配件，一物一码的策略保证每件残值配件都有一个唯一的专属二维码，确保每一件残值配件均能得到有效地回收.</div>
+			<img alt="" src="./resources/app/images/czbm.png">
+			<div>全国率先采用二维码技术，定位、跟踪残值配件，一物一码的策略保证每件残值配件都有一个唯一的专属二维码，确保每一件残值配件均能得到有效地回收。</div>
 		</div>
 		<div class="form-one" style="margin-left: 32%;">
-            <img alt="" src="./resources/app/images/wechat.png">
-            <div>全国率先基于微信平台查询回收结果，客户可以通过本公司微信公众号查询回收结果，使用户更方便的了解回收进度。</div>
-        </div>
-        <div class="form-one" style="margin-left: 58%;">
-            <img src="./resources/app/images/czhdb.jpg">
-            <div>回收检查完毕提供确认单据下载</div>
-        </div>
+			<img alt="" src="./resources/app/images/wechat.png">
+			<div>全国率先基于微信平台查询回收结果，客户可以通过本公司微信公众号查询回收结果，使用户更方便的了解回收进度。</div>
+		</div>
+		<div class="form-one" style="margin-left: 58%;">
+			<img src="./resources/app/images/czhdb.jpg">
+			<div>回收检查完毕提供确认单据下载。</div>
+		</div>
 	</div>
 	<div style=""></div>
 	<hr>
@@ -336,6 +331,11 @@
 			//player.invoke(2);
 		};
 		//]]>
+		console.log($(window).height());
+		console.log($(window).width());
+		$("li img").css({
+			width : ($(window).width())/2
+		});
 	</script>
 </body>
 </html>
