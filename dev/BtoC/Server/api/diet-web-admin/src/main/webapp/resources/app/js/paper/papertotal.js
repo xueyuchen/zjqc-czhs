@@ -48,7 +48,7 @@ function pageFooter(pageIndex, count){
 			callback : countPaper,
 			prev_text : '< 上一页', 
 			next_text: '下一页 >',
-			items_per_page : 10,
+			items_per_page : 20,
 			num_display_entries : 3,
 			current_page : pageIndex,
 			num_edge_entries : 2

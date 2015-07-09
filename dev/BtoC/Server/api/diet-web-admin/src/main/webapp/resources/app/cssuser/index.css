@@ -57,7 +57,7 @@ a:hover {
 #header {
 	width: 70%;
 	margin: 0 auto;
-	height: 64px;
+	height: 94px;
 	overflow: hidden;
 	background-color: #fff;
 }
@@ -74,14 +74,14 @@ a:hover {
 	background: url(../images/tel.png) right center no-repeat;
 	color: #666;
 	height: 42px;
-	padding-top: 26px;
+	padding-top: 46px;
 	line-height: 26px;
 	padding-right: 180px;
 	margin-right: 10px;
 }
 
 .tel a {
-	margin: 0 15px;
+	margin: 0 3px;
 }
 
 .main {

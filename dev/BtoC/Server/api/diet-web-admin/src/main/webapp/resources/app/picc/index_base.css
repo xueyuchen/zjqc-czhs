@@ -1,0 +1,14 @@
+html,body{margin:0;padding:0;height:100%}
+body{border:0;font:12px '微软雅黑','Microsoft YaHei','Hei',sans-serif;color:#333}
+a{color:#333;text-decoration:none}
+input{font-family:'微软雅黑','Microsoft YaHei','Hei',sans-serif;cursor:pointer}
+input:focus{outline:none}
+ul,dl,dt,dd,h1,h2,h3,h4,form,fieldset,legend{float:left;padding:0;font-weight:normal}
+ul{list-style:none}
+img{border:0}
+.float_cet{float:none !important;margin:0 auto; }
+.float_lft{float:left}
+.float_rit{float:right}
+.clear{float:none;clear:both}
+a.more{float:right!important;white-space:nowrap;font-size:14px;color:#069}
+a.more:hover{color:#e7340b}

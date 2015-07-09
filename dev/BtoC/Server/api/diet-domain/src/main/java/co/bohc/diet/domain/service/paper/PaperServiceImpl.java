@@ -33,6 +33,7 @@ import co.bohc.diet.domain.common.enums.LocalEnums;
 import co.bohc.diet.domain.common.utils.TimeUtils;
 import co.bohc.diet.domain.model.Code;
 import co.bohc.diet.domain.model.Paper;
+import co.bohc.diet.domain.model.Worker;
 import co.bohc.diet.domain.repository.code.CodeRepository;
 import co.bohc.diet.domain.repository.paper.PaperRepository;
 import co.bohc.diet.domain.service.CrudServiceImpl;
@@ -347,11 +348,23 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
             Integer countNum = paper.getPrintNum();
             map.put("paper", output);
             map.put("countNum", countNum);
+            Iterator<Code> it = paper.getCodes().iterator();
+            Set<WorkerOutput> workers = new HashSet<WorkerOutput>();
+            WorkerOutput worker = null;
+            Code w = null;
+            while (it.hasNext()) {
+                w = it.next();
+                worker = new WorkerOutput();
+                worker.setWorkerName(w.getWorker().getWorkerName());
+                worker.setLocal(w.getWorker().getLocal());
+                workers.add(worker);
+            }
+            map.put("worker", workers);
         }
         map.put("message", message);
         return map;
     }
-    
+
     public Map<String, Object> queryPaperByCph(String option, String carLicensePlate) {
         Paper paper = repository.findOneBycarLicensePlate(carLicensePlate);
         String message = null;
@@ -404,9 +417,22 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
             output.setCheckDt(paper.getCheckDt());
             output.setEntryDt(paper.getEntryDt());
             output.setReportCode(paper.getReportCode());
+            output.setPaperCode(paper.getPaperCode());
             Integer countNum = paper.getPrintNum();
             map.put("paper", output);
             map.put("countNum", countNum);
+            Iterator<Code> it = paper.getCodes().iterator();
+            Set<WorkerOutput> workers = new HashSet<WorkerOutput>();
+            WorkerOutput worker = null;
+            Code w = null;
+            while (it.hasNext()) {
+                w = it.next();
+                worker = new WorkerOutput();
+                worker.setWorkerName(w.getWorker().getWorkerName());
+                worker.setLocal(w.getWorker().getLocal());
+                workers.add(worker);
+            }
+            map.put("worker", workers);
         }
         map.put("message", message);
         return map;
@@ -414,14 +440,32 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 
     @Override
     public String WCQueryPaper(String code) {
-        Paper paper = repository.findOneByPaperCode(code);
+        Paper paper = null;
+        if(code.charAt(0) >= '0' && code.charAt(0) <= '9'){
+            paper = repository.findOneByPaperCode(code);
+        }else{
+            code.toUpperCase();
+            paper = repository.findOneBycarLicensePlate(code);
+        }
+        
         if (paper == null) {
-            return "残值单号不存在！\n感谢使用PICC残值查询服务！";
+            return "暂无查询结果！\n感谢使用PICC残值查询服务！";
         } else if (paper != null && paper.getEntryDt() == null) {
             return "此残值单号未被录入！\n感谢使用PICC残值查询服务！";
         } else {
-            return "此残值单号已录入完成！\n车牌号：" + paper.getCarLicensePlate() + "\n报案号" + paper.getReportCode()
-                    + "\n 感谢使用PICC残值查询服务！";
+            String workersStr = "";
+            Iterator<Code> it = paper.getCodes().iterator();
+            Set<Worker> workers = new HashSet<Worker>();
+            while (it.hasNext()) {
+                workers.add(it.next().getWorker());
+            }
+            Iterator<Worker> itWorker = workers.iterator();
+            while(itWorker.hasNext()){
+                workersStr += itWorker.next().getWorkerName() + " ";
+            }
+            return "此残值单号已录入完成！" + "\n残值单号：" + paper.getPaperCode() + "\n车牌号：" + paper.getCarLicensePlate() + "\n报案号："
+                    + paper.getReportCode() + "\n残值件数：" + paper.getPrintNum() + "\n录入日期："
+                    + TimeUtils.dateToStr(paper.getEntryDt()) + "\n定损员：" + workersStr + "\n感谢使用PICC残值查询服务！";
         }
     }
 

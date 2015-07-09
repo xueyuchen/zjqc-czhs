@@ -24,8 +24,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.bohc.diet.domain.common.utils.TimeUtils;
+import co.bohc.diet.domain.repository.code.WorkerCriteria;
+import co.bohc.diet.domain.service.code.PaperWorkerOutput;
 import co.bohc.diet.domain.service.paper.PaperOutput;
 import co.bohc.diet.domain.service.paper.PaperService;
+import co.bohc.diet.domain.service.worker.WorkerService;
 
 @Controller
 @RequestMapping(value = "papers")
@@ -35,6 +38,9 @@ public class PaperController {
 
     @Inject
     private PaperService paperService;
+
+    @Inject
+    private WorkerService workerService;
 
     @RequestMapping(value = "toenter")
     public String toEnterCode(HttpServletRequest req) {
@@ -87,8 +93,9 @@ public class PaperController {
                 fis.close();
                 response.reset();
                 // 先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
-                response.addHeader("Content-Disposition", "attachment;filename="
-                        + new String(filename.replaceAll(" ", "").getBytes("utf-8"), "iso8859-1"));
+                response.addHeader("Content-Disposition",
+                        "attachment;filename="
+                                + new String(filename.replaceAll(" ", "").getBytes("utf-8"), "iso8859-1"));
                 response.addHeader("Content-Length", "" + file.length());
                 OutputStream os = new BufferedOutputStream(response.getOutputStream());
                 response.setContentType("application/octet-stream");
@@ -123,5 +130,4 @@ public class PaperController {
         return paperService.countPaper(fromDt, toDt, pageable);
 
     }
-
 }

@@ -17,7 +17,7 @@ public interface CodeRepository extends JpaRepository<Code, Integer>, CodeReposi
     @Query(value = "SELECT TOP 1 * FROM code where worker_id = :workerId ORDER BY code_id DESC", nativeQuery = true)
     public Code findLastCodeNum(@Param("workerId")Integer workerId);
     
-    @Query(value = "SELECT c FROM Code c WHERE c.creDt >= :fromTime and c.creDt <= :endTime")
+    @Query(value = "SELECT c FROM Code c WHERE c.creDt >= :fromTime and c.creDt <= :endTime ORDER BY c.codeId")
     public List<Code> findByCreDt(@Param("fromTime")Date fromTime, @Param("endTime")Date endTime);
     
     @Query(value = "SELECT c.worker.workerName FROM Code c WHERE c.codeKbn IS NULL GROUP BY c.worker.workerId")

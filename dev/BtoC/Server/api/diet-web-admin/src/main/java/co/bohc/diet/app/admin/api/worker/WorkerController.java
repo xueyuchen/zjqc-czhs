@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.bohc.diet.domain.common.utils.TimeUtils;
 import co.bohc.diet.domain.repository.code.WorkerCriteria;
+import co.bohc.diet.domain.service.code.CodeService;
+import co.bohc.diet.domain.service.code.PaperWorkerOutput;
 import co.bohc.diet.domain.service.worker.WorkerCodeOutput;
 import co.bohc.diet.domain.service.worker.WorkerService;
 
@@ -67,5 +69,11 @@ public class WorkerController {
         criteria.setFromDt(TimeUtils.getStartTimeOfDay(criteria.getFromDt()));
         criteria.setToDt(TimeUtils.getEndTimeOfDay(criteria.getToDt()));
         return workerService.findCodeNumByWorker(criteria, pageable);
+    }
+    
+    @RequestMapping(value = "totalpaperbyworker", method = RequestMethod.POST)
+    @ResponseBody
+    public Page<PaperWorkerOutput> totalPaperByWorker(WorkerCriteria criteria, Pageable pageable) {
+        return workerService.findPaperByWorker(criteria, pageable);
     }
 }

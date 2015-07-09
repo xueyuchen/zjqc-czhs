@@ -125,7 +125,7 @@ public class WeChatController {
                 String resultStr = textTpl.format(textTpl, fromUsername, toUsername, time, msgType, contentStr);
                 resp.getWriter().write(resultStr);
             } else {
-                String contentStr = "欢迎关注PICC残值查询平台，请输入12位残值编码号或7位残值单号进行查询！";
+                String contentStr = "欢迎关注PICC残值查询平台，您可以输入7位回收单号、7位车牌号或12位编码号进行查询！";
                 String resultStr = textTpl.format(textTpl, fromUsername, toUsername, time, msgType, contentStr);
                 resp.getWriter().write(resultStr);
 

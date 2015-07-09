@@ -1,6 +1,6 @@
 function querycode() {
-	$("#result1").hide();
-	$("#result2").hide();
+//	$("#result1").hide();
+//	$("#result2").hide();
 	$("#carLicensePlate").val("");
 	var option = $("#option").val();
 	var code = $("#code").val();
@@ -20,13 +20,19 @@ function querycode() {
 			if (data) {
 				alert(data.message);
 				if (data.paper) {
+					var str = '';
 					$("#carLicensePlate").val(data.paper.carLicensePlate);
 					$("#carLicensePlate2").val(data.paper.carLicensePlate);
 					$("#reportCode").val(data.paper.reportCode);
+					$("#paperCode").val(data.paperCode);
 					$("#countNum").val(data.countNum);
 					$("#reportCode").val(data.paper.reportCode);
 					$("#entryDt").val(data.paper.entryDt);
-					$("#result1").show();
+					for(var i in data.worker){
+						str += data.worker[i].workerName + " ";
+					}
+					$("#workers").val(str);
+					Avgrund.show("#result1");
 				}
 				if (data.workerName) {
 					$("#workerName").val(data.workerName);
@@ -41,7 +47,7 @@ function querycode() {
 					}
 					$("#creDt").val(data.creDt);
 					$("#entryDt1").val(data.entryDt);
-					$("#result2").show();
+					Avgrund.show("#result2");
 				}
 			}
 		}
@@ -49,6 +55,8 @@ function querycode() {
 }
 
 function empty() {
+	Avgrund.hide("#result2");
+	Avgrund.hide("#result1");
 	$("#code").val("");
 	$("#carLicensePlate").val("");
 	$("#carLicensePlate2").val("");
@@ -60,8 +68,8 @@ function empty() {
 	$('#local').val("");
 	$("#creDt").val("");
 	$("#entryDt1").val("");
-	$("#result1").hide();
-	$("#result2").hide();
+//	$("#result1").hide();
+//	$("#result2").hide();
 	if ($("#option").val() == "czbm") {
 		$("#submit").hide();
 	} else {

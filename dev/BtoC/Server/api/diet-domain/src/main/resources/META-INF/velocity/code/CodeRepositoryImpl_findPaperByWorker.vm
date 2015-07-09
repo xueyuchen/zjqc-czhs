@@ -1,0 +1,43 @@
+SELECT
+    a.paper_id AS paperId,
+    a.paper_code AS paperCode,
+    a.car_license_plate AS carLicensePlate,
+    a.report_code AS reportCode,
+    a.print_num AS printNum,
+    a.print_size AS printSize,
+    a.entry_dt AS entryDt,
+    w.worker_id AS workerId,
+    w.worker_name AS workerName,
+    w.local AS local
+FROM
+    (
+        SELECT
+            p.paper_id AS paper_id,
+            p.paper_code AS paper_code,
+            p.car_license_plate AS car_license_plate,
+            p.report_code AS report_code,
+            p.print_num AS print_num,
+            p.print_size AS print_size,
+            p.entry_dt AS entry_dt,
+            c.worker_id AS worker_id
+        FROM
+            paper p
+        INNER JOIN code c ON p.paper_id = c.paper_id
+        AND p.entry_dt > :fromDt
+        AND p.entry_dt < :toDt
+    ) a
+INNER JOIN worker w ON a.worker_id = w.worker_id
+AND w.worker_name = :workerName
+AND w.local = :local
+GROUP BY
+    a.paper_code,
+    a.paper_id,
+    a.car_license_plate,
+    a.report_code,
+    w.worker_id,
+    w.worker_name,
+    w.[local],
+    a.print_num,
+    a.print_size,
+    a.entry_dt
+ORDER BY a.paper_code

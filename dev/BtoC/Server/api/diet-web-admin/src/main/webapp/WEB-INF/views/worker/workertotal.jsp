@@ -157,24 +157,25 @@ table.gridtable td {
 												value="查询" /></td>
 										</tr>
 										<tr>
-											<td>区域</td>
+											<td>查询区域：</td>
 											<td><select name="local" id="local">
 													<option value=""></option>
 													<option value="1">西南</option>
 													<option value="2">西北</option>
 											</select></td>
-											<td>定损员姓名：</td>
+											<td>锁定定损员查询：</td>
 											<td><input type="text" id="workerName"></td>
 										</tr>
 									</table>
 								</fieldset>
 								<fieldset>
-									<table id="table" class="gridtable">
+									<table id="table" class="gridtable" style="display: none">
 										<thead>
 											<tr>
 												<th style="width: 250px">区域：</th>
 												<th style="width: 250px">定损员姓名：</th>
 												<th style="width: 250px">生成数量：</th>
+												<th style="width: 250px">起始编码：</th>
 												<th style="width: 250px">使用数量：</th>
 												<th style="width: 250px">生成日期：</th>
 											</tr>
@@ -183,8 +184,29 @@ table.gridtable td {
 										</tbody>
 										<tfoot>
 											<tr>
-												<td colspan="5" align="center">
+												<td colspan="6" align="center">
 													<div id="Pagination" class="digg"></div>
+												</td>
+											</tr>
+										</tfoot>
+									</table>
+									<table id="table1" class="gridtable" style="display: none">
+										<thead>
+											<tr>
+												<th style="width: 250px">录入时间：</th>
+												<th style="width: 150px">残值单单号：</th>
+												<th style="width: 150px">车牌号：</th>
+												<th style="width: 150px">报案号：</th>
+												<th style="width: 110px">收残数量：</th>
+												<th style="width: 350px">定损员</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+										<tfoot>
+											<tr>
+												<td colspan="6" align="center">
+													<div id="Pagination1" class="digg"></div>
 												</td>
 											</tr>
 										</tfoot>
