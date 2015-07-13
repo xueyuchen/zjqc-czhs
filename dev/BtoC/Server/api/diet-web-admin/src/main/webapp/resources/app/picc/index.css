@@ -209,6 +209,7 @@ dt {
 }
 
 .footerM {
+	margin-top: 10%;
 	height: 35px;
 	width: 200px;
 	margin: 0 auto;

@@ -40,12 +40,10 @@
 	<div class="main">
 		<div id="slider">
 			<ol class="player">
-				<li><a><img src="./resources/app/images/top1-1.png" alt="1" /></a></li>
-				<li><a><img src="./resources/app/images/top2-2.png" alt="2" /></a></li>
+				<li><a><img src="./resources/app/images/banner.jpg" alt="1" /></a></li>
 			</ol>
 			<ol class="btns">
 				<li>1</li>
-				<li>2</li>
 			</ol>
 		</div>
 		<div class="query">
@@ -154,8 +152,7 @@
 			<div>回收检查完毕提供确认单据下载。</div>
 		</div>
 	</div>
-	<div style=""></div>
-	<hr>
+	<div style="margin-top: 10%;"></div>
 	<div class="footerM">
 		<div class="foot-link">
 			<h1>公司地址：成都市黄荆路东沿线</h1>
