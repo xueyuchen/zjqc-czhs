@@ -7,4 +7,6 @@ import co.bohc.diet.domain.model.Accessory;
 public interface AccessoryService {
 
     public List<Accessory> findByModelStylePart(String modelName, String styleName, String partName);
+    
+    public List<Accessory> findByCreDt();
 }

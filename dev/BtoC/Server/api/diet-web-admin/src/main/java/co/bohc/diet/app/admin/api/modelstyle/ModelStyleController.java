@@ -15,7 +15,7 @@ import co.bohc.diet.domain.service.modelstyle.ModelStyleService;
 
 @Controller
 @RequestMapping(value = "modelStyles")
-public class ModelStyleCollection {
+public class ModelStyleController {
 
     @Inject
     private ModelStyleService modelStyleService;
