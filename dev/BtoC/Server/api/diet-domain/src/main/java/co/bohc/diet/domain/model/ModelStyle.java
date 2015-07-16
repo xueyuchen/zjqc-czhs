@@ -19,6 +19,10 @@ import javax.persistence.Table;
 @Table(name = "model_style", schema = "dbo", catalog = "czpj")
 public class ModelStyle implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private Integer modelStyleId;
     private Style style;
     private Model model;

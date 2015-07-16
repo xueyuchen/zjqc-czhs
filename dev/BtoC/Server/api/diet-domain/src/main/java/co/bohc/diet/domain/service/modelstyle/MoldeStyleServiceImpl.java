@@ -22,9 +22,6 @@ public class MoldeStyleServiceImpl implements ModelStyleService {
         List<ModelStyle> modelStyles = modelStyleRepository.findByDelFlg(modelId);
         for(int i = 0; i<modelStyles.size(); i++){
             modelStyles.get(i).setModel(null);
-            modelStyles.get(i).getStyle().setAccessories(null);
-            modelStyles.get(i).getStyle().setModelStyles(null);
-            
         }
         return modelStyles;
     }

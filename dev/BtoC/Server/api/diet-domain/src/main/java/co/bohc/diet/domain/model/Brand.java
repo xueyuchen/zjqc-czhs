@@ -25,6 +25,10 @@ import javax.persistence.TemporalType;
 @Table(name = "brand", schema = "dbo", catalog = "czpj")
 public class Brand implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private Integer brandId;
     private String brandName;
     private String barndImg;
