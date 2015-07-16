@@ -3,7 +3,8 @@ package co.bohc.diet.domain.common.enums;
 public enum LocalEnums {
 
     E("西南", "1"),
-    S("西北", "2");
+    S("西北", "2"),
+    L("本部", "0");
 //    W("西", "3"),
 //    N("北", "4");
 
