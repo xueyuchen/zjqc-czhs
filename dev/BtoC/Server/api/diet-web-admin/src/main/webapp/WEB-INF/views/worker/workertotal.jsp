@@ -160,6 +160,7 @@ table.gridtable td {
 											<td>查询区域：</td>
 											<td><select name="local" id="local">
 													<option value=""></option>
+													<option value="0">本部</option>
 													<option value="1">西南</option>
 													<option value="2">西北</option>
 											</select></td>
