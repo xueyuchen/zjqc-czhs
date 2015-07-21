@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import co.bohc.diet.domain.model.Accessory;
 
-public interface AccessoryRepository extends JpaRepository<Accessory, Integer> {
+public interface AccessoryRepository extends JpaRepository<Accessory, Integer>, AccesstoryRepositoryCustom {
 
     @Query(
            value = "SELECT a FROM Accessory a WHERE a.saleDt IS NULL AND a.model.modelName = :modelName AND a.style.styleName = :styleName AND a.part.partName = :partName")
@@ -17,4 +17,10 @@ public interface AccessoryRepository extends JpaRepository<Accessory, Integer> {
     
     @Query(value = "SELECT a FROM Accessory a WHERE a.saleDt IS NULL ORDER BY a.creDt DESC")
     public List<Accessory> findByCreDt();
+    
+    @Query(value = "SELECT COUNT(a) FROM Accessory a WHERE a.saleDt IS NULL AND a.model.modelId = :modelId AND a.style.styleId = :styleId AND a.part.partId = :partId")
+    public Integer findCountByMSP(@Param("modelId") Integer modelId, @Param("styleId") Integer styleId, @Param("partId") Integer partId);
+
+    @Query(value = "SELECT a FROM Accessory a WHERE a.saleDt IS NULL AND a.model.brand.brandId = :brandId")
+    public List<Accessory> findByBrandId(@Param("brandId") Integer brandId);
 }

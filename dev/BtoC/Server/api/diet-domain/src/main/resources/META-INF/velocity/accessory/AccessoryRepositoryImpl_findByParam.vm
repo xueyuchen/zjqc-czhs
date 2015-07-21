@@ -1,0 +1,22 @@
+SELECT
+    a.accessory_id AS accessoryId,
+    a.accessory_img AS accessoryImg,
+    a.accessory_name AS accessoryName,
+    a.accessory_num AS accessoryNum,
+    a.[level] AS [level]
+FROM
+    accessory a
+INNER JOIN model m ON a.model_id = m.model_id 
+#if($modelId)
+AND a.model_id = :modelId
+#end
+INNER JOIN style s ON a.style_id = s.style_id
+#if($styleId)
+AND a.style_id = :styleId
+#end
+INNER JOIN part p ON a.part_id = p.part_id 
+#if($partId)
+AND a.part_id = :partId
+#end
+AND a.sale_dt IS NULL
+ORDER BY a.cre_dt DESC
