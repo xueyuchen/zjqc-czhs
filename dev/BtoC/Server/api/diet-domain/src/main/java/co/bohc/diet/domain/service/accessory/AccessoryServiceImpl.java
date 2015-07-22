@@ -8,6 +8,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -151,8 +154,10 @@ public class AccessoryServiceImpl implements AccessoryService {
     }
 
     @Override
-    public List<Accessory> findByBrandId(Integer brandId) {
-        List<Accessory> accessories = accessoryRepository.findByBrandId(brandId);
+    public Page<Accessory> findByBrandId(Integer brandId, Pageable pageable) {
+        List<Accessory> accessories = accessoryRepository.findByBrandId(brandId, pageable);
+        Integer count = accessoryRepository.countByBrandId(brandId);
+        Page<Accessory> page = new PageImpl<Accessory>(accessories, pageable, count);
         if (accessories == null) {
             return null;
         }
@@ -161,7 +166,7 @@ public class AccessoryServiceImpl implements AccessoryService {
             accessories.get(i).setPart(null);
             accessories.get(i).setStyle(null);
         }
-        return accessories;
+        return page;
     }
 
     @Override

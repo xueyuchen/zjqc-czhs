@@ -2,6 +2,7 @@ package co.bohc.diet.domain.repository.accessory;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,7 +26,10 @@ public interface AccessoryRepository extends JpaRepository<Accessory, Integer>, 
     public Integer findCountByMSP(@Param("modelId") Integer modelId, @Param("styleId") Integer styleId, @Param("partId") Integer partId);
 
     @Query(value = "SELECT a FROM Accessory a WHERE a.saleDt IS NULL AND a.model.brand.brandId = :brandId")
-    public List<Accessory> findByBrandId(@Param("brandId") Integer brandId);
+    public List<Accessory> findByBrandId(@Param("brandId") Integer brandId, Pageable pageable);
+    
+    @Query(value = "SELECT COUNT(a) FROM Accessory a WHERE a.saleDt IS NULL AND a.model.brand.brandId = :brandId")
+    public Integer countByBrandId(@Param("brandId") Integer brandId);
     
     @Query(value = "SELECT a FROM Accessory a WHERE a.model.brand.brandId = :brandId")
     public List<Accessory> findByBrandIdAndSale(@Param("brandId") Integer brandId);

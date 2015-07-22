@@ -7,6 +7,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,8 +57,8 @@ public class AccessoryController {
 
     @RequestMapping(value = "{brandId}", method = RequestMethod.GET)
     @ResponseBody
-    public List<Accessory> findByBrandId(@PathVariable Integer brandId) {
-        return accessoryService.findByBrandId(brandId);
+    public Page<Accessory> findByBrandId(@PathVariable Integer brandId, Pageable pageable) {
+        return accessoryService.findByBrandId(brandId, pageable);
     }
     @RequestMapping(value = "sale/{brandId}", method = RequestMethod.GET)
     @ResponseBody

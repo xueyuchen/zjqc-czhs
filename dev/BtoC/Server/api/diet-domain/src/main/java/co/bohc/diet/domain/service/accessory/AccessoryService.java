@@ -2,6 +2,9 @@ package co.bohc.diet.domain.service.accessory;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import co.bohc.diet.domain.model.Accessory;
 import co.bohc.diet.domain.repository.accessory.AccessoryOutput;
 import co.bohc.diet.domain.repository.accessory.AccessorySearchPar;
@@ -14,7 +17,7 @@ public interface AccessoryService {
     
     public void saveAccessory(String level, Integer modelId, Integer styleId, Integer partId, String imgDataUrl);
     
-    public List<Accessory> findByBrandId(Integer brandId);
+    public Page<Accessory> findByBrandId(Integer brandId, Pageable pageable);
     
     public List<Accessory> findByParam(AccessorySearchPar accessorySearchPar);
     
