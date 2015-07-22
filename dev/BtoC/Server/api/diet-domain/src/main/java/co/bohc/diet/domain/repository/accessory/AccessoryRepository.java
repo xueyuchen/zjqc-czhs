@@ -18,9 +18,15 @@ public interface AccessoryRepository extends JpaRepository<Accessory, Integer>, 
     @Query(value = "SELECT a FROM Accessory a WHERE a.saleDt IS NULL ORDER BY a.creDt DESC")
     public List<Accessory> findByCreDt();
     
+    @Query(value = "SELECT a FROM Accessory a ORDER BY a.creDt DESC")
+    public List<Accessory> findByCreDtSale();
+    
     @Query(value = "SELECT COUNT(a) FROM Accessory a WHERE a.saleDt IS NULL AND a.model.modelId = :modelId AND a.style.styleId = :styleId AND a.part.partId = :partId")
     public Integer findCountByMSP(@Param("modelId") Integer modelId, @Param("styleId") Integer styleId, @Param("partId") Integer partId);
 
     @Query(value = "SELECT a FROM Accessory a WHERE a.saleDt IS NULL AND a.model.brand.brandId = :brandId")
     public List<Accessory> findByBrandId(@Param("brandId") Integer brandId);
+    
+    @Query(value = "SELECT a FROM Accessory a WHERE a.model.brand.brandId = :brandId")
+    public List<Accessory> findByBrandIdAndSale(@Param("brandId") Integer brandId);
 }

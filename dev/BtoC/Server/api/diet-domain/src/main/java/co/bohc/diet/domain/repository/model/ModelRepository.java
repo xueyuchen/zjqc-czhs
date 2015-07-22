@@ -10,6 +10,6 @@ import co.bohc.diet.domain.model.Model;
 
 public interface ModelRepository extends JpaRepository<Model, Integer> {
 
-    @Query(value = "SELECT m FROM Model m WHERE m.brand.brandId = :brandId AND m.delFlg IS NULL")
+    @Query(value = "SELECT m FROM Model m WHERE m.brand.brandId = :brandId AND m.delFlg IS NULL ORDER BY m.modelName")
     public List<Model> findAllBydelFlg(@Param("brandId")Integer brandId);
 }

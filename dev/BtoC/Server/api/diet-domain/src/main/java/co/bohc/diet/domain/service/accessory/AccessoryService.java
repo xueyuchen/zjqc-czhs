@@ -16,5 +16,13 @@ public interface AccessoryService {
     
     public List<Accessory> findByBrandId(Integer brandId);
     
-    public List<AccessoryOutput> findByParam(AccessorySearchPar accessorySearchPar);
+    public List<Accessory> findByParam(AccessorySearchPar accessorySearchPar);
+    
+    public List<Accessory> findByParamSale(AccessorySearchPar accessorySearchPar);
+    
+    public List<Accessory> findByBrandIdSale(Integer brandId);
+
+    public List<Accessory> findByBrandIdAndSale(Integer brandId);
+    
+    public Accessory saveSaleMoney(Integer accessoryId, Double saleMoney);
 }

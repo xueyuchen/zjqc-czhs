@@ -1,5 +1,6 @@
 package co.bohc.diet.domain.service.accessory;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Date;
@@ -97,10 +98,15 @@ public class AccessoryServiceImpl implements AccessoryService {
             // }
             // }
             // 生成jpeg图片
-            String imgName = "../image/img/" + modelIdStr + "/" + styleIdStr + "/" + partIdStr + "/"
+            String imgName = "image/img/" + modelIdStr + "/" + styleIdStr + "/" + partIdStr + "/"
                     + getImgName(modelId, styleId, partId) + ".jpg";
-            String imgFilePath = "c://project//czxsxt//image//img//" + modelIdStr + "//" + styleIdStr + "//" + partIdStr + "//"
-                    + getImgName(modelId, styleId, partId) + ".jpg";// 新生成的图片
+            File pageElementFileDir = new File("c://project//czxsxt//html//image//img//" + modelIdStr + "//"
+                    + styleIdStr + "//" + partIdStr);
+            if (!pageElementFileDir.exists()) {
+                pageElementFileDir.mkdirs();
+            }
+            String imgFilePath = "c://project//czxsxt//html//image//img//" + modelIdStr + "//" + styleIdStr + "//"
+                    + partIdStr + "//" + getImgName(modelId, styleId, partId) + ".jpg";// 新生成的图片
             OutputStream out = new FileOutputStream(imgFilePath);
             out.write(b);
             out.flush();
@@ -123,12 +129,14 @@ public class AccessoryServiceImpl implements AccessoryService {
         String partIdStr = String.valueOf(partId);
         String countNumStr = String.valueOf(count);
         if (modelIdStr.length() == 1) {
+            modelIdStr = "00" + modelIdStr;
+        } else if(modelIdStr.length() == 2){
             modelIdStr = "0" + modelIdStr;
         }
         if (styleIdStr.length() == 1) {
-            styleIdStr = "00" + styleIdStr;
-        } else if (styleIdStr.length() == 2) {
             styleIdStr = "0" + styleIdStr;
+//        } else if (styleIdStr.length() == 2) {
+//            styleIdStr = "0" + styleIdStr;
         }
         if (partIdStr.length() == 1) {
             partIdStr = "00" + partIdStr;
@@ -145,10 +153,10 @@ public class AccessoryServiceImpl implements AccessoryService {
     @Override
     public List<Accessory> findByBrandId(Integer brandId) {
         List<Accessory> accessories = accessoryRepository.findByBrandId(brandId);
-        if(accessories == null){
+        if (accessories == null) {
             return null;
         }
-        for(int i = 0; i<accessories.size(); i++){
+        for (int i = 0; i < accessories.size(); i++) {
             accessories.get(i).setModel(null);
             accessories.get(i).setPart(null);
             accessories.get(i).setStyle(null);
@@ -157,7 +165,58 @@ public class AccessoryServiceImpl implements AccessoryService {
     }
 
     @Override
-    public List<AccessoryOutput> findByParam(AccessorySearchPar accessorySearchPar) {
+    public List<Accessory> findByParam(AccessorySearchPar accessorySearchPar) {
         return accessoryRepository.findByParam(accessorySearchPar);
+    }
+    
+    @Override
+    public List<Accessory> findByParamSale(AccessorySearchPar accessorySearchPar) {
+        return accessoryRepository.findByParamSale(accessorySearchPar);
+    }
+
+    @Override
+    public List<Accessory> findByBrandIdSale(Integer brandId) {
+        List<Accessory> accessories = null;
+        if(brandId == null){
+            accessories = accessoryRepository.findByCreDtSale();
+        }else{
+            accessories = accessoryRepository.findByBrandIdAndSale(brandId);
+        }
+        if (accessories == null) {
+            return null;
+        }
+        for (int i = 0; i < accessories.size(); i++) {
+            accessories.get(i).setModel(null);
+            accessories.get(i).setPart(null);
+            accessories.get(i).setStyle(null);
+        }
+        return accessories;
+    }
+    
+    @Override
+    public List<Accessory> findByBrandIdAndSale(Integer brandId) {
+        List<Accessory> accessories = accessoryRepository.findByBrandIdAndSale(brandId);
+        if (accessories == null) {
+            return null;
+        }
+        for (int i = 0; i < accessories.size(); i++) {
+            accessories.get(i).setModel(null);
+            accessories.get(i).setPart(null);
+            accessories.get(i).setStyle(null);
+        }
+        return accessories;
+    }
+
+    @Override
+    @Transactional
+    public Accessory saveSaleMoney(Integer accessoryId, Double saleMoney) {
+        Accessory accessory = accessoryRepository.findOne(accessoryId);
+        if(accessory == null || accessory.getSaleDt() != null){
+            return null;
+        }
+        accessory.setSaleDt(new Date());
+        accessory.setSaleMoney(saleMoney);
+        accessoryRepository.save(accessory);
+        return accessory;
     }
 }

@@ -10,6 +10,6 @@ import co.bohc.diet.domain.model.ModelStyle;
 
 public interface ModelStyleRepository extends JpaRepository<ModelStyle, Integer> {
 
-    @Query(value = "SELECT m FROM ModelStyle m WHERE m.model.modelId = :modelId AND m.delFlg IS NULL")
+    @Query(value = "SELECT m FROM ModelStyle m WHERE m.model.modelId = :modelId AND m.delFlg IS NULL ORDER BY m.style.styleName")
     public List<ModelStyle> findByDelFlg(@Param("modelId")Integer modelId);
 }

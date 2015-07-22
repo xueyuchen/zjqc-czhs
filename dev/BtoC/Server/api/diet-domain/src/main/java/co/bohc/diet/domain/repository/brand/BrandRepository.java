@@ -11,6 +11,6 @@ public interface BrandRepository extends JpaRepository<Brand, Integer> {
 
     public Brand findByBrandId(Integer brandId);
     
-    @Query(value = "SELECT b FROM Brand b WHERE b.delFlg IS NULL")
+    @Query(value = "SELECT b FROM Brand b WHERE b.delFlg IS NULL ORDER BY b.brandName")
     public List<Brand> findAllBydelFlg();
 }

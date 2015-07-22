@@ -29,7 +29,7 @@ public class AdminServiceImpl extends CrudServiceImpl<MAdminUser, Integer, Admin
         }else if (user.getAdminRoleKbn().equals("AM")){
             return 0;
         }else{
-            return 1;
+            return -1;
         }
     }
 

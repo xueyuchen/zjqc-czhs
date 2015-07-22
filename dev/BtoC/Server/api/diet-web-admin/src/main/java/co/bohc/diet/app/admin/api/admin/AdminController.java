@@ -24,10 +24,14 @@ public class AdminController {
         Integer rol = adminService.checkUserName(username, password);
         if (rol == -1) {
             return null;
-        } else {
-            Cookie cookie = new Cookie("czpjlr", "you have logined");
+        } else if(rol == 1){
+            Cookie cookie = new Cookie("czpjlr-su", "you have logined SU");
             resp.addCookie(cookie);
-            return "success";
+            return "SU";
+        }else{
+            Cookie cookie = new Cookie("czpjlr-am", "you have logined AM");
+            resp.addCookie(cookie);
+            return "AM";
         }
     }
 }
