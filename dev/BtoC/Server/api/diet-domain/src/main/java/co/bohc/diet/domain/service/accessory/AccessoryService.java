@@ -1,7 +1,9 @@
 package co.bohc.diet.domain.service.accessory;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,7 +21,7 @@ public interface AccessoryService {
     
     public Page<Accessory> findByBrandId(Integer brandId, Pageable pageable);
     
-    public List<Accessory> findByParam(AccessorySearchPar accessorySearchPar);
+    public Page<Accessory> findByParam(AccessorySearchPar accessorySearchPar, Pageable pageable);
     
     public List<Accessory> findByParamSale(AccessorySearchPar accessorySearchPar);
     
@@ -28,4 +30,8 @@ public interface AccessoryService {
     public List<Accessory> findByBrandIdAndSale(Integer brandId);
     
     public Accessory saveSaleMoney(Integer accessoryId, Double saleMoney);
+    
+    public LucenePage SearchByLucene(String key);
+    
+    public void savePicture();
 }
