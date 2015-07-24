@@ -19,8 +19,9 @@ public class B0002Task implements Runnable {
     
     @Override
     public void run() {
-        // TODO Auto-generated method stub
-        
+        System.out.println("begin task");
+        accessoryService.savePicture();
+        System.out.println("end task");
     }
 
 }

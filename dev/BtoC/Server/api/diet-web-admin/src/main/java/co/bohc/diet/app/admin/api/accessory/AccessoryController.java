@@ -1,14 +1,11 @@
 package co.bohc.diet.app.admin.api.accessory;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.bohc.diet.domain.model.Accessory;
-import co.bohc.diet.domain.repository.accessory.AccessoryOutput;
 import co.bohc.diet.domain.repository.accessory.AccessorySearchPar;
 import co.bohc.diet.domain.service.accessory.AccessoryService;
 import co.bohc.diet.domain.service.accessory.LucenePage;
@@ -107,13 +103,13 @@ public class AccessoryController {
 
     @RequestMapping(value = "lucene", method = RequestMethod.GET)
     @ResponseBody
-    public LucenePage search(String key) {
+    public LucenePage search(String key, Integer page, Integer size) {
         try {
             key = new String(key.getBytes("ISO8859-1"), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return accessoryService.SearchByLucene(key);
+        return accessoryService.SearchByLucene(key, page);
     }
 }

@@ -1,8 +1,12 @@
 package co.bohc.diet.domain.service.accessory;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.nio.file.Paths;
@@ -10,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -60,10 +65,10 @@ public class AccessoryServiceImpl implements AccessoryService {
     @Inject
     private StyleRepository styleRepository;
 
-    private static String indexpath = "D:\\luceneIndex";
-    
-    private static String rootPath = "E:\\project\\czxsxt\\html\\image\\img\\zp";
-    
+    private static String indexpath = "C:\\luceneIndex";
+
+    private static String rootPath = "C:\\project\\czxsxt\\html\\image\\img\\zp";
+
     private static String photoUpload = "C:\\fileUpload";
 
     @Override
@@ -255,17 +260,17 @@ public class AccessoryServiceImpl implements AccessoryService {
     }
 
     @Override
-    public LucenePage SearchByLucene(String key) {
+    public LucenePage SearchByLucene(String key, Integer page) {
         try {
-            return lucene(key);
+            return lucene(key, page);
         } catch (IOException | ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
     }
-    
-    private LucenePage lucene(String key) throws IOException, ParseException{
+
+    private LucenePage lucene(String key, Integer page) throws IOException, ParseException {
         Analyzer analyzer = new StandardAnalyzer();
         Directory directory = FSDirectory.open(Paths.get(indexpath));
         DirectoryReader iReader = DirectoryReader.open(directory);
@@ -273,8 +278,16 @@ public class AccessoryServiceImpl implements AccessoryService {
         String[] multiFields = { "fileName", "photoId", "photoPath" };
         MultiFieldQueryParser parser = new MultiFieldQueryParser(multiFields, analyzer);
         Query query = parser.parse(key);
-        TopDocs docs = iSearcher.search(query, 10);
-        Integer count = iSearcher.count(query);
+        TopDocs docs = null;
+        Integer count = null;
+        if (page != null && page == 0) {
+            docs = iSearcher.search(query, 10);
+        } else {
+            docs = iSearcher.search(query, 10 * page);
+            ScoreDoc[] hits = docs.scoreDocs;
+            docs = iSearcher.searchAfter(hits[hits.length - 1], query, 10);
+        }
+        count = iSearcher.count(query);
         ScoreDoc[] hits = docs.scoreDocs;
         // docs = iSearcher.searchAfter(hits[hits.length - 1], query, 2);
         // hits = docs.scoreDocs;
@@ -304,20 +317,25 @@ public class AccessoryServiceImpl implements AccessoryService {
             String photoPath = hitDoc.get("photoPath");
             luceneOutput = new LuceneOutput(value, id, photoPath);
             luceneOutputs.add(luceneOutput);
-//            TokenStream tokenStream = analyzer.tokenStream(value, new StringReader(value));
+            // TokenStream tokenStream = analyzer.tokenStream(value, new
+            // StringReader(value));
             // String str1 = highlighter.getBestFragment(tokenStream, value);
 
             System.out.println(value);
             System.out.println(id);
         }
-        LucenePage page = new LucenePage();
-        page.setContent(luceneOutputs);
-        page.setSize(hits.length);
-        page.setTotalElements(count);
-        page.setPage(count/hits.length);
+        LucenePage lucenePage = new LucenePage();
+        lucenePage.setContent(luceneOutputs);
+        lucenePage.setSize(hits.length);
+        lucenePage.setTotalElements(count);
+        if (hits.length == 0) {
+            lucenePage.setPage(0);
+        } else {
+            lucenePage.setPage(count / hits.length);
+        }
         iReader.close();
         directory.close();
-        return page;
+        return lucenePage;
     }
 
     @Override
@@ -348,6 +366,7 @@ public class AccessoryServiceImpl implements AccessoryService {
             doc.add(new Field("photoPath", "image/img/zp/" + photos[i].toString(), TextField.TYPE_STORED));
             try {
                 iWriter.addDocument(doc);
+                copyFile(photos[i].toString());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -359,6 +378,59 @@ public class AccessoryServiceImpl implements AccessoryService {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
+    }
+
+    public static void copyFile(String fileName) {
+        System.out.println("begin copy: " + fileName);
+        try {
+            int i = 1;
+            int bytesum = 0;
+            int byteread = 0;
+            String oldPath = photoUpload + "\\" + fileName;
+            String newPath = rootPath + "\\" + fileName;
+            File oldFile = new File(oldPath);
+            File newFile = new File(newPath);
+            String fileNameFirst = fileName.split("\\.")[0];
+            String fileNameSec = fileName.split("\\.")[1];
+            while (newFile.exists()) {
+                newPath = rootPath + "\\" + fileNameFirst + i + "." + fileNameSec;
+                newFile = new File(newPath);
+                i++;
+            }
+            if (oldFile.exists()) { // 文件存在时
+                InputStream inStream = new FileInputStream(oldPath); // 读入原文件
+                OutputStream fs = new FileOutputStream(newPath);
+                resizeImage(inStream, fs, 900, "JPG");
+                // byte[] buffer = new byte[1024 * 10];
+                // int length;
+                // while ((byteread = inStream.read(buffer)) != -1) {
+                // bytesum += byteread; // 字节数 文件大小
+                // System.out.println(bytesum);
+                // fs.write(buffer, 0, byteread);
+                // }
+                inStream.close();
+            }
+            oldFile.delete();
+        } catch (Exception e) {
+            System.out.println("复制单个文件操作出错");
+            e.printStackTrace();
+        }
+    }
+
+    public static void resizeImage(InputStream is, OutputStream os, int size, String format) throws IOException {
+        BufferedImage prevImage = ImageIO.read(is);
+        double width = prevImage.getWidth();
+        double height = prevImage.getHeight();
+        double percent = size / width;
+        int newWidth = (int) (width * percent);
+        int newHeight = (int) (height * percent);
+        BufferedImage image = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_BGR);
+        Graphics graphics = image.createGraphics();
+        graphics.drawImage(prevImage, 0, 0, newWidth, newHeight, null);
+        ImageIO.write(image, format, os);
+        os.flush();
+        is.close();
+        os.close();
     }
 }

@@ -25,13 +25,13 @@
     
     <task:scheduled-tasks scheduler="boh-batch">
         <!-- 秒　分　時　月　年　曜日 -->
-	   <task:scheduled ref="b0001Task" method="run" cron="0 0 10 * * ?"/>
+	   <task:scheduled ref="b0002Task" method="run" cron="0 53 17 * * ?"/>
 	   <!-- <task:scheduled ref="co.bohc.diet.batchs.task.B0002" method="run" cron=""/>-->
-	   <task:scheduled ref="b0003Task" method="run" cron="0 0 0 * * ?"/>
+	   <!-- <task:scheduled ref="b0003Task" method="run" cron="0 0 0 * * ?"/>
 	   <task:scheduled ref="b0004Task" method="run" cron="0 0 2 * * ?"/>
 	   <task:scheduled ref="b0005Task" method="run" cron="0 0/1 * * * ?"/>
 	   <task:scheduled ref="b0006Task" method="run" cron="0 0 20 * * ?"/>
-	   <task:scheduled ref="b0008Task" method="run" cron="0 0 1 * * ?"/>
+	   <task:scheduled ref="b0008Task" method="run" cron="0 0 1 * * ?"/> -->
 	</task:scheduled-tasks>
 
     <!-- Exception Code Resolver. -->
