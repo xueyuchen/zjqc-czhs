@@ -104,6 +104,7 @@
 					<td><input type="text" id="entryDt" name="entryDt"
 						style="font-size: 15px;" readonly="readonly" /></td>
 				</tr>
+				<input type="button" class="closePopup" value="关闭" onclick="closePopup();"/>
 			</table>
 		</div>
 		<div class="result avgrund-popup" id="result2">
@@ -128,6 +129,7 @@
 					<td><input type="text" style="font-size: 15px;" id="entryDt1"
 						name="entryDt1" /></td>
 				</tr>
+				<input type="button" class="closePopup" value="关闭" onclick="closePopup();"/>
 			</table>
 		</div>
 	</div>
@@ -331,7 +333,7 @@
 		console.log($(window).height());
 		console.log($(window).width());
 		$("li img").css({
-			width : ($(window).width())/2
+			width : ($(window).width()) / 2
 		});
 	</script>
 </body>

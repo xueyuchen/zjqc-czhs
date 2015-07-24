@@ -76,3 +76,7 @@ function empty() {
 		$("#submit").show();
 	}
 }
+
+function closePopup(){
+	Avgrund.hide();
+}
