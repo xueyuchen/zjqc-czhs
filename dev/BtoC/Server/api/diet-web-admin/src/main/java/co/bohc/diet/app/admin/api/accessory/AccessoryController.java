@@ -1,10 +1,17 @@
 package co.bohc.diet.app.admin.api.accessory;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -111,5 +118,46 @@ public class AccessoryController {
             e.printStackTrace();
         }
         return accessoryService.SearchByLucene(key, page);
+    }
+
+    @RequestMapping(value = "upload", method = RequestMethod.POST)
+    public void imgsUpload(HttpServletRequest req, HttpServletResponse resp) {
+        String fileName = "123.jpg";
+        System.out.println(fileName);
+        InputStream is = null;
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream("C:\\fileUpload\\" + fileName);
+        } catch (FileNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        try {
+            is = req.getInputStream();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        int byteread = 0;
+        int bytesum = 0;
+        if (is != null) {
+            byte[] buffer = new byte[1024 * 10];
+            try {
+                while ((byteread = is.read(buffer)) != -1) {
+                    bytesum += byteread; // 字节数 文件大小
+                    System.out.println(bytesum);
+                    os.write(buffer, 0, byteread);
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            try {
+                is.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
 }

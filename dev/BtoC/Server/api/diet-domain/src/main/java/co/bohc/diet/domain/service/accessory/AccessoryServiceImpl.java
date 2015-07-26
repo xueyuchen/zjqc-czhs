@@ -41,6 +41,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sun.misc.BASE64Decoder;
+import co.bohc.diet.domain.common.utils.AddZeroUtil;
 import co.bohc.diet.domain.model.Accessory;
 import co.bohc.diet.domain.model.Model;
 import co.bohc.diet.domain.model.Part;
@@ -275,7 +276,7 @@ public class AccessoryServiceImpl implements AccessoryService {
         Directory directory = FSDirectory.open(Paths.get(indexpath));
         DirectoryReader iReader = DirectoryReader.open(directory);
         IndexSearcher iSearcher = new IndexSearcher(iReader);
-        String[] multiFields = { "fileName", "photoId", "photoPath" };
+        String[] multiFields = { "fileName", "photoId" };
         MultiFieldQueryParser parser = new MultiFieldQueryParser(multiFields, analyzer);
         Query query = parser.parse(key);
         TopDocs docs = null;
@@ -354,19 +355,20 @@ public class AccessoryServiceImpl implements AccessoryService {
         /**
          * 根据照片添加索引
          */
-        String rootPath = photoUpload;
+        File upLoadFile = new File(photoUpload);
         File rootFile = new File(rootPath);
-        String[] photos = rootFile.list();
+        String[] photoLib = rootFile.list();
+        String[] photos = upLoadFile.list();
+        Integer photoLibNum = photoLib.length;
         Document doc = null;
         for (int i = 0; i < photos.length; i++) {
-            String photoName = photos[i].toString().split("\\.")[0];
+            String photoName = copyFile(photos[i].toString());
             doc = new Document();
             doc.add(new Field("fileName", photoName, TextField.TYPE_STORED));
-            doc.add(new Field("photoId", "123", TextField.TYPE_STORED));
+            doc.add(new Field("photoId", AddZeroUtil.addZero(photoLibNum + i, 7), TextField.TYPE_STORED));
             doc.add(new Field("photoPath", "image/img/zp/" + photos[i].toString(), TextField.TYPE_STORED));
             try {
                 iWriter.addDocument(doc);
-                copyFile(photos[i].toString());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -381,8 +383,9 @@ public class AccessoryServiceImpl implements AccessoryService {
 
     }
 
-    public static void copyFile(String fileName) {
+    public static String copyFile(String fileName) {
         System.out.println("begin copy: " + fileName);
+        String fileNameResult = null;
         try {
             int i = 1;
             int bytesum = 0;
@@ -392,9 +395,11 @@ public class AccessoryServiceImpl implements AccessoryService {
             File oldFile = new File(oldPath);
             File newFile = new File(newPath);
             String fileNameFirst = fileName.split("\\.")[0];
+            fileNameResult = fileNameFirst;
             String fileNameSec = fileName.split("\\.")[1];
             while (newFile.exists()) {
-                newPath = rootPath + "\\" + fileNameFirst + i + "." + fileNameSec;
+                fileNameResult = fileNameFirst + "_" + i;
+                newPath = rootPath + "\\" + fileNameFirst + "_" + i + "." + fileNameSec;
                 newFile = new File(newPath);
                 i++;
             }
@@ -416,6 +421,7 @@ public class AccessoryServiceImpl implements AccessoryService {
             System.out.println("复制单个文件操作出错");
             e.printStackTrace();
         }
+        return fileNameResult;
     }
 
     public static void resizeImage(InputStream is, OutputStream os, int size, String format) throws IOException {
