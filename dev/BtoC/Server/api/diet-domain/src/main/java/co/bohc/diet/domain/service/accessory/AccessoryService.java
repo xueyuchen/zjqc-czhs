@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import co.bohc.diet.domain.model.Accessory;
+import co.bohc.diet.domain.repository.accessory.AccessoryOutput;
 import co.bohc.diet.domain.repository.accessory.AccessorySearchPar;
 
 public interface AccessoryService {
@@ -33,4 +34,6 @@ public interface AccessoryService {
     public void savePicture();
 
     public LucenePage SearchByLucene(String key, Integer page);
+    
+    public List<LuceneOutput> searchByLuceneDate(String key);
 }

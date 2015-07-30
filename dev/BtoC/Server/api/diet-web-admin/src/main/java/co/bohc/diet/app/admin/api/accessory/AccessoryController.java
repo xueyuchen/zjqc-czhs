@@ -21,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import co.bohc.diet.domain.model.Accessory;
 import co.bohc.diet.domain.repository.accessory.AccessorySearchPar;
 import co.bohc.diet.domain.service.accessory.AccessoryService;
+import co.bohc.diet.domain.service.accessory.LuceneOutput;
 import co.bohc.diet.domain.service.accessory.LucenePage;
 
 @Controller
@@ -120,23 +123,49 @@ public class AccessoryController {
         return accessoryService.SearchByLucene(key, page);
     }
 
+    @RequestMapping(value = "upload")
+    public String toUpload(){
+        return "admin/upload";
+    }
+    
     @RequestMapping(value = "upload", method = RequestMethod.POST)
     public void imgsUpload(HttpServletRequest req, HttpServletResponse resp) {
-        String fileName = "123.jpg";
-        System.out.println(fileName);
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            os = new FileOutputStream("C:\\fileUpload\\" + fileName);
-        } catch (FileNotFoundException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
+        String fileName = req.getParameter("name");
+        String chunk = req.getParameter("chunk");
+        File newFile = new File("C:\\fileUpload\\" + fileName);
+        if(!newFile.exists()){
+            try {
+                newFile.createNewFile();
+            } catch (IOException e2) {
+                // TODO Auto-generated catch block
+                e2.printStackTrace();
+            }
         }
+        MultipartFile mf = multipartRequest.getFile("file");
+        System.out.println(mf.getOriginalFilename());
+        InputStream is = null;
         try {
-            is = req.getInputStream();
-        } catch (IOException e) {
+            is = mf.getInputStream();
+        } catch (IOException e2) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            e2.printStackTrace();
+        }
+        OutputStream os = null;
+        if("0".equals(chunk)){
+            try {
+                os = new FileOutputStream(newFile);
+            } catch (FileNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }else{
+            try {
+                os = new FileOutputStream(newFile, true);
+            } catch (FileNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         }
         int byteread = 0;
         int bytesum = 0;
@@ -154,10 +183,25 @@ public class AccessoryController {
             }
             try {
                 is.close();
+                os.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
+    }
+    
+    @RequestMapping(value = "adminLucene", method = RequestMethod.GET)
+    @ResponseBody
+    public List<LuceneOutput> search(String key) {
+        return accessoryService.searchByLuceneDate(key);
+    }
+    
+    @RequestMapping(value = "copy", method = RequestMethod.GET)
+    @ResponseBody
+    public void copyPicture(){
+        System.out.println("begin task");
+        accessoryService.savePicture();
+        System.out.println("end task");
     }
 }

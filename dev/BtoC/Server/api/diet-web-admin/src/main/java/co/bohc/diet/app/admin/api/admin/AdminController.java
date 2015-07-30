@@ -1,5 +1,7 @@
 package co.bohc.diet.app.admin.api.admin;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -18,20 +20,40 @@ public class AdminController {
     @Inject
     private AdminService adminService;
 
-    @RequestMapping(method = RequestMethod.POST)
-    @ResponseBody
-    public String login(String username, String password, HttpServletResponse resp) {
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public void login(String username, String password, HttpServletResponse resp) {
         Integer rol = adminService.checkUserName(username, password);
         if (rol == -1) {
-            return null;
+            try {
+                resp.sendRedirect("login");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         } else if(rol == 1){
-            Cookie cookie = new Cookie("czpjlr-su", "you have logined SU");
-            resp.addCookie(cookie);
-            return "SU";
+            try {
+                resp.sendRedirect("upload");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }else{
-            Cookie cookie = new Cookie("czpjlr-am", "you have logined AM");
-            resp.addCookie(cookie);
-            return "AM";
+            try {
+                resp.sendRedirect("upload");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
+    }
+    
+    @RequestMapping(value = "admin", method = RequestMethod.GET)
+    public String toAdmin(){
+        return "admin/admin";
+    }
+    
+    @RequestMapping(value = "tologin", method = RequestMethod.GET)
+    public String tologin(){
+        return "admin/login";
     }
 }

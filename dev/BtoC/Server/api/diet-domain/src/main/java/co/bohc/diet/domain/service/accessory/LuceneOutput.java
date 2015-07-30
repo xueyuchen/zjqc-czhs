@@ -5,6 +5,7 @@ public class LuceneOutput {
     private String accessoryName;
     private String accessoryNum;
     private String accessoryImg;
+    private String creDt;
 
     public String getAccessoryName() {
         return accessoryName;
@@ -30,11 +31,28 @@ public class LuceneOutput {
         this.accessoryImg = accessoryImg;
     }
 
+    public String getCreDt() {
+        return creDt;
+    }
+
+    public void setCreDt(String creDt) {
+        this.creDt = creDt;
+    }
+
     public LuceneOutput(String accessoryName, String accessoryNum, String accessoryImg) {
         super();
         this.accessoryName = accessoryName;
         this.accessoryNum = accessoryNum;
         this.accessoryImg = accessoryImg;
     }
+
+    public LuceneOutput(String accessoryName, String accessoryNum, String accessoryImg, String creDt) {
+        super();
+        this.accessoryName = accessoryName;
+        this.accessoryNum = accessoryNum;
+        this.accessoryImg = accessoryImg;
+        this.creDt = creDt;
+    }
+    
 
 }

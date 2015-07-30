@@ -20,8 +20,8 @@
   <div class="container">
     <tiles:insertAttribute name="header" />
     <tiles:insertAttribute name="body" />
-    <hr>
-    <p style="text-align: center; background: #e5eCf9;">成都子杰汽车服务有限公司&nbsp&nbsp版权所有&nbsp&nbsp<a href="http://www.miitbeian.gov.cn/">蜀ICP备15013643号</a></p>
+    <!-- <hr>
+    <p style="text-align: center; background: #e5eCf9;">成都子杰汽车服务有限公司&nbsp&nbsp版权所有&nbsp&nbsp<a href="http://www.miitbeian.gov.cn/">蜀ICP备15013643号</a></p>  -->
   </div>
 </body>
 </html>

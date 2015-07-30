@@ -28,6 +28,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -42,6 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sun.misc.BASE64Decoder;
 import co.bohc.diet.domain.common.utils.AddZeroUtil;
+import co.bohc.diet.domain.common.utils.TimeUtils;
 import co.bohc.diet.domain.model.Accessory;
 import co.bohc.diet.domain.model.Model;
 import co.bohc.diet.domain.model.Part;
@@ -66,9 +68,9 @@ public class AccessoryServiceImpl implements AccessoryService {
     @Inject
     private StyleRepository styleRepository;
 
-    private static String indexpath = "C:\\luceneIndex";
+    private static String indexpath = "D:\\luceneIndex";
 
-    private static String rootPath = "C:\\project\\czxsxt\\html\\image\\img\\zp";
+    private static String rootPath = "E:\\project\\czxsxt\\html\\image\\img\\zp";
 
     private static String photoUpload = "C:\\fileUpload";
 
@@ -361,11 +363,15 @@ public class AccessoryServiceImpl implements AccessoryService {
         String[] photos = upLoadFile.list();
         Integer photoLibNum = photoLib.length;
         Document doc = null;
+        Accessory accessory = null;
+        Date date = new Date();
         for (int i = 0; i < photos.length; i++) {
+            accessory = new Accessory();
             String photoName = copyFile(photos[i].toString());
             doc = new Document();
             doc.add(new Field("fileName", photoName, TextField.TYPE_STORED));
             doc.add(new Field("photoId", AddZeroUtil.addZero(photoLibNum + i, 7), TextField.TYPE_STORED));
+            doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
             doc.add(new Field("photoPath", "image/img/zp/" + photos[i].toString(), TextField.TYPE_STORED));
             try {
                 iWriter.addDocument(doc);
@@ -373,6 +379,21 @@ public class AccessoryServiceImpl implements AccessoryService {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+            accessory.setAccessoryName(photoName);
+            accessory.setCreDt(date);
+            accessory.setAccessoryImg(rootPath + "\\" + photoName + "\\." + photos[i].toString().split("\\.")[1]);
+            accessory.setAccessoryNum(AddZeroUtil.addZero(photoLibNum + i, 7));
+            accessory.setLevel("1");
+            Model model = new Model();
+            model.setModelId(1);
+            accessory.setModel(model);
+            Part part = new Part();
+            part.setPartId(3);
+            accessory.setPart(part);
+            Style style = new Style();
+            style.setStyleId(1);
+            accessory.setStyle(style);
+            accessoryRepository.save(accessory);
         }
         try {
             iWriter.close();
@@ -438,5 +459,72 @@ public class AccessoryServiceImpl implements AccessoryService {
         os.flush();
         is.close();
         os.close();
+    }
+
+    @Override
+    public List<LuceneOutput> searchByLuceneDate(String key) {
+        Analyzer analyzer = new StandardAnalyzer();
+        Directory directory;
+        DirectoryReader iReader = null;
+        try {
+            directory = FSDirectory.open(Paths.get(indexpath));
+            iReader = DirectoryReader.open(directory);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        IndexSearcher iSearcher = new IndexSearcher(iReader);
+        QueryParser parser = new QueryParser("creDt", analyzer);
+        Query query = null;
+        Integer count = null;
+        TopDocs docs = null;
+        try {
+            query = parser.parse(key);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            count = iSearcher.count(query);
+            docs = iSearcher.search(query, count);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        ScoreDoc[] hits = docs.scoreDocs;
+        // docs = iSearcher.searchAfter(hits[hits.length - 1], query, 2);
+        // hits = docs.scoreDocs;
+        System.out.println(count);
+        System.out.println(hits.length);
+        List<LuceneOutput> luceneOutputs = new ArrayList<LuceneOutput>();
+        LuceneOutput luceneOutput = null;
+        for (int i = 0; i < hits.length; i++) {
+            Document hitDoc = null;
+            String[] scoreExplain = null;
+            try {
+                hitDoc = iSearcher.doc(hits[i].doc);
+                scoreExplain = iSearcher.explain(query, hits[i].doc).toString().split(" ", 2);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            String scores = scoreExplain[0];
+            // assertEquals("Thisis the text to be indexed.",
+            // hitDoc.get("fieldname"));
+            System.out.println("score:" + scores);
+            String value = hitDoc.get("fileName");
+            String id = hitDoc.get("photoId");
+            String photoPath = hitDoc.get("photoPath");
+            String creDt = hitDoc.get("creDt");
+            luceneOutput = new LuceneOutput(value, id, photoPath, creDt);
+            luceneOutputs.add(luceneOutput);
+            // TokenStream tokenStream = analyzer.tokenStream(value, new
+            // StringReader(value));
+            // String str1 = highlighter.getBestFragment(tokenStream, value);
+
+            System.out.println(value);
+            System.out.println(id);
+        }
+        return luceneOutputs;
     }
 }
