@@ -4,12 +4,14 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.nio.file.Paths;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +44,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 import co.bohc.diet.domain.common.utils.AddZeroUtil;
 import co.bohc.diet.domain.common.utils.TimeUtils;
 import co.bohc.diet.domain.model.Accessory;
@@ -74,135 +77,122 @@ public class AccessoryServiceImpl implements AccessoryService {
 
     private static String photoUpload = "C:\\fileUpload";
 
-    @Override
-    public List<Accessory> findByModelStylePart(String modelName, String styleName, String partName) {
-        List<Accessory> accessories = accessoryRepository.findByModelStylePart(modelName, styleName, partName);
-        for (int i = 0; i < accessories.size(); i++) {
-            accessories.get(i).setModel(null);
-            accessories.get(i).setPart(null);
-            accessories.get(i).setStyle(null);
-        }
-        return accessories;
-    }
+    private static String photoUpload_A = "C:\\A_class";
+
+//    @Override
+//    public List<Accessory> findByModelStylePart(String modelName, String styleName, String partName) {
+//        List<Accessory> accessories = accessoryRepository.findByModelStylePart(modelName, styleName, partName);
+//        return accessories;
+//    }
 
     @Override
     public List<Accessory> findByCreDt() {
         List<Accessory> accessories = accessoryRepository.findByCreDt();
-        for (int i = 0; i < accessories.size(); i++) {
-            accessories.get(i).setModel(null);
-            accessories.get(i).setPart(null);
-            accessories.get(i).setStyle(null);
-        }
         return accessories;
     }
 
-    @Override
-    public void saveAccessory(String level, Integer modelId, Integer styleId, Integer partId, String imgDataUrl) {
-        String accessoryImg = generateImage(modelId, styleId, partId, imgDataUrl);
-        Model model = modelRepository.findOne(modelId);
-        Style style = styleRepository.findOne(styleId);
-        Part part = partRepository.findOne(partId);
-        String accessoryName = model.getBrand().getBrandName() + " " + model.getModelName() + " "
-                + style.getStyleName() + " " + part.getPartName();
-        Accessory accessory = new Accessory();
-        accessory.setAccessoryImg(accessoryImg);
-        accessory.setAccessoryName(accessoryName);
-        accessory.setAccessoryNum(getImgName(modelId, styleId, partId));
-        accessory.setCreDt(new Date());
-        accessory.setModel(model);
-        accessory.setPart(part);
-        accessory.setStyle(style);
-        accessory.setLevel(level);
-        accessoryRepository.save(accessory);
+//    @Override
+//    public void saveAccessory(String level, Integer modelId, Integer styleId, Integer partId, String imgDataUrl) {
+//        String accessoryImg = generateImage(modelId, styleId, partId, imgDataUrl);
+//        Model model = modelRepository.findOne(modelId);
+//        Style style = styleRepository.findOne(styleId);
+//        Part part = partRepository.findOne(partId);
+//        String accessoryName = model.getBrand().getBrandName() + " " + model.getModelName() + " "
+//                + style.getStyleName() + " " + part.getPartName();
+//        Accessory accessory = new Accessory();
+//        accessory.setAccessoryImg(accessoryImg);
+//        accessory.setAccessoryName(accessoryName);
+//        accessory.setAccessoryNum(getImgName(modelId, styleId, partId));
+//        accessory.setCreDt(new Date());
+////        accessory.setModel(model);
+////        accessory.setPart(part);
+////        accessory.setStyle(style);
+//        accessory.setLevel(level);
+//        accessoryRepository.save(accessory);
+//
+//    }
 
-    }
+//    public String generateImage(Integer modelId, Integer styleId, Integer partId, String imgDataUrl) { // 对字节数组字符串进行Base64解码并生成图片
+//        String modelIdStr = String.valueOf(modelId);
+//        String styleIdStr = String.valueOf(styleId);
+//        String partIdStr = String.valueOf(partId);
+//        if (imgDataUrl == null) // 图像数据为空
+//            return null;
+//        BASE64Decoder decoder = new BASE64Decoder();
+//        imgDataUrl = imgDataUrl.split(",")[1];
+//        try {
+//            // Base64解码
+//            byte[] b = decoder.decodeBuffer(imgDataUrl);
+//            // for(int i=0;i<b.length;++i)
+//            // {
+//            // if(b[i]<0)
+//            // {//调整异常数据
+//            // b[i]+=256;
+//            // }
+//            // }
+//            // 生成jpeg图片
+//            String imgName = "image/img/" + modelIdStr + "/" + styleIdStr + "/" + partIdStr + "/"
+//                    + getImgName(modelId, styleId, partId) + ".jpg";
+//            File pageElementFileDir = new File("c://project//czxsxt//html//image//img//" + modelIdStr + "//"
+//                    + styleIdStr + "//" + partIdStr);
+//            if (!pageElementFileDir.exists()) {
+//                pageElementFileDir.mkdirs();
+//            }
+//            String imgFilePath = "c://project//czxsxt//html//image//img//" + modelIdStr + "//" + styleIdStr + "//"
+//                    + partIdStr + "//" + getImgName(modelId, styleId, partId) + ".jpg";// 新生成的图片
+//            OutputStream out = new FileOutputStream(imgFilePath);
+//            out.write(b);
+//            out.flush();
+//            out.close();
+//            return imgName;
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
 
-    public String generateImage(Integer modelId, Integer styleId, Integer partId, String imgDataUrl) { // 对字节数组字符串进行Base64解码并生成图片
-        String modelIdStr = String.valueOf(modelId);
-        String styleIdStr = String.valueOf(styleId);
-        String partIdStr = String.valueOf(partId);
-        if (imgDataUrl == null) // 图像数据为空
-            return null;
-        BASE64Decoder decoder = new BASE64Decoder();
-        imgDataUrl = imgDataUrl.split(",")[1];
-        try {
-            // Base64解码
-            byte[] b = decoder.decodeBuffer(imgDataUrl);
-            // for(int i=0;i<b.length;++i)
-            // {
-            // if(b[i]<0)
-            // {//调整异常数据
-            // b[i]+=256;
-            // }
-            // }
-            // 生成jpeg图片
-            String imgName = "image/img/" + modelIdStr + "/" + styleIdStr + "/" + partIdStr + "/"
-                    + getImgName(modelId, styleId, partId) + ".jpg";
-            File pageElementFileDir = new File("c://project//czxsxt//html//image//img//" + modelIdStr + "//"
-                    + styleIdStr + "//" + partIdStr);
-            if (!pageElementFileDir.exists()) {
-                pageElementFileDir.mkdirs();
-            }
-            String imgFilePath = "c://project//czxsxt//html//image//img//" + modelIdStr + "//" + styleIdStr + "//"
-                    + partIdStr + "//" + getImgName(modelId, styleId, partId) + ".jpg";// 新生成的图片
-            OutputStream out = new FileOutputStream(imgFilePath);
-            out.write(b);
-            out.flush();
-            out.close();
-            return imgName;
-        } catch (Exception e) {
-            return null;
-        }
-    }
+//    private String getImgName(Integer modelId, Integer styleId, Integer partId) {
+//        Integer count = accessoryRepository.findCountByMSP(modelId, styleId, partId);
+//        if (count == null) {
+//            count = 0;
+//        } else {
+//            count = count + 1;
+//        }
+//        String modelIdStr = String.valueOf(modelId);
+//        String styleIdStr = String.valueOf(styleId);
+//        String partIdStr = String.valueOf(partId);
+//        String countNumStr = String.valueOf(count);
+//        if (modelIdStr.length() == 1) {
+//            modelIdStr = "00" + modelIdStr;
+//        } else if (modelIdStr.length() == 2) {
+//            modelIdStr = "0" + modelIdStr;
+//        }
+//        if (styleIdStr.length() == 1) {
+//            styleIdStr = "0" + styleIdStr;
+//            // } else if (styleIdStr.length() == 2) {
+//            // styleIdStr = "0" + styleIdStr;
+//        }
+//        if (partIdStr.length() == 1) {
+//            partIdStr = "00" + partIdStr;
+//        } else if (partIdStr.length() == 2) {
+//            partIdStr = "0" + partIdStr;
+//        }
+//        Integer zeroNum = 5 - countNumStr.length();
+//        for (int i = 0; i < zeroNum; i++) {
+//            countNumStr = "0" + countNumStr;
+//        }
+//        return modelIdStr + styleIdStr + partIdStr + countNumStr;
+//    }
 
-    private String getImgName(Integer modelId, Integer styleId, Integer partId) {
-        Integer count = accessoryRepository.findCountByMSP(modelId, styleId, partId);
-        if (count == null) {
-            count = 0;
-        } else {
-            count = count + 1;
-        }
-        String modelIdStr = String.valueOf(modelId);
-        String styleIdStr = String.valueOf(styleId);
-        String partIdStr = String.valueOf(partId);
-        String countNumStr = String.valueOf(count);
-        if (modelIdStr.length() == 1) {
-            modelIdStr = "00" + modelIdStr;
-        } else if (modelIdStr.length() == 2) {
-            modelIdStr = "0" + modelIdStr;
-        }
-        if (styleIdStr.length() == 1) {
-            styleIdStr = "0" + styleIdStr;
-            // } else if (styleIdStr.length() == 2) {
-            // styleIdStr = "0" + styleIdStr;
-        }
-        if (partIdStr.length() == 1) {
-            partIdStr = "00" + partIdStr;
-        } else if (partIdStr.length() == 2) {
-            partIdStr = "0" + partIdStr;
-        }
-        Integer zeroNum = 5 - countNumStr.length();
-        for (int i = 0; i < zeroNum; i++) {
-            countNumStr = "0" + countNumStr;
-        }
-        return modelIdStr + styleIdStr + partIdStr + countNumStr;
-    }
-
-    @Override
-    public Page<Accessory> findByBrandId(Integer brandId, Pageable pageable) {
-        List<Accessory> accessories = accessoryRepository.findByBrandId(brandId, pageable);
-        Integer count = accessoryRepository.countByBrandId(brandId);
-        Page<Accessory> page = new PageImpl<Accessory>(accessories, pageable, count);
-        if (accessories == null) {
-            return null;
-        }
-        for (int i = 0; i < accessories.size(); i++) {
-            accessories.get(i).setModel(null);
-            accessories.get(i).setPart(null);
-            accessories.get(i).setStyle(null);
-        }
-        return page;
-    }
+//    @Override
+//    public Page<Accessory> findByBrandId(Integer brandId, Pageable pageable) {
+//        List<Accessory> accessories = accessoryRepository.findByBrandId(brandId, pageable);
+//        Integer count = accessoryRepository.countByBrandId(brandId);
+//        Page<Accessory> page = new PageImpl<Accessory>(accessories, pageable, count);
+//        if (accessories == null) {
+//            return null;
+//        }
+//        return page;
+//    }
 
     @Override
     public Page<Accessory> findByParam(AccessorySearchPar accessorySearchPar, Pageable pageable) {
@@ -216,38 +206,28 @@ public class AccessoryServiceImpl implements AccessoryService {
         return accessoryRepository.findByParamSale(accessorySearchPar);
     }
 
-    @Override
-    public List<Accessory> findByBrandIdSale(Integer brandId) {
-        List<Accessory> accessories = null;
-        if (brandId == null) {
-            accessories = accessoryRepository.findByCreDtSale();
-        } else {
-            accessories = accessoryRepository.findByBrandIdAndSale(brandId);
-        }
-        if (accessories == null) {
-            return null;
-        }
-        for (int i = 0; i < accessories.size(); i++) {
-            accessories.get(i).setModel(null);
-            accessories.get(i).setPart(null);
-            accessories.get(i).setStyle(null);
-        }
-        return accessories;
-    }
+//    @Override
+//    public List<Accessory> findByBrandIdSale(Integer brandId) {
+//        List<Accessory> accessories = null;
+//        if (brandId == null) {
+//            accessories = accessoryRepository.findByCreDtSale();
+//        } else {
+//            accessories = accessoryRepository.findByBrandIdAndSale(brandId);
+//        }
+//        if (accessories == null) {
+//            return null;
+//        }
+//        return accessories;
+//    }
 
-    @Override
-    public List<Accessory> findByBrandIdAndSale(Integer brandId) {
-        List<Accessory> accessories = accessoryRepository.findByBrandIdAndSale(brandId);
-        if (accessories == null) {
-            return null;
-        }
-        for (int i = 0; i < accessories.size(); i++) {
-            accessories.get(i).setModel(null);
-            accessories.get(i).setPart(null);
-            accessories.get(i).setStyle(null);
-        }
-        return accessories;
-    }
+//    @Override
+//    public List<Accessory> findByBrandIdAndSale(Integer brandId) {
+//        List<Accessory> accessories = accessoryRepository.findByBrandIdAndSale(brandId);
+//        if (accessories == null) {
+//            return null;
+//        }
+//        return accessories;
+//    }
 
     @Override
     @Transactional
@@ -384,15 +364,9 @@ public class AccessoryServiceImpl implements AccessoryService {
             accessory.setAccessoryImg(rootPath + "\\" + photoName + "\\." + photos[i].toString().split("\\.")[1]);
             accessory.setAccessoryNum(AddZeroUtil.addZero(photoLibNum + i, 7));
             accessory.setLevel("1");
-            Model model = new Model();
-            model.setModelId(1);
-            accessory.setModel(model);
-            Part part = new Part();
-            part.setPartId(3);
-            accessory.setPart(part);
-            Style style = new Style();
-            style.setStyleId(1);
-            accessory.setStyle(style);
+            accessory.setModelId(1);
+            accessory.setPartId(1);
+            accessory.setStyleId(1);
             accessoryRepository.save(accessory);
         }
         try {
@@ -526,5 +500,103 @@ public class AccessoryServiceImpl implements AccessoryService {
             System.out.println(id);
         }
         return luceneOutputs;
+    }
+
+    @Override
+    public List<Accessory> findByDate(String dateStr) {
+        Date date = TimeUtils.strToDate(dateStr);
+        Date fromDt = TimeUtils.getStartTimeOfDay(date);
+        Date toDt = TimeUtils.getEndTimeOfDay(date);
+        List<Accessory> list = accessoryRepository.findByDate(fromDt, toDt);
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setModelId(null);
+            list.get(i).setPartId(null);
+            list.get(i).setStyleId(null);
+            list.get(i).setAccessoryImg(GetImageStr(list.get(i).getAccessoryImg()));
+        }
+        return list;
+    }
+
+    @Override
+    @Transactional
+    public void savePictureToA() {
+        File photoUploadFile = new File(photoUpload);
+        String[] fileNames = photoUploadFile.list();
+        File fromPhoto = null;
+        File toPhoto = null;
+        Date date = new Date();
+        Date fromDt = TimeUtils.getStartTimeOfMonth(date);
+        Date toDt = TimeUtils.getEndTimeOfMonth(date);
+        Integer s = accessoryRepository.countByMonth(fromDt, toDt);
+        for (int i = 0; i < fileNames.length; i++) {
+            fromPhoto = new File(photoUpload + "\\" + fileNames[i]);
+            toPhoto = new File(photoUpload_A + "\\" + fileNames[i]);
+            int l = 1;
+            String fileName = fileNames[i];
+            while (toPhoto.exists()) {
+                fileName = fileNames[i].split("\\.")[0] + "_" + l + "." + fileNames[i].split("\\.")[1];
+                toPhoto = new File(photoUpload_A + "\\" + fileName);
+                l++;
+            }
+            try {
+                toPhoto.createNewFile();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            OutputStream fs;
+            InputStream inStream;
+            try {
+                inStream = new FileInputStream(fromPhoto); // 读入原文件
+                fs = new FileOutputStream(toPhoto);
+                resizeImage(inStream, fs, 900, "JPG");
+                inStream.close();
+                fromPhoto.delete();
+                Accessory accessory = new Accessory();
+                accessory.setAccessoryName(fileName.split("\\.")[0]);
+                accessory.setCreDt(date);
+                accessory.setAccessoryImg(photoUpload_A + "\\" + fileName);
+                accessory.setAccessoryNum(AddZeroUtil.addZero(s + i + 1, 8));
+                accessory.setLevel("1");
+                accessory.setModelId(1);
+                accessory.setPartId(1);
+                accessory.setStyleId(1);
+                accessoryRepository.save(accessory);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            // byte[] buffer = new byte[1024 * 10];
+            // int length;
+            // while ((byteread = inStream.read(buffer)) != -1) {
+            // bytesum += byteread; // 字节数 文件大小
+            // System.out.println(bytesum);
+            // fs.write(buffer, 0, byteread);
+            // }
+        }
+    }
+
+    public String GetImageStr(String imgFile) {// 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
+        InputStream in = null;
+        byte[] data = null;
+        // 读取图片字节数组
+        try {
+            in = new FileInputStream(imgFile);
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 对字节数组Base64编码
+        BASE64Encoder encoder = new BASE64Encoder();
+        return encoder.encode(data);// 返回Base64编码过的字节数组字符串
+    }
+
+    @Override
+    public Accessory findByNum(String accessoryNum) {
+        Accessory accessory = accessoryRepository.findByNum(accessoryNum);
+        accessory.setAccessoryImg(GetImageStr(accessory.getAccessoryImg()));
+        return accessory;
     }
 }

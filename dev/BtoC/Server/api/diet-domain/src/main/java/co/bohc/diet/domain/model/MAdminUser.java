@@ -1,19 +1,14 @@
 package co.bohc.diet.domain.model;
 
-// Generated 2015-4-17 18:10:39 by Hibernate Tools 3.2.2.GA
+// Generated 2015-7-30 16:51:08 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,9 +21,6 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "m_admin_user", schema = "dbo", uniqueConstraints = @UniqueConstraint(columnNames = "login_id"))
 public class MAdminUser implements java.io.Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
     private Integer adminUserId;
     private String password;
@@ -41,7 +33,6 @@ public class MAdminUser implements java.io.Serializable {
     private Integer creUserId;
     private Integer updUserId;
     private Integer delFlg;
-    private Set<TUser> TUsers = new HashSet<TUser>(0);
 
     public MAdminUser() {
     }
@@ -60,8 +51,7 @@ public class MAdminUser implements java.io.Serializable {
     }
 
     public MAdminUser(Integer adminUserId, String password, String adminRoleKbn, String loginId, String adminUserName,
-            String adminUserPhoto, Date creDt, Date updDt, Integer creUserId, Integer updUserId, Integer delFlg,
-            Set<TUser> TUsers) {
+            String adminUserPhoto, Date creDt, Date updDt, Integer creUserId, Integer updUserId, Integer delFlg) {
         this.adminUserId = adminUserId;
         this.password = password;
         this.adminRoleKbn = adminRoleKbn;
@@ -73,7 +63,6 @@ public class MAdminUser implements java.io.Serializable {
         this.creUserId = creUserId;
         this.updUserId = updUserId;
         this.delFlg = delFlg;
-        this.TUsers = TUsers;
     }
 
     @Id
@@ -177,15 +166,6 @@ public class MAdminUser implements java.io.Serializable {
 
     public void setDelFlg(Integer delFlg) {
         this.delFlg = delFlg;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "MAdminUser")
-    public Set<TUser> getTUsers() {
-        return this.TUsers;
-    }
-
-    public void setTUsers(Set<TUser> TUsers) {
-        this.TUsers = TUsers;
     }
 
 }

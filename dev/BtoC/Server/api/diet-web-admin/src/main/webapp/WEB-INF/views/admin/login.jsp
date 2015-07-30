@@ -21,7 +21,7 @@
 		</div>
 		<div style="height: 30px"></div>
 		<div class="page-body" id="imgForm-list">
-			<form action="login" method="post">
+			<form action="logina" method="post">
 				用户名：<input type="text" name="username" id="username" /> 密码：<input
 					type="password" name="password" id="password" />
 				<button value="登录" onclick="login();">登录</button>

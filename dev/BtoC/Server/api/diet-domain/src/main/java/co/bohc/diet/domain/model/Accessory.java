@@ -1,17 +1,14 @@
 package co.bohc.diet.domain.model;
 
-// Generated 2015-7-14 14:40:23 by Hibernate Tools 3.2.2.GA
+// Generated 2015-7-30 16:51:08 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,9 +22,6 @@ public class Accessory implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer accessoryId;
-    private Style style;
-    private Part part;
-    private Model model;
     private String accessoryName;
     private String accessoryImg;
     private String level;
@@ -35,28 +29,24 @@ public class Accessory implements java.io.Serializable {
     private Date creDt;
     private Date saleDt;
     private Double saleMoney;
+    private Integer partId;
+    private Integer styleId;
+    private Integer modelId;
 
     public Accessory() {
     }
 
-    public Accessory(Integer accessoryId, Style style, Part part, Model model, String accessoryName,
-            String accessoryImg, String accessoryNum, Date creDt) {
+    public Accessory(Integer accessoryId, String accessoryName, String accessoryImg, String accessoryNum, Date creDt) {
         this.accessoryId = accessoryId;
-        this.style = style;
-        this.part = part;
-        this.model = model;
         this.accessoryName = accessoryName;
         this.accessoryImg = accessoryImg;
         this.accessoryNum = accessoryNum;
         this.creDt = creDt;
     }
 
-    public Accessory(Integer accessoryId, Style style, Part part, Model model, String accessoryName,
-            String accessoryImg, String level, String accessoryNum, Date creDt, Date saleDt, Double saleMoney) {
+    public Accessory(Integer accessoryId, String accessoryName, String accessoryImg, String level, String accessoryNum,
+            Date creDt, Date saleDt, Double saleMoney, Integer partId, Integer styleId, Integer modelId) {
         this.accessoryId = accessoryId;
-        this.style = style;
-        this.part = part;
-        this.model = model;
         this.accessoryName = accessoryName;
         this.accessoryImg = accessoryImg;
         this.level = level;
@@ -64,6 +54,9 @@ public class Accessory implements java.io.Serializable {
         this.creDt = creDt;
         this.saleDt = saleDt;
         this.saleMoney = saleMoney;
+        this.partId = partId;
+        this.styleId = styleId;
+        this.modelId = modelId;
     }
 
     @Id
@@ -75,36 +68,6 @@ public class Accessory implements java.io.Serializable {
 
     public void setAccessoryId(Integer accessoryId) {
         this.accessoryId = accessoryId;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "style_id", nullable = false)
-    public Style getStyle() {
-        return this.style;
-    }
-
-    public void setStyle(Style style) {
-        this.style = style;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "part_id", nullable = false)
-    public Part getPart() {
-        return this.part;
-    }
-
-    public void setPart(Part part) {
-        this.part = part;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "model_id", nullable = false)
-    public Model getModel() {
-        return this.model;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
     }
 
     @Column(name = "accessory_name", nullable = false, length = 256)
@@ -170,6 +133,33 @@ public class Accessory implements java.io.Serializable {
 
     public void setSaleMoney(Double saleMoney) {
         this.saleMoney = saleMoney;
+    }
+
+    @Column(name = "part_id")
+    public Integer getPartId() {
+        return this.partId;
+    }
+
+    public void setPartId(Integer partId) {
+        this.partId = partId;
+    }
+
+    @Column(name = "style_id")
+    public Integer getStyleId() {
+        return this.styleId;
+    }
+
+    public void setStyleId(Integer styleId) {
+        this.styleId = styleId;
+    }
+
+    @Column(name = "model_id")
+    public Integer getModelId() {
+        return this.modelId;
+    }
+
+    public void setModelId(Integer modelId) {
+        this.modelId = modelId;
     }
 
 }

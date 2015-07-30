@@ -1,17 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <script src="../resources/app/jsuser/jquery.min.js"></script>
-<script type="text/javascript"
-	src="../resources/app/plupload/plupload.full.min.js"></script>
-<script type="text/javascript"
-	src="../resources/app/plupload/jquery.ui.plupload/jquery.ui.plupload.js"></script>
-<script type="text/javascript"
-	src="../resources/app/plupload/i18n/zh_CN.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="../resources/app/admin/style.css" />
 <script type="text/javascript" src="../resources/app/adminjs/listAcc.js"></script>
@@ -56,25 +50,40 @@
 		<div class="page-body">
 
 			<div class="search-result">
-				<div class="result-title">
-				</div>
+				<div class="result-title"></div>
 				<div class="img-list" id="accessory-list">
-					<h1>配件照片上传</h1>
+					<img
+						style="display: block; width: 500px; float: left; margin-left: 15%;"
+						src="image/part-img/100000.jpg" />
 
-					<p>友情提示：一次可以上传多张照片，所有照片上传进度为100%后，才能关闭浏览器</p>
-
-					<div id="filelist">Your browser doesn't have Flash,
-						Silverlight or HTML5 support.</div>
-					<br />
-
-					<div id="container">
-						<a id="pickfiles" href="javascript:;">[选择照片]</a> <a
-							id="uploadfiles" href="javascript:;">[上传照片]</a> <a id="copyfiles"
-							href="javascript:;" onclick="finishUpload();">[复制照片到A库]</a>
+					<div style="float: left; margin-left: 100px; margin-top: 10%;">
+						<table style="font-size: 20px;">
+							<tr>
+								<td>配件名称：</td>
+								<td>${accessory.accessoryName}</td>
+							</tr>
+							<tr>
+								<td>库房：</td>
+								<td><select>
+										<option>A库房</option>
+										<option>B库房</option>
+										<option>销售库房</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td>维修状态：</td>
+								<td><select>
+										<option>未维修</option>
+										<option>维修中</option>
+										<option>已维修</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td><input type="button" value="提交修改" /></td>
+								<td><input type="button" value="返回"></td>
+							</tr>
+						</table>
 					</div>
-
-					<br />
-					<pre id="console"></pre>
 				</div>
 			</div>
 		</div>

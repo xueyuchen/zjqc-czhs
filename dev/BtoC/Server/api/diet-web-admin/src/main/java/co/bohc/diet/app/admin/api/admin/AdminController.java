@@ -3,7 +3,9 @@ package co.bohc.diet.app.admin.api.admin;
 import java.io.IOException;
 
 import javax.inject.Inject;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -20,40 +22,36 @@ public class AdminController {
     @Inject
     private AdminService adminService;
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
-    public void login(String username, String password, HttpServletResponse resp) {
+    @RequestMapping(value = "logina", method = RequestMethod.POST)
+    public String login(String username, String password, HttpServletResponse resp, HttpServletRequest req) {
         Integer rol = adminService.checkUserName(username, password);
         if (rol == -1) {
-            try {
-                resp.sendRedirect("login");
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        } else if(rol == 1){
+            return "admin/login";
+        } else if (rol == 1) {
             try {
                 resp.sendRedirect("upload");
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        }else{
-            try {
-                resp.sendRedirect("upload");
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        } else {
+            return "admin/upload";
         }
+        return password;
     }
-    
+
     @RequestMapping(value = "admin", method = RequestMethod.GET)
-    public String toAdmin(){
-        return "admin/admin";
+    public String toAdmin() {
+        return "admin/upload";
+    }
+
+    @RequestMapping(value = "tologin", method = RequestMethod.GET)
+    public String tologin() {
+        return "admin/login";
     }
     
-    @RequestMapping(value = "tologin", method = RequestMethod.GET)
-    public String tologin(){
-        return "admin/login";
+    @RequestMapping(value = "changes", method = RequestMethod.GET)
+    public String toChange() {
+        return "admin/change";
     }
 }

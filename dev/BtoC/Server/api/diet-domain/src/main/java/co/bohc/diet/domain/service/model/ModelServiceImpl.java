@@ -21,7 +21,7 @@ public class ModelServiceImpl implements ModelService {
     public List<Model> findByBrandId(Integer brandId) {
         List<Model> models = modelRepository.findAllBydelFlg(brandId);
         for(int i = 0; i<models.size(); i++){
-            models.get(i).setAccessories(null);
+//            models.get(i).setAccessories(null);
             models.get(i).setModelStyles(null);
             models.get(i).setBrand(null);
         }
