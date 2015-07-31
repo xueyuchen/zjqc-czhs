@@ -124,6 +124,9 @@
 												onchange="showWorker()">
 													<option value="1">西南</option>
 													<option value="2">西北</option>
+													<option value="3">东南</option>
+													<option value="4">东北</option>
+													<option value="5">大案</option>
 											</select></td>
 										</tr>
 										<tr>

@@ -36,6 +36,14 @@ function countPaper(pageIndex) {
 							data.content[i].local = '西南';
 						} else if (data.content[i].local == '2') {
 							data.content[i].local = '西北';
+						} else if (data.content[i].local == '3') {
+							data.content[i].local = '东南';
+						} else if (data.content[i].local == '4') {
+							data.content[i].local = '东北';
+						} else if (data.content[i].local == '0') {
+							data.content[i].local = '本部';
+						} else if (data.content[i].local == '5') {
+							data.content[i].local = '大案';
 						}
 						html += "<tr><td>" + data.content[i].entryDt + "</td><td>"
 								+ data.content[i].paperCode + "</td><td>"
@@ -72,6 +80,14 @@ function countPaper(pageIndex) {
 							data.content[i].local = '西南';
 						} else if (data.content[i].local == '2') {
 							data.content[i].local = '西北';
+						} else if (data.content[i].local == '3') {
+							data.content[i].local = '东南';
+						} else if (data.content[i].local == '4') {
+							data.content[i].local = '东北';
+						} else if (data.content[i].local == '0') {
+							data.content[i].local = '本部';
+						} else if (data.content[i].local == '5') {
+							data.content[i].local = '大案';
 						}
 						html += "<tr><td>" + data.content[i].local + "</td><td>"
 								+ data.content[i].workerName + "</td><td>"

@@ -163,6 +163,9 @@ table.gridtable td {
 													<option value="0">本部</option>
 													<option value="1">西南</option>
 													<option value="2">西北</option>
+													<option value="3">东南</option>
+													<option value="4">东北</option>
+													<option value="5">大案</option>
 											</select></td>
 											<td>锁定定损员查询：</td>
 											<td><input type="text" id="workerName"></td>
