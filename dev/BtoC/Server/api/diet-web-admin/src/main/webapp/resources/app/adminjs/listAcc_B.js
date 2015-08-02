@@ -140,9 +140,9 @@ function searchByLuceneB() {
 						+ pageable.firstPage,
 				type : "get",
 				success : function(data) {
-					if (data.totalElements > 30 * page) {
+					if (data.totalElements > 30 * data.page) {
 						pageable.hasNextPage = true;
-						pageable.nextPage = page;
+						pageable.nextPage = data.page;
 					} else {
 						pageable.hasNextPage = false;
 					}
@@ -188,7 +188,7 @@ $(window)
 							$.callBack = false;
 							$
 									.ajax({
-										url : constants.searchByLuceneA
+										url : constants.searchByLuceneB
 												+ "?key=" + key + "&page="
 												+ pageable.nextPage,
 										type : "get",

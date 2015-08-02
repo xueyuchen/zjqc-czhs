@@ -71,19 +71,25 @@ public class AccessoryServiceImpl implements AccessoryService {
     @Inject
     private StyleRepository styleRepository;
 
-    private static String indexpath = "D:\\luceneIndex";
+    private static String indexpath = "C:\\luceneIndex";
 
-    private static String rootPath = "E:\\project\\czxsxt\\html\\image\\img\\zp";
+    private static String indexpathA = "C:\\luceneIndexA";
+
+    private static String rootPath = "C:\\project\\czxsxt\\html\\image\\img\\zp";
 
     private static String photoUpload = "C:\\fileUpload";
 
+    private static String photoUpload_B = "C:\\fileUploadB";
+
     private static String photoUpload_A = "C:\\A_class";
 
-//    @Override
-//    public List<Accessory> findByModelStylePart(String modelName, String styleName, String partName) {
-//        List<Accessory> accessories = accessoryRepository.findByModelStylePart(modelName, styleName, partName);
-//        return accessories;
-//    }
+    // @Override
+    // public List<Accessory> findByModelStylePart(String modelName, String
+    // styleName, String partName) {
+    // List<Accessory> accessories =
+    // accessoryRepository.findByModelStylePart(modelName, styleName, partName);
+    // return accessories;
+    // }
 
     @Override
     public List<Accessory> findByCreDt() {
@@ -91,108 +97,121 @@ public class AccessoryServiceImpl implements AccessoryService {
         return accessories;
     }
 
-//    @Override
-//    public void saveAccessory(String level, Integer modelId, Integer styleId, Integer partId, String imgDataUrl) {
-//        String accessoryImg = generateImage(modelId, styleId, partId, imgDataUrl);
-//        Model model = modelRepository.findOne(modelId);
-//        Style style = styleRepository.findOne(styleId);
-//        Part part = partRepository.findOne(partId);
-//        String accessoryName = model.getBrand().getBrandName() + " " + model.getModelName() + " "
-//                + style.getStyleName() + " " + part.getPartName();
-//        Accessory accessory = new Accessory();
-//        accessory.setAccessoryImg(accessoryImg);
-//        accessory.setAccessoryName(accessoryName);
-//        accessory.setAccessoryNum(getImgName(modelId, styleId, partId));
-//        accessory.setCreDt(new Date());
-////        accessory.setModel(model);
-////        accessory.setPart(part);
-////        accessory.setStyle(style);
-//        accessory.setLevel(level);
-//        accessoryRepository.save(accessory);
-//
-//    }
+    // @Override
+    // public void saveAccessory(String level, Integer modelId, Integer styleId,
+    // Integer partId, String imgDataUrl) {
+    // String accessoryImg = generateImage(modelId, styleId, partId,
+    // imgDataUrl);
+    // Model model = modelRepository.findOne(modelId);
+    // Style style = styleRepository.findOne(styleId);
+    // Part part = partRepository.findOne(partId);
+    // String accessoryName = model.getBrand().getBrandName() + " " +
+    // model.getModelName() + " "
+    // + style.getStyleName() + " " + part.getPartName();
+    // Accessory accessory = new Accessory();
+    // accessory.setAccessoryImg(accessoryImg);
+    // accessory.setAccessoryName(accessoryName);
+    // accessory.setAccessoryNum(getImgName(modelId, styleId, partId));
+    // accessory.setCreDt(new Date());
+    // // accessory.setModel(model);
+    // // accessory.setPart(part);
+    // // accessory.setStyle(style);
+    // accessory.setLevel(level);
+    // accessoryRepository.save(accessory);
+    //
+    // }
 
-//    public String generateImage(Integer modelId, Integer styleId, Integer partId, String imgDataUrl) { // 对字节数组字符串进行Base64解码并生成图片
-//        String modelIdStr = String.valueOf(modelId);
-//        String styleIdStr = String.valueOf(styleId);
-//        String partIdStr = String.valueOf(partId);
-//        if (imgDataUrl == null) // 图像数据为空
-//            return null;
-//        BASE64Decoder decoder = new BASE64Decoder();
-//        imgDataUrl = imgDataUrl.split(",")[1];
-//        try {
-//            // Base64解码
-//            byte[] b = decoder.decodeBuffer(imgDataUrl);
-//            // for(int i=0;i<b.length;++i)
-//            // {
-//            // if(b[i]<0)
-//            // {//调整异常数据
-//            // b[i]+=256;
-//            // }
-//            // }
-//            // 生成jpeg图片
-//            String imgName = "image/img/" + modelIdStr + "/" + styleIdStr + "/" + partIdStr + "/"
-//                    + getImgName(modelId, styleId, partId) + ".jpg";
-//            File pageElementFileDir = new File("c://project//czxsxt//html//image//img//" + modelIdStr + "//"
-//                    + styleIdStr + "//" + partIdStr);
-//            if (!pageElementFileDir.exists()) {
-//                pageElementFileDir.mkdirs();
-//            }
-//            String imgFilePath = "c://project//czxsxt//html//image//img//" + modelIdStr + "//" + styleIdStr + "//"
-//                    + partIdStr + "//" + getImgName(modelId, styleId, partId) + ".jpg";// 新生成的图片
-//            OutputStream out = new FileOutputStream(imgFilePath);
-//            out.write(b);
-//            out.flush();
-//            out.close();
-//            return imgName;
-//        } catch (Exception e) {
-//            return null;
-//        }
-//    }
+    // public String generateImage(Integer modelId, Integer styleId, Integer
+    // partId, String imgDataUrl) { // 对字节数组字符串进行Base64解码并生成图片
+    // String modelIdStr = String.valueOf(modelId);
+    // String styleIdStr = String.valueOf(styleId);
+    // String partIdStr = String.valueOf(partId);
+    // if (imgDataUrl == null) // 图像数据为空
+    // return null;
+    // BASE64Decoder decoder = new BASE64Decoder();
+    // imgDataUrl = imgDataUrl.split(",")[1];
+    // try {
+    // // Base64解码
+    // byte[] b = decoder.decodeBuffer(imgDataUrl);
+    // // for(int i=0;i<b.length;++i)
+    // // {
+    // // if(b[i]<0)
+    // // {//调整异常数据
+    // // b[i]+=256;
+    // // }
+    // // }
+    // // 生成jpeg图片
+    // String imgName = "image/img/" + modelIdStr + "/" + styleIdStr + "/" +
+    // partIdStr + "/"
+    // + getImgName(modelId, styleId, partId) + ".jpg";
+    // File pageElementFileDir = new
+    // File("c://project//czxsxt//html//image//img//" + modelIdStr + "//"
+    // + styleIdStr + "//" + partIdStr);
+    // if (!pageElementFileDir.exists()) {
+    // pageElementFileDir.mkdirs();
+    // }
+    // String imgFilePath = "c://project//czxsxt//html//image//img//" +
+    // modelIdStr + "//" + styleIdStr + "//"
+    // + partIdStr + "//" + getImgName(modelId, styleId, partId) + ".jpg";//
+    // 新生成的图片
+    // OutputStream out = new FileOutputStream(imgFilePath);
+    // out.write(b);
+    // out.flush();
+    // out.close();
+    // return imgName;
+    // } catch (Exception e) {
+    // return null;
+    // }
+    // }
 
-//    private String getImgName(Integer modelId, Integer styleId, Integer partId) {
-//        Integer count = accessoryRepository.findCountByMSP(modelId, styleId, partId);
-//        if (count == null) {
-//            count = 0;
-//        } else {
-//            count = count + 1;
-//        }
-//        String modelIdStr = String.valueOf(modelId);
-//        String styleIdStr = String.valueOf(styleId);
-//        String partIdStr = String.valueOf(partId);
-//        String countNumStr = String.valueOf(count);
-//        if (modelIdStr.length() == 1) {
-//            modelIdStr = "00" + modelIdStr;
-//        } else if (modelIdStr.length() == 2) {
-//            modelIdStr = "0" + modelIdStr;
-//        }
-//        if (styleIdStr.length() == 1) {
-//            styleIdStr = "0" + styleIdStr;
-//            // } else if (styleIdStr.length() == 2) {
-//            // styleIdStr = "0" + styleIdStr;
-//        }
-//        if (partIdStr.length() == 1) {
-//            partIdStr = "00" + partIdStr;
-//        } else if (partIdStr.length() == 2) {
-//            partIdStr = "0" + partIdStr;
-//        }
-//        Integer zeroNum = 5 - countNumStr.length();
-//        for (int i = 0; i < zeroNum; i++) {
-//            countNumStr = "0" + countNumStr;
-//        }
-//        return modelIdStr + styleIdStr + partIdStr + countNumStr;
-//    }
+    // private String getImgName(Integer modelId, Integer styleId, Integer
+    // partId) {
+    // Integer count = accessoryRepository.findCountByMSP(modelId, styleId,
+    // partId);
+    // if (count == null) {
+    // count = 0;
+    // } else {
+    // count = count + 1;
+    // }
+    // String modelIdStr = String.valueOf(modelId);
+    // String styleIdStr = String.valueOf(styleId);
+    // String partIdStr = String.valueOf(partId);
+    // String countNumStr = String.valueOf(count);
+    // if (modelIdStr.length() == 1) {
+    // modelIdStr = "00" + modelIdStr;
+    // } else if (modelIdStr.length() == 2) {
+    // modelIdStr = "0" + modelIdStr;
+    // }
+    // if (styleIdStr.length() == 1) {
+    // styleIdStr = "0" + styleIdStr;
+    // // } else if (styleIdStr.length() == 2) {
+    // // styleIdStr = "0" + styleIdStr;
+    // }
+    // if (partIdStr.length() == 1) {
+    // partIdStr = "00" + partIdStr;
+    // } else if (partIdStr.length() == 2) {
+    // partIdStr = "0" + partIdStr;
+    // }
+    // Integer zeroNum = 5 - countNumStr.length();
+    // for (int i = 0; i < zeroNum; i++) {
+    // countNumStr = "0" + countNumStr;
+    // }
+    // return modelIdStr + styleIdStr + partIdStr + countNumStr;
+    // }
 
-//    @Override
-//    public Page<Accessory> findByBrandId(Integer brandId, Pageable pageable) {
-//        List<Accessory> accessories = accessoryRepository.findByBrandId(brandId, pageable);
-//        Integer count = accessoryRepository.countByBrandId(brandId);
-//        Page<Accessory> page = new PageImpl<Accessory>(accessories, pageable, count);
-//        if (accessories == null) {
-//            return null;
-//        }
-//        return page;
-//    }
+    // @Override
+    // public Page<Accessory> findByBrandId(Integer brandId, Pageable pageable)
+    // {
+    // List<Accessory> accessories = accessoryRepository.findByBrandId(brandId,
+    // pageable);
+    // Integer count = accessoryRepository.countByBrandId(brandId);
+    // Page<Accessory> page = new PageImpl<Accessory>(accessories, pageable,
+    // count);
+    // if (accessories == null) {
+    // return null;
+    // }
+    // return page;
+    // }
 
     @Override
     public Page<Accessory> findByParam(AccessorySearchPar accessorySearchPar, Pageable pageable) {
@@ -206,28 +225,29 @@ public class AccessoryServiceImpl implements AccessoryService {
         return accessoryRepository.findByParamSale(accessorySearchPar);
     }
 
-//    @Override
-//    public List<Accessory> findByBrandIdSale(Integer brandId) {
-//        List<Accessory> accessories = null;
-//        if (brandId == null) {
-//            accessories = accessoryRepository.findByCreDtSale();
-//        } else {
-//            accessories = accessoryRepository.findByBrandIdAndSale(brandId);
-//        }
-//        if (accessories == null) {
-//            return null;
-//        }
-//        return accessories;
-//    }
+    // @Override
+    // public List<Accessory> findByBrandIdSale(Integer brandId) {
+    // List<Accessory> accessories = null;
+    // if (brandId == null) {
+    // accessories = accessoryRepository.findByCreDtSale();
+    // } else {
+    // accessories = accessoryRepository.findByBrandIdAndSale(brandId);
+    // }
+    // if (accessories == null) {
+    // return null;
+    // }
+    // return accessories;
+    // }
 
-//    @Override
-//    public List<Accessory> findByBrandIdAndSale(Integer brandId) {
-//        List<Accessory> accessories = accessoryRepository.findByBrandIdAndSale(brandId);
-//        if (accessories == null) {
-//            return null;
-//        }
-//        return accessories;
-//    }
+    // @Override
+    // public List<Accessory> findByBrandIdAndSale(Integer brandId) {
+    // List<Accessory> accessories =
+    // accessoryRepository.findByBrandIdAndSale(brandId);
+    // if (accessories == null) {
+    // return null;
+    // }
+    // return accessories;
+    // }
 
     @Override
     @Transactional
@@ -264,11 +284,11 @@ public class AccessoryServiceImpl implements AccessoryService {
         TopDocs docs = null;
         Integer count = null;
         if (page != null && page == 0) {
-            docs = iSearcher.search(query, 10);
+            docs = iSearcher.search(query, 30);
         } else {
-            docs = iSearcher.search(query, 10 * page);
+            docs = iSearcher.search(query, 30 * page);
             ScoreDoc[] hits = docs.scoreDocs;
-            docs = iSearcher.searchAfter(hits[hits.length - 1], query, 10);
+            docs = iSearcher.searchAfter(hits[hits.length - 1], query, 30);
         }
         count = iSearcher.count(query);
         ScoreDoc[] hits = docs.scoreDocs;
@@ -298,7 +318,7 @@ public class AccessoryServiceImpl implements AccessoryService {
             String value = hitDoc.get("fileName");
             String id = hitDoc.get("photoId");
             String photoPath = hitDoc.get("photoPath");
-            luceneOutput = new LuceneOutput(value, id, photoPath);
+            luceneOutput = new LuceneOutput(value, id, GetImageStr(photoPath));
             luceneOutputs.add(luceneOutput);
             // TokenStream tokenStream = analyzer.tokenStream(value, new
             // StringReader(value));
@@ -509,9 +529,9 @@ public class AccessoryServiceImpl implements AccessoryService {
         Date toDt = TimeUtils.getEndTimeOfDay(date);
         List<Accessory> list = accessoryRepository.findByDate(fromDt, toDt);
         for (int i = 0; i < list.size(); i++) {
-            list.get(i).setModelId(null);
-            list.get(i).setPartId(null);
-            list.get(i).setStyleId(null);
+            // list.get(i).setModelId(null);
+            // list.get(i).setPartId(null);
+            // list.get(i).setStyleId(null);
             list.get(i).setAccessoryImg(GetImageStr(list.get(i).getAccessoryImg()));
         }
         return list;
@@ -520,6 +540,17 @@ public class AccessoryServiceImpl implements AccessoryService {
     @Override
     @Transactional
     public void savePictureToA() {
+        Analyzer analyzer = new StandardAnalyzer();
+        Directory directory = null;
+        IndexWriter iWriter = null;
+        try {
+            directory = FSDirectory.open(Paths.get(indexpathA));
+            IndexWriterConfig config = new IndexWriterConfig(analyzer);
+            iWriter = new IndexWriter(directory, config);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         File photoUploadFile = new File(photoUpload);
         String[] fileNames = photoUploadFile.list();
         File fromPhoto = null;
@@ -566,13 +597,24 @@ public class AccessoryServiceImpl implements AccessoryService {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            // byte[] buffer = new byte[1024 * 10];
-            // int length;
-            // while ((byteread = inStream.read(buffer)) != -1) {
-            // bytesum += byteread; // 字节数 文件大小
-            // System.out.println(bytesum);
-            // fs.write(buffer, 0, byteread);
-            // }
+            Document doc = new Document();
+            doc.add(new Field("fileName", fileName.split("\\.")[0], TextField.TYPE_STORED));
+            doc.add(new Field("photoId", AddZeroUtil.addZero(s + i + 1, 8), TextField.TYPE_STORED));
+            doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
+            doc.add(new Field("photoPath", photoUpload_A + "\\" + fileName, TextField.TYPE_STORED));
+            doc.add(new Field("partId", "1", TextField.TYPE_STORED));
+            try {
+                iWriter.addDocument(doc);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        try {
+            iWriter.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 
@@ -595,8 +637,491 @@ public class AccessoryServiceImpl implements AccessoryService {
 
     @Override
     public Accessory findByNum(String accessoryNum) {
-        Accessory accessory = accessoryRepository.findByNum(accessoryNum);
-        accessory.setAccessoryImg(GetImageStr(accessory.getAccessoryImg()));
+        Accessory accessory = accessoryRepository.findOneByNum(accessoryNum);
+        accessory.setAccessoryImg("data:image/png;base64," + GetImageStr(accessory.getAccessoryImg()));
         return accessory;
+    }
+
+    @Override
+    @Transactional
+    public void changeAccessory(String accessoryNum, String level, Integer partId) {
+        Accessory accessory = accessoryRepository.findOneByNum(accessoryNum);
+        if (accessory.getLevel().equals(level) && accessory.getPartId() == partId) {
+            return;
+        } else if (accessory.getLevel().equals(level) && accessory.getPartId() != partId) {
+            accessory.setPartId(partId);
+            if (accessory.getLevel().equals("1")) {
+                Analyzer analyzerA = new StandardAnalyzer();
+                Directory directoryA = null;
+                IndexWriter iWriterA = null;
+                try {
+                    directoryA = FSDirectory.open(Paths.get(indexpathA));
+                    IndexWriterConfig config = new IndexWriterConfig(analyzerA);
+                    iWriterA = new IndexWriter(directoryA, config);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                QueryParser parser = new QueryParser("photoId", analyzerA);
+                Query query;
+                try {
+                    query = parser.parse(accessoryNum);
+                    iWriterA.deleteDocuments(query);
+                } catch (ParseException | IOException e2) {
+                    // TODO Auto-generated catch block
+                    e2.printStackTrace();
+                }
+                Document doc = new Document();
+                doc.add(new Field("fileName", accessory.getAccessoryName(), TextField.TYPE_STORED));
+                doc.add(new Field("photoId", accessory.getAccessoryNum(), TextField.TYPE_STORED));
+                doc.add(new Field("creDt", TimeUtils.dateToStr(accessory.getCreDt()), TextField.TYPE_STORED));
+                doc.add(new Field("photoPath", accessory.getAccessoryImg(), TextField.TYPE_STORED));
+                doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
+                try {
+                    iWriterA.addDocument(doc);
+                    iWriterA.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            } else if (accessory.getLevel().equals("2")) {
+                Analyzer analyzer = new StandardAnalyzer();
+                Directory directory = null;
+                IndexWriter iWriter = null;
+                try {
+                    directory = FSDirectory.open(Paths.get(indexpath));
+                    IndexWriterConfig config = new IndexWriterConfig(analyzer);
+                    iWriter = new IndexWriter(directory, config);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                QueryParser parser = new QueryParser("photoId", analyzer);
+                Query query;
+                try {
+                    query = parser.parse(accessoryNum);
+                    iWriter.deleteDocuments(query);
+                } catch (ParseException | IOException e2) {
+                    // TODO Auto-generated catch block
+                    e2.printStackTrace();
+                }
+                Document doc = new Document();
+                doc.add(new Field("fileName", accessory.getAccessoryName(), TextField.TYPE_STORED));
+                doc.add(new Field("photoId", accessory.getAccessoryNum(), TextField.TYPE_STORED));
+                doc.add(new Field("creDt", TimeUtils.dateToStr(accessory.getCreDt()), TextField.TYPE_STORED));
+                doc.add(new Field("photoPath", accessory.getAccessoryImg(), TextField.TYPE_STORED));
+                doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
+                try {
+                    iWriter.addDocument(doc);
+                    iWriter.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            accessoryRepository.save(accessory);
+        } else if (!accessory.getLevel().equals(level)) {
+            accessory.setLevel(level);
+            accessory.setPartId(partId);
+            if ("2".equals(level)) {
+                Analyzer analyzerA = new StandardAnalyzer();
+                Directory directoryA = null;
+                IndexWriter iWriterA = null;
+                try {
+                    directoryA = FSDirectory.open(Paths.get(indexpathA));
+                    IndexWriterConfig config = new IndexWriterConfig(analyzerA);
+                    iWriterA = new IndexWriter(directoryA, config);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                QueryParser parser = new QueryParser("photoId", analyzerA);
+                Query query;
+                try {
+                    query = parser.parse(accessoryNum);
+                    iWriterA.deleteDocuments(query);
+                } catch (ParseException | IOException e2) {
+                    // TODO Auto-generated catch block
+                    e2.printStackTrace();
+                }
+                Analyzer analyzer = new StandardAnalyzer();
+                Directory directory = null;
+                IndexWriter iWriter = null;
+                try {
+                    directory = FSDirectory.open(Paths.get(indexpath));
+                    IndexWriterConfig config = new IndexWriterConfig(analyzer);
+                    iWriter = new IndexWriter(directory, config);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                /**
+                 * 根据照片添加索引
+                 */
+                File accessoryFileA = new File(accessory.getAccessoryImg());
+                String fileBName = accessory.getAccessoryImg().substring(
+                        accessory.getAccessoryImg().lastIndexOf("\\") + 1);
+                File accessoryFileB = new File(rootPath + "\\" + fileBName);
+                int i = 1;
+                String fileBNameNew = fileBName;
+                while (accessoryFileB.exists()) {
+                    fileBNameNew = fileBName.split("\\.")[0] + "_" + i + "." + fileBName.split("\\.")[1];
+                    accessoryFileB = new File(rootPath + "\\" + fileBNameNew);
+                    i++;
+                }
+                try {
+                    accessoryFileB.createNewFile();
+                    OutputStream fs = new FileOutputStream(accessoryFileB);
+                    InputStream is = new FileInputStream(accessoryFileA);
+                    byte[] bytes = new byte[1024 * 10];
+                    int num = -1;
+                    while ((num = is.read(bytes)) != -1) {
+                        fs.write(bytes, 0, num);
+                    }
+                    ;
+                    fs.close();
+                    is.close();
+                    accessoryFileA.delete();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                Document doc = null;
+                Date date = new Date();
+                doc = new Document();
+                doc.add(new Field("fileName", fileBNameNew.split("\\.")[0], TextField.TYPE_STORED));
+                doc.add(new Field("photoId", accessory.getAccessoryNum(), TextField.TYPE_STORED));
+                doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
+                doc.add(new Field("photoPath", rootPath + "\\" + fileBNameNew, TextField.TYPE_STORED));
+                doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
+                System.out.println(rootPath + "\\" + fileBNameNew);
+                try {
+                    iWriter.addDocument(doc);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                accessory.setAccessoryImg(rootPath + "\\" + fileBNameNew);
+                accessoryRepository.save(accessory);
+                try {
+                    iWriter.close();
+                    iWriterA.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            } else if ("1".equals(level)) {
+                Analyzer analyzer = new StandardAnalyzer();
+                Directory directory = null;
+                IndexWriter iWriter = null;
+                try {
+                    directory = FSDirectory.open(Paths.get(indexpath));
+                    IndexWriterConfig config = new IndexWriterConfig(analyzer);
+                    iWriter = new IndexWriter(directory, config);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                QueryParser parser = new QueryParser("photoId", analyzer);
+                Query query;
+                try {
+                    query = parser.parse(accessoryNum);
+                    iWriter.deleteDocuments(query);
+                } catch (ParseException | IOException e2) {
+                    // TODO Auto-generated catch block
+                    e2.printStackTrace();
+                }
+                Analyzer analyzerA = new StandardAnalyzer();
+                Directory directoryA = null;
+                IndexWriter iWriterA = null;
+                try {
+                    directoryA = FSDirectory.open(Paths.get(indexpathA));
+                    IndexWriterConfig config = new IndexWriterConfig(analyzerA);
+                    iWriterA = new IndexWriter(directoryA, config);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                /**
+                 * 根据照片添加索引
+                 */
+                File accessoryFileA = new File(accessory.getAccessoryImg());
+                String fileBName = accessory.getAccessoryImg().substring(
+                        accessory.getAccessoryImg().lastIndexOf("\\") + 1);
+                File accessoryFileB = new File(photoUpload_A + "\\" + fileBName);
+                int i = 1;
+                String fileBNameNew = fileBName;
+                while (accessoryFileB.exists()) {
+                    fileBNameNew = fileBName.split("\\.")[0] + i + "." + fileBName.split("\\.")[1];
+                    accessoryFileB = new File(fileBNameNew);
+                    i++;
+                }
+                try {
+                    accessoryFileB.createNewFile();
+                    OutputStream fs = new FileOutputStream(accessoryFileB);
+                    InputStream is = new FileInputStream(accessoryFileA);
+                    byte[] bytes = new byte[1024 * 10];
+                    int num = -1;
+                    while ((num = is.read(bytes)) != -1) {
+                        fs.write(bytes, 0, num);
+                    }
+                    ;
+                    fs.close();
+                    is.close();
+                    accessoryFileA.delete();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                Document doc = null;
+                Date date = new Date();
+                doc = new Document();
+                doc.add(new Field("fileName", fileBNameNew.split("\\.")[0], TextField.TYPE_STORED));
+                doc.add(new Field("photoId", accessory.getAccessoryNum(), TextField.TYPE_STORED));
+                doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
+                doc.add(new Field("photoPath", photoUpload_A + "\\" + fileBNameNew, TextField.TYPE_STORED));
+                doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
+                try {
+                    iWriterA.addDocument(doc);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                accessory.setAccessoryImg(photoUpload_A + "\\" + fileBNameNew);
+                accessoryRepository.save(accessory);
+                try {
+                    iWriter.close();
+                    iWriterA.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void savePictureToB() {
+        File photoUploadFile = new File(photoUpload_B);
+        String[] fileNames = photoUploadFile.list();
+        File fromPhoto = null;
+        File toPhoto = null;
+        Date date = new Date();
+        Date fromDt = TimeUtils.getStartTimeOfMonth(date);
+        Date toDt = TimeUtils.getEndTimeOfMonth(date);
+        Integer s = accessoryRepository.countByMonth(fromDt, toDt);
+        String fileNameNew = null;
+        for (int i = 0; i < fileNames.length; i++) {
+            fromPhoto = new File(photoUpload_B + "\\" + fileNames[i]);
+            toPhoto = new File(rootPath + "\\" + fileNames[i]);
+            int l = 1;
+            fileNameNew = fileNames[i];
+            while (toPhoto.exists()) {
+                fileNameNew = fileNames[i].split("\\.")[0] + "_" + l + "." + fileNames[i].split("\\.")[1];
+                toPhoto = new File(rootPath + "\\" + fileNameNew);
+                l++;
+            }
+            try {
+                toPhoto.createNewFile();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            OutputStream fs;
+            InputStream inStream;
+            Accessory accessory = new Accessory();
+            try {
+                inStream = new FileInputStream(fromPhoto); // 读入原文件
+                fs = new FileOutputStream(toPhoto);
+                resizeImage(inStream, fs, 900, "JPG");
+                inStream.close();
+                fromPhoto.delete();
+                accessory.setAccessoryName(fileNameNew.split("\\.")[0]);
+                accessory.setCreDt(date);
+                accessory.setAccessoryImg(rootPath + "\\" + fileNameNew);
+                accessory.setAccessoryNum(AddZeroUtil.addZero(s + i + 1, 8));
+                accessory.setLevel("2");
+                accessory.setModelId(1);
+                accessory.setPartId(3);
+                accessory.setStyleId(1);
+                accessoryRepository.save(accessory);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Analyzer analyzer = new StandardAnalyzer();
+            Directory directory = null;
+            IndexWriter iWriter = null;
+            try {
+                directory = FSDirectory.open(Paths.get(indexpath));
+                IndexWriterConfig config = new IndexWriterConfig(analyzer);
+                iWriter = new IndexWriter(directory, config);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Document doc = new Document();
+            doc.add(new Field("fileName", fileNameNew.split("\\.")[0], TextField.TYPE_STORED));
+            doc.add(new Field("photoId", accessory.getAccessoryNum(), TextField.TYPE_STORED));
+            doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
+            doc.add(new Field("photoPath", rootPath + "\\" + fileNameNew, TextField.TYPE_STORED));
+            doc.add(new Field("partId", "3", TextField.TYPE_STORED));
+            try {
+                iWriter.addDocument(doc);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            try {
+                iWriter.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public LucenePage luceneInA(String key, Integer page) throws IOException, ParseException {
+        Analyzer analyzer = new StandardAnalyzer();
+        Directory directory = FSDirectory.open(Paths.get(indexpathA));
+        DirectoryReader iReader = DirectoryReader.open(directory);
+        IndexSearcher iSearcher = new IndexSearcher(iReader);
+        String[] multiFields = { "fileName", "photoId" };
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(multiFields, analyzer);
+        Query query = parser.parse(key);
+        TopDocs docs = null;
+        Integer count = null;
+        if (page != null && page == 0) {
+            docs = iSearcher.search(query, 30);
+        } else {
+            docs = iSearcher.search(query, 30 * page);
+            ScoreDoc[] hits = docs.scoreDocs;
+            docs = iSearcher.searchAfter(hits[hits.length - 1], query, 30);
+        }
+        count = iSearcher.count(query);
+        ScoreDoc[] hits = docs.scoreDocs;
+        // docs = iSearcher.searchAfter(hits[hits.length - 1], query, 2);
+        // hits = docs.scoreDocs;
+        System.out.println(count);
+        System.out.println(hits.length);
+
+        // SimpleHTMLFormatter simpleHTMLFormatter = new
+        // SimpleHTMLFormatter("<span style='color:green'>", "</span>");
+        // Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new
+        // QueryScorer(query));
+        // highlighter.setTextFragmenter(new SimpleFragmenter(100));
+        System.out.println("Searched " + hits.length + " documents.");
+        // Iteratethrough the results:
+        List<LuceneOutput> luceneOutputs = new ArrayList<LuceneOutput>();
+        LuceneOutput luceneOutput = null;
+        for (int i = 0; i < hits.length; i++) {
+            Document hitDoc = iSearcher.doc(hits[i].doc);
+            String[] scoreExplain = null;
+            // scoreExplain可以显示文档的得分详情，这里用split截取总分
+            scoreExplain = iSearcher.explain(query, hits[i].doc).toString().split(" ", 2);
+            String scores = scoreExplain[0];
+            // assertEquals("Thisis the text to be indexed.",
+            // hitDoc.get("fieldname"));
+            System.out.println("score:" + scores);
+            String value = hitDoc.get("fileName");
+            String id = hitDoc.get("photoId");
+            String photoPath = hitDoc.get("photoPath");
+            String partId = hitDoc.get("partId");
+            luceneOutput = new LuceneOutput(value, id, GetImageStr(photoPath), partId);
+            luceneOutputs.add(luceneOutput);
+            // TokenStream tokenStream = analyzer.tokenStream(value, new
+            // StringReader(value));
+            // String str1 = highlighter.getBestFragment(tokenStream, value);
+
+            System.out.println(value);
+            System.out.println(id);
+        }
+        LucenePage lucenePage = new LucenePage();
+        lucenePage.setContent(luceneOutputs);
+        lucenePage.setSize(hits.length);
+        lucenePage.setTotalElements(count);
+        if (hits.length == 0) {
+            lucenePage.setPage(0);
+        } else {
+            lucenePage.setPage(count / hits.length);
+        }
+        iReader.close();
+        directory.close();
+        return lucenePage;
+    }
+
+    public LucenePage luceneInB(String key, Integer page) throws IOException, ParseException {
+        Analyzer analyzer = new StandardAnalyzer();
+        Directory directory = FSDirectory.open(Paths.get(indexpath));
+        DirectoryReader iReader = DirectoryReader.open(directory);
+        IndexSearcher iSearcher = new IndexSearcher(iReader);
+        String[] multiFields = { "fileName", "photoId" };
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(multiFields, analyzer);
+        Query query = parser.parse(key);
+        TopDocs docs = null;
+        Integer count = null;
+        if (page != null && page == 0) {
+            docs = iSearcher.search(query, 30);
+        } else {
+            docs = iSearcher.search(query, 30 * page);
+            ScoreDoc[] hits = docs.scoreDocs;
+            docs = iSearcher.searchAfter(hits[hits.length - 1], query, 30);
+        }
+        count = iSearcher.count(query);
+        ScoreDoc[] hits = docs.scoreDocs;
+        // docs = iSearcher.searchAfter(hits[hits.length - 1], query, 2);
+        // hits = docs.scoreDocs;
+        System.out.println(count);
+        System.out.println(hits.length);
+
+        // SimpleHTMLFormatter simpleHTMLFormatter = new
+        // SimpleHTMLFormatter("<span style='color:green'>", "</span>");
+        // Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new
+        // QueryScorer(query));
+        // highlighter.setTextFragmenter(new SimpleFragmenter(100));
+        System.out.println("Searched " + hits.length + " documents.");
+        // Iteratethrough the results:
+        List<LuceneOutput> luceneOutputs = new ArrayList<LuceneOutput>();
+        LuceneOutput luceneOutput = null;
+        for (int i = 0; i < hits.length; i++) {
+            Document hitDoc = iSearcher.doc(hits[i].doc);
+            String[] scoreExplain = null;
+            // scoreExplain可以显示文档的得分详情，这里用split截取总分
+            scoreExplain = iSearcher.explain(query, hits[i].doc).toString().split(" ", 2);
+            String scores = scoreExplain[0];
+            // assertEquals("Thisis the text to be indexed.",
+            // hitDoc.get("fieldname"));
+            System.out.println("score:" + scores);
+            String value = hitDoc.get("fileName");
+            String id = hitDoc.get("photoId");
+            String photoPath = hitDoc.get("photoPath");
+            String partId = hitDoc.get("partId");
+            System.out.println(photoPath);
+            try {
+                luceneOutput = new LuceneOutput(value, id, GetImageStr(photoPath), partId);
+            } catch (Exception e) {
+                System.out.println(photoPath);
+                return null;
+            }
+            luceneOutputs.add(luceneOutput);
+            // TokenStream tokenStream = analyzer.tokenStream(value, new
+            // StringReader(value));
+            // String str1 = highlighter.getBestFragment(tokenStream, value);
+
+            System.out.println(value);
+            System.out.println(id);
+        }
+        LucenePage lucenePage = new LucenePage();
+        lucenePage.setContent(luceneOutputs);
+        lucenePage.setSize(hits.length);
+        lucenePage.setTotalElements(count);
+        if (hits.length == 0) {
+            lucenePage.setPage(0);
+        } else {
+            lucenePage.setPage(count / hits.length);
+        }
+        iReader.close();
+        directory.close();
+        return lucenePage;
     }
 }

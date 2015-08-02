@@ -43,4 +43,10 @@ public interface AccessoryRepository extends JpaRepository<Accessory, Integer>, 
     
     @Query(value = "SELECT a FROM Accessory a WHERE a.accessoryNum = :accessoryNum AND a.level = 1")
     public Accessory findByNum(@Param("accessoryNum") String accessoryNum);
+    
+    @Query(value = "SELECT a FROM Accessory a WHERE a.accessoryNum = :accessoryNum AND a.level = 2")
+    public Accessory findByNumFromB(@Param("accessoryNum") String accessoryNum);
+    
+    @Query(value = "SELECT a FROM Accessory a WHERE a.accessoryNum = :accessoryNum")
+    public Accessory findOneByNum(@Param("accessoryNum") String accessoryNum);
 }

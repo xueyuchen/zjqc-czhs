@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -139,7 +140,14 @@ public class AccessoryController {
         String fileName = req.getParameter("name");
         String chunk = req.getParameter("chunk");
         File newFile = new File("C:\\fileUpload\\" + fileName);
-        if(!newFile.exists()){
+        String fileNameNew = fileName;
+        int l = 1;
+        while(newFile.exists() && "0".equals(chunk)){
+            fileNameNew = fileName.split("\\.")[0] + l + "." + fileName.split("\\.")[1];
+            newFile = new File("C:\\fileUpload\\" + fileNameNew);
+            l++;
+        }
+        if("0".equals(chunk)){
             try {
                 newFile.createNewFile();
             } catch (IOException e2) {
@@ -231,9 +239,129 @@ public class AccessoryController {
     }
     
     @RequestMapping(value = "{accessoryNum}")
-    public String changeAccessory(@PathVariable String accessoryNum, ModelAndView model){
+    public String toChangeAccessory(@PathVariable String accessoryNum, HttpServletRequest req){
         Accessory accessory = accessoryService.findByNum(accessoryNum);
-        model.addObject("accessory", accessory);
+        req.setAttribute("accessory", accessory);
         return "admin/detail";
+    }
+    
+    @RequestMapping(value = "{accessoryNum}", method = RequestMethod.POST)
+    @ResponseBody
+    public void changeAccessory(@PathVariable String accessoryNum, Integer partId, String level){
+        accessoryService.changeAccessory(accessoryNum, level, partId);
+    }
+    
+    @RequestMapping(value = "uploadToB", method = RequestMethod.POST)
+    public void imgsUploadToB(HttpServletRequest req, HttpServletResponse resp) {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
+        String fileName = req.getParameter("name");
+        String chunk = req.getParameter("chunk");
+        File newFile = new File("C:\\fileUploadB\\" + fileName);
+        String fileNameNew = fileName;
+        int l = 1;
+        while(newFile.exists() && "0".equals(chunk)){
+            String[] s = fileName.split("\\.");
+            fileNameNew = fileName.split("\\.")[0] + l + "." + fileName.split("\\.")[1];
+            newFile = new File("C:\\fileUploadB\\" + fileNameNew);
+            l++;
+        }
+        if("0".equals(chunk)){
+            try {
+                newFile.createNewFile();
+            } catch (IOException e2) {
+                // TODO Auto-generated catch block
+                e2.printStackTrace();
+            }
+        }
+        MultipartFile mf = multipartRequest.getFile("file");
+        System.out.println(mf.getOriginalFilename());
+        InputStream is = null;
+        try {
+            is = mf.getInputStream();
+        } catch (IOException e2) {
+            // TODO Auto-generated catch block
+            e2.printStackTrace();
+        }
+        OutputStream os = null;
+        if("0".equals(chunk)){
+            try {
+                os = new FileOutputStream(newFile);
+            } catch (FileNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }else{
+            try {
+                os = new FileOutputStream(newFile, true);
+            } catch (FileNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+        int byteread = 0;
+        int bytesum = 0;
+        if (is != null) {
+            byte[] buffer = new byte[1024 * 10];
+            try {
+                while ((byteread = is.read(buffer)) != -1) {
+                    bytesum += byteread; // 字节数 文件大小
+                    System.out.println(bytesum);
+                    os.write(buffer, 0, byteread);
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            try {
+                is.close();
+                os.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    @RequestMapping(value = "copytob", method = RequestMethod.GET)
+    @ResponseBody
+    public void savePhotoToB(){
+        accessoryService.savePictureToB();
+        
+    }
+    
+    @RequestMapping(value = "lucenea", method = RequestMethod.GET)
+    @ResponseBody
+    public LucenePage searchInA(String key, Integer page, Integer size) {
+        try {
+            key = new String(key.getBytes("ISO8859-1"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            return accessoryService.luceneInA(key, page);
+        } catch (IOException | ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    @RequestMapping(value = "luceneb", method = RequestMethod.GET)
+    @ResponseBody
+    public LucenePage searchInLuceneB(String key, Integer page, Integer size) {
+        try {
+            key = new String(key.getBytes("ISO8859-1"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            return accessoryService.luceneInB(key, page);
+        } catch (IOException | ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
     }
 }

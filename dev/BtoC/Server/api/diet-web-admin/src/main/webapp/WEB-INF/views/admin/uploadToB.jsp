@@ -1,16 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Insert title here</title>
 <script src="../resources/app/jsuser/jquery.min.js"></script>
+<script type="text/javascript"
+	src="../resources/app/plupload/plupload.full.min.js"></script>
+<script type="text/javascript"
+	src="../resources/app/plupload/jquery.ui.plupload/jquery.ui.plupload.js"></script>
+<script type="text/javascript"
+	src="../resources/app/plupload/i18n/zh_CN.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="../resources/app/admin/style.css" />
 <script type="text/javascript" src="../resources/app/adminjs/listAcc.js"></script>
 <script type="text/javascript" src="../resources/app/constants.js"></script>
-<script type="text/javascript" src="../resources/app/adminjs/detial.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -51,51 +56,25 @@
 		<div class="page-body">
 
 			<div class="search-result">
-				<div class="result-title"></div>
+				<div class="result-title">
+				</div>
 				<div class="img-list" id="accessory-list">
-					<img
-						style="display: block; width: 500px; float: left; margin-left: 10%;"
-						src="${accessory.accessoryImg}" />
+					<h1>B库配件照片上传</h1>
 
-					<div style="float: left; margin-left: 50px; margin-top: 5%;">
-						<table style="font-size: 20px;">
-							<tr>
-								<td>配件名称：</td>
-								<td>${accessory.accessoryName}</td>
-							</tr>
-							<tr>
-								<td>配件编号：</td>
-								<td id="accessoryNum">${accessory.accessoryNum}</td>
-							</tr>
-							<tr>
-								<td>库房：</td>
-								<td><select name="level" id="level">
-										<option value=1
-											<c:if test="${1 == accessory.level}">selected</c:if>>A库房</option>
-										<option value=2
-											<c:if test="${2 == accessory.level}">selected</c:if>>B库房</option>
-										<option value=3
-											<c:if test="${3 == accessory.level}">selected</c:if>>销售库房</option>
-								</select></td>
-							</tr>
-							<tr>
-								<td>维修状态：</td>
-								<td><select name="partId" id="partId">
-										<option value=1
-											<c:if test="${1 == accessory.partId}">selected</c:if>>未维修</option>
-										<option value=2
-											<c:if test="${2 == accessory.partId}">selected</c:if>>维修中</option>
-										<option value=3
-											<c:if test="${3 == accessory.partId}">selected</c:if>>已维修</option>
-								</select></td>
-							</tr>
-							<tr>
-								<td><input type="button" value="提交修改" id="sbumit"
-									onclick="submit();" /></td>
-								<td><input type="button" value="返回" id="back" onclick="goBack();"></td>
-							</tr>
-						</table>
+					<p>友情提示：一次可以上传多张照片，所有照片上传进度为100%后，才能关闭浏览器</p>
+
+					<div id="filelist">Your browser doesn't have Flash,
+						Silverlight or HTML5 support.</div>
+					<br />
+
+					<div id="container">
+						<a id="pickfiles" href="javascript:;">[选择照片]</a> <a
+							id="uploadfiles" href="javascript:;">[上传照片]</a> <a id="copyfiles"
+							href="javascript:;" onclick="finishUploadToB();">[复制照片到B库]</a>
 					</div>
+
+					<br />
+					<pre id="console"></pre>
 				</div>
 			</div>
 		</div>
@@ -103,7 +82,7 @@
 </body>
 <script type="text/javascript">
 	// Custom example logic
-	var url = constants.imgsUpload;
+	var url = constants.imgsUploadToB;
 	var uploader = new plupload.Uploader(
 			{
 				runtimes : 'html5,flash,silverlight,html4',

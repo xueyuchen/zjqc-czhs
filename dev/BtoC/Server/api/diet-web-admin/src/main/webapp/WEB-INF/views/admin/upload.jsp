@@ -45,10 +45,10 @@
 					<a href="../admin/changes">A库配件</a>
 				</div>
 				<div>
-					<a href="#">B库配件</a>
+					<a href="../admin/uploadtoB">B库照片上传</a>
 				</div>
 				<div>
-					<a href="#">入库查询</a>
+					<a href="../admin/changesB">B库配件</a>
 				</div>
 			</div>
 			<div class="advertising-right"></div>
@@ -59,7 +59,7 @@
 				<div class="result-title">
 				</div>
 				<div class="img-list" id="accessory-list">
-					<h1>配件照片上传</h1>
+					<h1>A库配件照片上传</h1>
 
 					<p>友情提示：一次可以上传多张照片，所有照片上传进度为100%后，才能关闭浏览器</p>
 

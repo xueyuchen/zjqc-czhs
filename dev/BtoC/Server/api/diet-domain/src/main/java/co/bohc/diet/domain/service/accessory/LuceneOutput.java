@@ -6,6 +6,7 @@ public class LuceneOutput {
     private String accessoryNum;
     private String accessoryImg;
     private String creDt;
+    private String partId;
 
     public String getAccessoryName() {
         return accessoryName;
@@ -39,20 +40,35 @@ public class LuceneOutput {
         this.creDt = creDt;
     }
 
+    public String getPartId() {
+        return partId;
+    }
+
+    public void setPartId(String partId) {
+        this.partId = partId;
+    }
+
+    public LuceneOutput(String accessoryName, String accessoryNum, String accessoryImg, String partId) {
+        super();
+        this.accessoryName = accessoryName;
+        this.accessoryNum = accessoryNum;
+        this.accessoryImg = accessoryImg;
+        this.partId = partId;
+    }
+
     public LuceneOutput(String accessoryName, String accessoryNum, String accessoryImg) {
         super();
         this.accessoryName = accessoryName;
         this.accessoryNum = accessoryNum;
         this.accessoryImg = accessoryImg;
     }
-
-    public LuceneOutput(String accessoryName, String accessoryNum, String accessoryImg, String creDt) {
-        super();
-        this.accessoryName = accessoryName;
-        this.accessoryNum = accessoryNum;
-        this.accessoryImg = accessoryImg;
-        this.creDt = creDt;
-    }
-    
+    // public LuceneOutput(String accessoryName, String accessoryNum, String
+    // accessoryImg, String creDt) {
+    // super();
+    // this.accessoryName = accessoryName;
+    // this.accessoryNum = accessoryNum;
+    // this.accessoryImg = accessoryImg;
+    // this.creDt = creDt;
+    // }
 
 }

@@ -44,6 +44,11 @@ public class AdminController {
     public String toAdmin() {
         return "admin/upload";
     }
+    
+    @RequestMapping(value = "uploadtoB", method = RequestMethod.GET)
+    public String toUploadToB(){
+        return "admin/uploadToB";
+    }
 
     @RequestMapping(value = "tologin", method = RequestMethod.GET)
     public String tologin() {
@@ -53,5 +58,10 @@ public class AdminController {
     @RequestMapping(value = "changes", method = RequestMethod.GET)
     public String toChange() {
         return "admin/change";
+    }
+    
+    @RequestMapping(value = "changesB", method = RequestMethod.GET)
+    public String toChangeB() {
+        return "admin/changeB";
     }
 }

@@ -1,7 +1,9 @@
 package co.bohc.diet.domain.service.accessory;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -34,6 +36,8 @@ public interface AccessoryService {
     public void savePicture();
     
     public void savePictureToA();
+    
+    public void savePictureToB();
 
     public LucenePage SearchByLucene(String key, Integer page);
     
@@ -42,4 +46,10 @@ public interface AccessoryService {
     public List<Accessory> findByDate(String dateStr);
     
     public Accessory findByNum(String accessoryNum);
+    
+    public void changeAccessory(String accessoryNum, String level, Integer partId);
+    
+    public LucenePage luceneInA(String key, Integer page) throws IOException, ParseException;
+    
+    public LucenePage luceneInB(String key, Integer page) throws IOException, ParseException;
 }

@@ -15,7 +15,7 @@
 <link rel="stylesheet" type="text/css"
 	href="../resources/app/admin/style.css" />
 <script type="text/javascript" src="../resources/app/constants.js"></script>
-<script type="text/javascript" src="../resources/app/adminjs/listAcc.js"></script>
+<script type="text/javascript" src="../resources/app/adminjs/listAcc_B.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -29,7 +29,7 @@
 		<div class="search-box">
 			<div class="search">
 				<img src="image/search.png"> <input id="searchPar" type="text"
-					placeholder="输入编号进行查询" oninput="searchByLuceneA();"/>
+					placeholder="输入编号进行查询" oninput="searchByLuceneB();"/>
 				<button id="searchAccessory" onclick="searchByNum();">搜索</button>
 			</div>
 
@@ -57,7 +57,7 @@
 
 			<div class="search-result">
 				<div class="result-title">
-					<!-- <input type="date" id="key" onchange="changeDate();" /> -->
+					<!-- <input type="date" id="key" onchange="changeDateB();" /> -->
 				</div>
 				<div class="img-list" id="accessory-list"></div>
 			</div>
