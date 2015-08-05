@@ -73,10 +73,14 @@ function finishUpload() {
 }
 
 function finishUploadToB() {
+	$("#copyfiles").attr("disabled", "disabled");
+	$("#copyfiles").html("照片处理中...");
 	$.ajax({
 		url : constants.savephotob,
 		type : 'get',
 		success : function() {
+			$("#copyfiles").removeAttr("disabled");
+			$("#copyfiles").html("复制照片到B库");
 			alert("照片整理完成！");
 		}
 	});

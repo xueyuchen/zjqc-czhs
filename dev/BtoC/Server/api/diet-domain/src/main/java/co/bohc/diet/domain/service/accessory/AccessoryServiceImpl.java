@@ -42,6 +42,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -440,6 +442,7 @@ public class AccessoryServiceImpl implements AccessoryService {
     }
 
     public static void resizeImage(InputStream is, OutputStream os, int size, String format) throws IOException {
+        size = 500;
         BufferedImage prevImage = ImageIO.read(is);
         double width = prevImage.getWidth();
         double height = prevImage.getHeight();
@@ -644,9 +647,32 @@ public class AccessoryServiceImpl implements AccessoryService {
 
     @Override
     @Transactional
-    public void changeAccessory(String accessoryNum, String level, Integer partId) {
+    public void changeAccessory(String accessoryNum, String level, Integer partId, MultipartFile mf) {
         Accessory accessory = accessoryRepository.findOneByNum(accessoryNum);
-        if (accessory.getLevel().equals(level) && accessory.getPartId() == partId) {
+        if (accessory.getLevel().equals(level) && accessory.getPartId() == partId && mf != null && !mf.isEmpty()) {
+            InputStream is = null;
+            OutputStream os = null;
+            File oldFile = null;
+            if (mf != null && !mf.isEmpty()) {
+                try {
+                    oldFile = new File(accessory.getAccessoryImg());
+                    os = new FileOutputStream(oldFile);
+                    is = mf.getInputStream();
+                    oldFile.delete();
+                    oldFile.createNewFile();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                try {
+                    resizeImage(is, os, 300, "JPG");
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (accessory.getLevel().equals(level) && accessory.getPartId() == partId && mf == null) {
             return;
         } else if (accessory.getLevel().equals(level) && accessory.getPartId() != partId) {
             accessory.setPartId(partId);
@@ -684,6 +710,27 @@ public class AccessoryServiceImpl implements AccessoryService {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+                InputStream is = null;
+                OutputStream os = null;
+                File oldFile = null;
+                if (mf != null && !mf.isEmpty()) {
+                    try {
+                        oldFile = new File(accessory.getAccessoryImg());
+                        os = new FileOutputStream(oldFile);
+                        is = mf.getInputStream();
+                        oldFile.delete();
+                        oldFile.createNewFile();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    try {
+                        resizeImage(is, os, 300, "JPG");
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
             } else if (accessory.getLevel().equals("2")) {
                 Analyzer analyzer = new StandardAnalyzer();
                 Directory directory = null;
@@ -714,6 +761,27 @@ public class AccessoryServiceImpl implements AccessoryService {
                 try {
                     iWriter.addDocument(doc);
                     iWriter.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            InputStream is = null;
+            OutputStream os = null;
+            File oldFile = null;
+            if (mf != null && !mf.isEmpty()) {
+                try {
+                    oldFile = new File(accessory.getAccessoryImg());
+                    os = new FileOutputStream(oldFile);
+                    is = mf.getInputStream();
+                    oldFile.delete();
+                    oldFile.createNewFile();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                try {
+                    resizeImage(is, os, 300, "JPG");
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -810,6 +878,27 @@ public class AccessoryServiceImpl implements AccessoryService {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+                InputStream is = null;
+                OutputStream os = null;
+                File oldFile = null;
+                if (mf != null && !mf.isEmpty()) {
+                    try {
+                        oldFile = new File(accessory.getAccessoryImg());
+                        os = new FileOutputStream(oldFile);
+                        is = mf.getInputStream();
+                        oldFile.delete();
+                        oldFile.createNewFile();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    try {
+                        resizeImage(is, os, 300, "JPG");
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
             } else if ("1".equals(level)) {
                 Analyzer analyzer = new StandardAnalyzer();
                 Directory directory = null;
@@ -895,6 +984,27 @@ public class AccessoryServiceImpl implements AccessoryService {
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
+                }
+                InputStream is = null;
+                OutputStream os = null;
+                File oldFile = null;
+                if (mf != null && !mf.isEmpty()) {
+                    try {
+                        oldFile = new File(accessory.getAccessoryImg());
+                        os = new FileOutputStream(oldFile);
+                        is = mf.getInputStream();
+                        oldFile.delete();
+                        oldFile.createNewFile();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    try {
+                        resizeImage(is, os, 300, "JPG");
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                 }
             }
         }

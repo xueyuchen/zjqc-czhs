@@ -14,68 +14,55 @@
 	src="../resources/app/plupload/i18n/zh_CN.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="../resources/app/admin/style.css" />
+<link rel="stylesheet" href="../resources/app/adminjs/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../resources/app/adminjs/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../resources/app/adminjs/dashboard.css">
 <script type="text/javascript" src="../resources/app/adminjs/listAcc.js"></script>
 <script type="text/javascript" src="../resources/app/constants.js"></script>
+<script type="text/javascript"
+	src="../resources/app/adminjs/bootstrap.min.js"></script>
 </head>
 <body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand">配件销售系统</a>
+		</div>
+	</div>
+	</nav>
 	<div class="container">
-		<!--<div class="before-header">-->
-
-		<!--</div>-->
-		<header>
-		<div class="title-box">
-			<span>子杰汽车配件专卖</span>
-		</div>
-		<div class="search-box">
-			<div class="search" style="display: none">
-				<img src="image/search.png"> <input id="searchPar" type="text"
-					placeholder="奥迪 A6L 2014 左大灯(查询条件请以空格分开)" />
-				<button id="searchAccessory">搜索</button>
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li class="active"><a href="../admin/admin">A库照片上传</a></li>
+					<li><a href="../admin/changes">A库库存查询</a></li>
+				</ul>
+				<ul class="nav nav-sidebar">
+					<li><a href="../admin/uploadtoB">B库照片上传</a></li>
+					<li><a href="../admin/changesB">B库库存查询</a></li>
+				</ul>
+				<ul class="nav nav-sidebar">
+					<li><a href="#">销售记录查询</a></li>
+				</ul>
 			</div>
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<h1 class="page-header">A库配件照片上传</h1>
 
-		</div>
-		<div class="login-box"></div>
-		</header>
-		<div class="advertising">
-			<div class="advertising-left">
-				<div>
-					<a href="../admin/admin">A库照片上传</a>
-				</div>
-				<div>
-					<a href="../admin/changes">A库配件</a>
-				</div>
-				<div>
-					<a href="../admin/uploadtoB">B库照片上传</a>
-				</div>
-				<div>
-					<a href="../admin/changesB">B库配件</a>
-				</div>
-			</div>
-			<div class="advertising-right"></div>
-		</div>
-		<div class="page-body">
+				<p>友情提示：一次可以上传多张照片，所有照片上传进度为100%后，才能关闭浏览器</p>
 
-			<div class="search-result">
-				<div class="result-title">
+				<div id="filelist">Your browser doesn't have Flash,
+					Silverlight or HTML5 support.</div>
+				<br />
+
+				<div id="container">
+					<button type="button" class="btn btn-primary" id="pickfiles">选择照片</button>
+					<button type="button" class="btn btn-primary" id="uploadfiles">上传照片</button>
+					<button id="copyfiles" class="btn btn-primary" onclick="finishUpload();">复制照片到A库</button>
 				</div>
-				<div class="img-list" id="accessory-list">
-					<h1>A库配件照片上传</h1>
 
-					<p>友情提示：一次可以上传多张照片，所有照片上传进度为100%后，才能关闭浏览器</p>
-
-					<div id="filelist">Your browser doesn't have Flash,
-						Silverlight or HTML5 support.</div>
-					<br />
-
-					<div id="container">
-						<a id="pickfiles" href="javascript:;">[选择照片]</a> <a
-							id="uploadfiles" href="javascript:;">[上传照片]</a> <a id="copyfiles"
-							href="javascript:;" onclick="finishUpload();">[复制照片到A库]</a>
-					</div>
-
-					<br />
-					<pre id="console"></pre>
-				</div>
+				<br />
+				<pre id="console"></pre>
 			</div>
 		</div>
 	</div>
@@ -112,23 +99,22 @@
 					},
 
 					FilesAdded : function(up, files) {
-						plupload
-								.each(
-										files,
-										function(file) {
-											document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">'
+						plupload.each(files, function(file) {
+											document.getElementById('filelist').innerHTML += '<div style="  display: block;float: left;width: 40%;" id="' + file.id + '">'
 													+ file.name
 													+ ' ('
-													+ plupload
-															.formatSize(file.size)
-													+ ') <b></b></div>';
+													+ plupload.formatSize(file.size)
+													+ ') </div>' + '<div class="progress" style="width: 60%">'
+								                    + '<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0%'
+							                    + '</div></div>';
 										});
 					},
 
 					UploadProgress : function(up, file) {
-						document.getElementById(file.id).getElementsByTagName(
-								'b')[0].innerHTML = '<span>' + file.percent
-								+ "%</span>";
+						$("#"+file.id).next().children().css("width", file.percent+"%").html(file.percent + "%");
+						//document.getElementById(file.id).getElementsByTagName(
+						//		'b')[0].innerHTML = '<span>' + file.percent
+						//		+ "%</span>";
 					},
 
 					Error : function(up, err) {

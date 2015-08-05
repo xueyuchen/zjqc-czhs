@@ -63,20 +63,28 @@ function searchByNum() {
 }
 
 function finishUpload() {
+	$("#copyfiles").attr("disabled", "disabled");
+	$("#copyfiles").html("照片处理中...");
 	$.ajax({
 		url : constants.savephotoa,
 		type : 'get',
 		success : function() {
+			$("#copyfiles").removeAttr("disabled");
+			$("#copyfiles").html("复制照片到A库");
 			alert("照片整理完成！");
 		}
 	});
 }
 
 function finishUploadToB() {
+	$("#copyfiles").attr("disabled", "disabled");
+	$("#copyfiles").html("照片处理中...");
 	$.ajax({
 		url : constants.savephotob,
 		type : 'get',
 		success : function() {
+			$("#copyfiles").removeAttr("disabled");
+			$("#copyfiles").html("复制照片到B库");
 			alert("照片整理完成！");
 		}
 	});

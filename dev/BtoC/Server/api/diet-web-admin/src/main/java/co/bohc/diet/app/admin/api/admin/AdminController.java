@@ -23,21 +23,16 @@ public class AdminController {
     private AdminService adminService;
 
     @RequestMapping(value = "logina", method = RequestMethod.POST)
-    public String login(String username, String password, HttpServletResponse resp, HttpServletRequest req) {
+    public String login(String username, String password, HttpServletResponse resp, HttpServletRequest req) throws IOException {
         Integer rol = adminService.checkUserName(username, password);
         if (rol == -1) {
             return "admin/login";
         } else if (rol == 1) {
-            try {
-                resp.sendRedirect("upload");
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            return "admin/upload";
+//                resp.sendRedirect("upload");
         } else {
             return "admin/upload";
         }
-        return password;
     }
 
     @RequestMapping(value = "admin", method = RequestMethod.GET)

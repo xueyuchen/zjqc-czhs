@@ -14,51 +14,47 @@
 	src="../resources/app/plupload/i18n/zh_CN.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="../resources/app/admin/style.css" />
+<link rel="stylesheet" href="../resources/app/adminjs/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../resources/app/adminjs/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../resources/app/adminjs/dashboard.css">
 <script type="text/javascript" src="../resources/app/constants.js"></script>
 <script type="text/javascript" src="../resources/app/adminjs/listAcc.js"></script>
+<script type="text/javascript"
+	src="../resources/app/adminjs/bootstrap.min.js"></script>
 </head>
 <body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand">配件销售系统</a>
+		</div>
+		<div class="navbar-collapse collapse">
+			<form class="navbar-form navbar-left">
+				<input id="searchPar" class="form-control"
+					style="width: 500px; margin-left: 60%;" type="text"
+					placeholder="奥迪 A6L 2014 左大灯(查询条件请以空格分开)"
+					oninput="searchByLuceneA();" />
+			</form>
+		</div>
+	</div>
+	</nav>
 	<div class="container">
-		<!--<div class="before-header">-->
-
-		<!--</div>-->
-		<header>
-		<div class="title-box">
-			<span>子杰汽车配件专卖</span>
-		</div>
-		<div class="search-box">
-			<div class="search">
-				<img src="image/search.png"> <input id="searchPar" type="text"
-					placeholder="输入编号进行查询" oninput="searchByLuceneA();"/>
-				<button id="searchAccessory" onclick="searchByNum();">搜索</button>
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li><a href="../admin/admin">A库照片上传</a></li>
+					<li class="active"><a href="../admin/changes">A库库存查询</a></li>
+				</ul>
+				<ul class="nav nav-sidebar">
+					<li><a href="../admin/uploadtoB">B库照片上传</a></li>
+					<li><a href="../admin/changesB">B库库存查询</a></li>
+				</ul>
+				<ul class="nav nav-sidebar">
+					<li><a href="#">销售记录查询</a></li>
+				</ul>
 			</div>
-
-		</div>
-		<div class="login-box"></div>
-		</header>
-		<div class="advertising">
-			<div class="advertising-left">
-				<div>
-					<a href="../admin/admin">A库照片上传</a>
-				</div>
-				<div>
-					<a href="../admin/changes">A库配件</a>
-				</div>
-				<div>
-					<a href="../admin/uploadtoB">B库照片上传</a>
-				</div>
-				<div>
-					<a href="../admin/changesB">B库配件</a>
-				</div>
-			</div>
-			<div class="advertising-right"></div>
-		</div>
-		<div class="page-body">
-
-			<div class="search-result">
-				<div class="result-title">
-					<!-- <input type="date" id="key" onchange="changeDate();" /> -->
-				</div>
+			<div class="col-sm-9 col-sm-offset-3 col-md-12 col-md-offset-1 main">
 				<div class="img-list" id="accessory-list"></div>
 			</div>
 		</div>

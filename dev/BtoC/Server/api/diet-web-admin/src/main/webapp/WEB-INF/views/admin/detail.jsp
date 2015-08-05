@@ -8,57 +8,57 @@
 <script src="../resources/app/jsuser/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="../resources/app/admin/style.css" />
+<link rel="stylesheet" href="../resources/app/adminjs/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../resources/app/adminjs/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../resources/app/adminjs/dashboard.css">
 <script type="text/javascript" src="../resources/app/adminjs/listAcc.js"></script>
+<script type="text/javascript" src="../resources/app/adminjs/jquery.form.js"></script>
 <script type="text/javascript" src="../resources/app/constants.js"></script>
-<script type="text/javascript" src="../resources/app/adminjs/detial.js"></script>
+<script type="text/javascript"
+	src="../resources/app/adminjs/bootstrap.min.js"></script>
 </head>
 <body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand">配件销售系统</a>
+		</div>
+		<div class="navbar-collapse collapse">
+			<!-- <form class="navbar-form navbar-left">
+				<input id="searchPar" class="form-control"
+					style="width: 500px; margin-left: 60%;" type="text"
+					placeholder="奥迪 A6L 2014 左大灯(查询条件请以空格分开)"
+					oninput="searchByLuceneB();" />
+			</form> -->
+		</div>
+	</div>
+	</nav>
 	<div class="container">
-		<!--<div class="before-header">-->
-
-		<!--</div>-->
-		<header>
-		<div class="title-box">
-			<span>子杰汽车配件专卖</span>
-		</div>
-		<div class="search-box">
-			<div class="search" style="display: none">
-				<img src="image/search.png"> <input id="searchPar" type="text"
-					placeholder="奥迪 A6L 2014 左大灯(查询条件请以空格分开)" />
-				<button id="searchAccessory">搜索</button>
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li><a href="../admin/admin">A库照片上传</a></li>
+					<li><a href="../admin/changes">A库库存查询</a></li>
+				</ul>
+				<hr>
+				<ul class="nav nav-sidebar">
+					<li><a href="../admin/uploadtoB">B库照片上传</a></li>
+					<li><a href="../admin/changesB">B库库存查询</a></li>
+				</ul>
+				<hr>
+				<ul class="nav nav-sidebar">
+					<li><a href="#">销售记录查询</a></li>
+				</ul>
 			</div>
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<h1 class="page-header">配件详细信息</h1>
+				<img style="display: block; width: 50%; float: left;"
+					src="${accessory.accessoryImg}" />
 
-		</div>
-		<div class="login-box"></div>
-		</header>
-		<div class="advertising">
-			<div class="advertising-left">
-				<div>
-					<a href="../admin/admin">A库照片上传</a>
-				</div>
-				<div>
-					<a href="../admin/changes">A库配件</a>
-				</div>
-				<div>
-					<a href="../admin/uploadtoB">B库照片上传</a>
-				</div>
-				<div>
-					<a href="../admin/changesB">B库配件</a>
-				</div>
-			</div>
-			<div class="advertising-right"></div>
-		</div>
-		<div class="page-body">
-
-			<div class="search-result">
-				<div class="result-title"></div>
-				<div class="img-list" id="accessory-list">
-					<img
-						style="display: block; width: 500px; float: left; margin-left: 10%;"
-						src="${accessory.accessoryImg}" />
-
-					<div style="float: left; margin-left: 50px; margin-top: 5%;">
-						<table style="font-size: 20px;">
+				<div style="float: left; margin-left: 50px; margin-top: 1%;">
+					<form action="${accessory.accessoryNum}" method="post" enctype="multipart/form-data" id="form" onsubmit="return submitInfo();">
+						<table class="table table-striped">
 							<tr>
 								<td>配件名称：</td>
 								<td>${accessory.accessoryName}</td>
@@ -90,76 +90,25 @@
 								</select></td>
 							</tr>
 							<tr>
-								<td><input type="button" value="提交修改" id="sbumit"
-									onclick="submit();" /></td>
-								<td><input type="button" value="返回" id="back" onclick="goBack();"></td>
+								<td colspan="3"><input type="file" name="newImg" /></td>
+							</tr>
+							<tr>
+								<td>
+									<button type="button" id="sbumit"
+										data-complete-text="finished!" class="btn btn-primary"
+										autocomplete="off" onclick="submitInfo();">提交修改</button>
+								</td>
+								<td>
+									<button type="button" id="back" data-complete-text="finished!"
+										class="btn btn-primary" autocomplete="off" onclick="goBack();">返回</button>
+								</td>
 							</tr>
 						</table>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
-<script type="text/javascript">
-	// Custom example logic
-	var url = constants.imgsUpload;
-	var uploader = new plupload.Uploader(
-			{
-				runtimes : 'html5,flash,silverlight,html4',
-				browse_button : 'pickfiles', // you can pass an id...
-				container : document.getElementById('container'), // ... or DOM Element itself
-				url : url,
-				flash_swf_url : 'lib/plupload/Moxie.swf',
-				silverlight_xap_url : 'lib/plupload/Moxie.xap',
-				chunk_size : '500kb',
-
-				filters : {
-					max_file_size : '10mb',
-					mime_types : [ {
-						title : "Image files",
-						extensions : "jpg,gif,png"
-					} ]
-				},
-
-				init : {
-					PostInit : function() {
-						document.getElementById('filelist').innerHTML = '';
-
-						document.getElementById('uploadfiles').onclick = function() {
-							uploader.start();
-							return false;
-						};
-					},
-
-					FilesAdded : function(up, files) {
-						plupload
-								.each(
-										files,
-										function(file) {
-											document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">'
-													+ file.name
-													+ ' ('
-													+ plupload
-															.formatSize(file.size)
-													+ ') <b></b></div>';
-										});
-					},
-
-					UploadProgress : function(up, file) {
-						document.getElementById(file.id).getElementsByTagName(
-								'b')[0].innerHTML = '<span>' + file.percent
-								+ "%</span>";
-					},
-
-					Error : function(up, err) {
-						document.getElementById('console').appendChild(
-								document.createTextNode("\nError #" + err.code
-										+ ": " + err.message));
-					}
-				}
-			});
-
-	uploader.init();
-</script>
+<script type="text/javascript" src="../resources/app/adminjs/detial.js"></script>
 </html>

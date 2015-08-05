@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import co.bohc.diet.domain.model.Accessory;
 import co.bohc.diet.domain.repository.accessory.AccessoryOutput;
@@ -47,7 +49,7 @@ public interface AccessoryService {
     
     public Accessory findByNum(String accessoryNum);
     
-    public void changeAccessory(String accessoryNum, String level, Integer partId);
+    public void changeAccessory(String accessoryNum, String level, Integer partId, MultipartFile mf);
     
     public LucenePage luceneInA(String key, Integer page) throws IOException, ParseException;
     
