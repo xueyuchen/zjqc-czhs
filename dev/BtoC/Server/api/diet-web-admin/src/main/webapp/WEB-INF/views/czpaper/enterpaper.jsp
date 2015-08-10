@@ -140,7 +140,8 @@
 										<td><select style="width: 70px" id="abbr" name="abbr">
 												<option value="川">川</option>
 												<option value="陕">陕</option>
-												<option value="渝 ">渝</option>
+												<option value="渝">渝</option>
+												<option value="贵">贵</option>
 												<option value="暂">暂</option>
 												<option value="贵">黔</option>
 												<option value="蒙">蒙</option>
