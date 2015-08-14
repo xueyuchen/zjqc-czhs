@@ -65,8 +65,9 @@ function searchByNum() {
 function finishUpload() {
 	$("#copyfiles").attr("disabled", "disabled");
 	$("#copyfiles").html("照片处理中...");
+	var partId = $("#partId").val();
 	$.ajax({
-		url : constants.savephotoa,
+		url : constants.savephotoa + "?partId=" + partId,
 		type : 'get',
 		success : function() {
 			$("#copyfiles").removeAttr("disabled");
@@ -97,7 +98,53 @@ var pageable = {
 	hasNextPage : false,
 	nextPage : null
 };
-
+function searchByLuceneAll(){
+	var key = $('#searchPar').val();
+	$.callBack = true;
+	$
+			.ajax({
+				url : constants.searchByLuceneAll + "?key=" + key + "&page="
+						+ pageable.firstPage,
+				type : "get",
+				success : function(data) {
+					if (data.totalElements > 16 * data.page) {
+						pageable.hasNextPage = true;
+						pageable.nextPage = data.page;
+					} else {
+						pageable.hasNextPage = false;
+					}
+					$("#accessory-list").empty();
+					var str = "";
+					for ( var i in data.content) {
+						if (data.content[i].partId == 1) {
+							data.content[i].partId = "未维修";
+						} else if (data.content[i].partId == 2) {
+							data.content[i].partId = "维修中";
+						} else if (data.content[i].partId == 3) {
+							data.content[i].partId = "已维修";
+						}
+						if(data.content[i].level == 1){
+							data.content[i].level = "A库房";
+						} else if (data.content[i].level == 2){
+							data.content[i].level = "B库房";
+						}
+						str = str
+								+ '<div class="part-detial"><img src="data:image/jpg;base64,'
+								+ data.content[i].accessoryImg + '">'
+								+ '<a href="../accessories/'
+								+ data.content[i].accessoryNum + '">'
+								+ data.content[i].accessoryName
+								+ '</a><br>编号：<span>' 
+								+ data.content[i].accessoryNum 
+								+ '</span><br>' 
+								+ data.content[i].level 
+								+ '&nbsp<span>状态：</span>'
+								+ data.content[i].partId + '</div>';
+					}
+					$("#accessory-list").append(str);
+				}
+			});
+}
 function searchByLuceneA() {
 	var key = $('#searchPar').val();
 	$.callBack = true;
@@ -107,7 +154,7 @@ function searchByLuceneA() {
 						+ pageable.firstPage,
 				type : "get",
 				success : function(data) {
-					if (data.totalElements > 30 * data.page) {
+					if (data.totalElements > 16 * data.page) {
 						pageable.hasNextPage = true;
 						pageable.nextPage = data.page;
 					} else {
@@ -129,9 +176,9 @@ function searchByLuceneA() {
 								+ '<a href="../accessories/'
 								+ data.content[i].accessoryNum + '">'
 								+ data.content[i].accessoryName
-								+ '</a><br><span>编号：</span>'
-								+ data.content[i].accessoryNum
-								+ '<br><span>状态：</span>'
+								+ '</a><br>编号：<span>' 
+								+ data.content[i].accessoryNum 
+								+ '</span><br><span>状态：</span>'
 								+ data.content[i].partId + '</div>';
 					}
 					$("#accessory-list").append(str);
@@ -148,7 +195,7 @@ function searchByLuceneB() {
 						+ pageable.firstPage,
 				type : "get",
 				success : function(data) {
-					if (data.totalElements > 30 * page) {
+					if (data.totalElements > 16 * page) {
 						pageable.hasNextPage = true;
 						pageable.nextPage = page;
 					} else {
@@ -179,7 +226,9 @@ function searchByLuceneB() {
 				}
 			});
 }
-
+function saveNum(e){
+	alert(e);
+}
 $(window)
 		.on(
 				"scroll",
@@ -237,3 +286,4 @@ $(window)
 						}
 					}
 				});
+

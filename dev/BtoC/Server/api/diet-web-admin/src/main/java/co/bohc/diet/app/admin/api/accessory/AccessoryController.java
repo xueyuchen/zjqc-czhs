@@ -227,8 +227,8 @@ public class AccessoryController {
     
     @RequestMapping(value = "copytoa", method = RequestMethod.GET)
     @ResponseBody
-    public void savePhotoToA(){
-        accessoryService.savePictureToA();
+    public void savePhotoToA(String partId){
+        accessoryService.savePictureToA(partId);
         
     }
     
@@ -360,6 +360,24 @@ public class AccessoryController {
         }
         try {
             return accessoryService.luceneInB(key, page);
+        } catch (IOException | ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    @RequestMapping(value = "luceneall", method = RequestMethod.GET)
+    @ResponseBody
+    public LucenePage searchInAll(String key, Integer page, Integer size) {
+        try {
+            key = new String(key.getBytes("ISO8859-1"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            return accessoryService.luceneInAll(key, page);
         } catch (IOException | ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

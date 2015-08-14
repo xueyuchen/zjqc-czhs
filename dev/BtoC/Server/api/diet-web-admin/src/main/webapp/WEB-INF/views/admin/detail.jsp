@@ -13,7 +13,8 @@
 	href="../resources/app/adminjs/bootstrap-theme.min.css">
 <link rel="stylesheet" href="../resources/app/adminjs/dashboard.css">
 <script type="text/javascript" src="../resources/app/adminjs/listAcc.js"></script>
-<script type="text/javascript" src="../resources/app/adminjs/jquery.form.js"></script>
+<script type="text/javascript"
+	src="../resources/app/adminjs/jquery.form.js"></script>
 <script type="text/javascript" src="../resources/app/constants.js"></script>
 <script type="text/javascript"
 	src="../resources/app/adminjs/bootstrap.min.js"></script>
@@ -46,6 +47,9 @@
 					<li><a href="../admin/uploadtoB">B库照片上传</a></li>
 					<li><a href="../admin/changesB">B库库存查询</a></li>
 				</ul>
+				<ul class="nav nav-sidebar">
+					<li><a href="../admin/findAll">总库存查询</a></li>
+				</ul>
 				<hr>
 				<ul class="nav nav-sidebar">
 					<li><a href="#">销售记录查询</a></li>
@@ -57,7 +61,9 @@
 					src="${accessory.accessoryImg}" />
 
 				<div style="float: left; margin-left: 50px; margin-top: 1%;">
-					<form action="${accessory.accessoryNum}" method="post" enctype="multipart/form-data" id="form" onsubmit="return submitInfo();">
+					<form action="${accessory.accessoryNum}" method="post"
+						enctype="multipart/form-data" id="form"
+						onsubmit="return submitInfo();">
 						<table class="table table-striped">
 							<tr>
 								<td>配件名称：</td>

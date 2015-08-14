@@ -59,4 +59,9 @@ public class AdminController {
     public String toChangeB() {
         return "admin/changeB";
     }
+    
+    @RequestMapping(value = "findAll", method = RequestMethod.GET)
+    public String toFindAll() {
+        return "admin/all";
+    }
 }

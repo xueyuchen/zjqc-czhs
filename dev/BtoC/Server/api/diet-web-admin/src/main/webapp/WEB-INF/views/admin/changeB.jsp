@@ -52,6 +52,9 @@
 					<li class="active"><a href="../admin/changesB">B库库存查询</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
+					<li><a href="../admin/findAll">总库存查询</a></li>
+				</ul>
+				<ul class="nav nav-sidebar">
 					<li><a href="#">销售记录查询</a></li>
 				</ul>
 			</div>

@@ -37,7 +37,7 @@ public interface AccessoryService {
     
     public void savePicture();
     
-    public void savePictureToA();
+    public void savePictureToA(String partId);
     
     public void savePictureToB();
 
@@ -54,4 +54,6 @@ public interface AccessoryService {
     public LucenePage luceneInA(String key, Integer page) throws IOException, ParseException;
     
     public LucenePage luceneInB(String key, Integer page) throws IOException, ParseException;
+    
+    public LucenePage luceneInAll(String key, Integer page) throws IOException, ParseException;
 }

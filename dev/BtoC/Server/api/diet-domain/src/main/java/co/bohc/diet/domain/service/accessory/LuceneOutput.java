@@ -7,6 +7,7 @@ public class LuceneOutput {
     private String accessoryImg;
     private String creDt;
     private String partId;
+    private String level;
 
     public String getAccessoryName() {
         return accessoryName;
@@ -47,13 +48,22 @@ public class LuceneOutput {
     public void setPartId(String partId) {
         this.partId = partId;
     }
+    
+    public String getLevel() {
+        return level;
+    }
 
-    public LuceneOutput(String accessoryName, String accessoryNum, String accessoryImg, String partId) {
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public LuceneOutput(String accessoryName, String accessoryNum, String accessoryImg, String partId, String level) {
         super();
         this.accessoryName = accessoryName;
         this.accessoryNum = accessoryNum;
         this.accessoryImg = accessoryImg;
         this.partId = partId;
+        this.level = level;
     }
 
     public LuceneOutput(String accessoryName, String accessoryNum, String accessoryImg) {

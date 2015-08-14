@@ -1,8 +1,8 @@
 var constants = {};
 constants.api = {};
 
-//constants.api.base = 'http:' + '//' + 'localhost:8080' + '/diet-web-admin';
-constants.api.base = 'http:' + '//' + '115.28.209.203:80' + '/api';
+constants.api.base = 'http:' + '//' + 'localhost:8080' + '/diet-web-admin';
+//constants.api.base = 'http:' + '//' + '115.28.209.203:80' + '/api';
 
 constants.accessoriesSearch = constants.api.base + '/accessories/adminLucene';
 constants.accessory = constants.api.base + '/accessories';
@@ -15,3 +15,4 @@ constants.savephotoa = constants.api.base + '/accessories/copytoa';
 constants.savephotob = constants.api.base + '/accessories/copytob';
 constants.searchByLuceneA = constants.api.base + '/accessories/lucenea';
 constants.searchByLuceneB = constants.api.base + '/accessories/luceneb';
+constants.searchByLuceneAll = constants.api.base + '/accessories/luceneall';

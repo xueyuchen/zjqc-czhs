@@ -72,12 +72,14 @@ public class AccessoryServiceImpl implements AccessoryService {
     private PartRepository partRepository;
     @Inject
     private StyleRepository styleRepository;
+    
+    private static String indexpathAll = "C:\\luceneIndexAll";
 
     private static String indexpath = "C:\\luceneIndex";
 
     private static String indexpathA = "C:\\luceneIndexA";
 
-    private static String rootPath = "C:\\project\\czxsxt\\html\\image\\img\\zp";
+    private static String rootPath = "E:\\project\\czxsxt\\html\\image\\img\\zp";
 
     private static String photoUpload = "C:\\fileUpload";
 
@@ -286,11 +288,11 @@ public class AccessoryServiceImpl implements AccessoryService {
         TopDocs docs = null;
         Integer count = null;
         if (page != null && page == 0) {
-            docs = iSearcher.search(query, 30);
+            docs = iSearcher.search(query, 16);
         } else {
-            docs = iSearcher.search(query, 30 * page);
+            docs = iSearcher.search(query, 16 * page);
             ScoreDoc[] hits = docs.scoreDocs;
-            docs = iSearcher.searchAfter(hits[hits.length - 1], query, 30);
+            docs = iSearcher.searchAfter(hits[hits.length - 1], query, 16);
         }
         count = iSearcher.count(query);
         ScoreDoc[] hits = docs.scoreDocs;
@@ -513,7 +515,8 @@ public class AccessoryServiceImpl implements AccessoryService {
             String id = hitDoc.get("photoId");
             String photoPath = hitDoc.get("photoPath");
             String creDt = hitDoc.get("creDt");
-            luceneOutput = new LuceneOutput(value, id, photoPath, creDt);
+            String level = hitDoc.get("level");
+            luceneOutput = new LuceneOutput(value, id, photoPath, creDt, level);
             luceneOutputs.add(luceneOutput);
             // TokenStream tokenStream = analyzer.tokenStream(value, new
             // StringReader(value));
@@ -542,13 +545,20 @@ public class AccessoryServiceImpl implements AccessoryService {
 
     @Override
     @Transactional
-    public void savePictureToA() {
+    public void savePictureToA(String partId) {
         Analyzer analyzer = new StandardAnalyzer();
+        Directory dirAll = null;
+        IndexWriter iWriterAll = null;
+        Directory dirB = null;
         Directory directory = null;
         IndexWriter iWriter = null;
         try {
+            dirAll = FSDirectory.open(Paths.get(indexpathAll));
+            dirB = FSDirectory.open(Paths.get(indexpath));
             directory = FSDirectory.open(Paths.get(indexpathA));
             IndexWriterConfig config = new IndexWriterConfig(analyzer);
+            IndexWriterConfig configAll = new IndexWriterConfig(analyzer);
+            iWriterAll = new IndexWriter(dirAll, configAll);
             iWriter = new IndexWriter(directory, config);
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -593,7 +603,7 @@ public class AccessoryServiceImpl implements AccessoryService {
                 accessory.setAccessoryNum(AddZeroUtil.addZero(s + i + 1, 8));
                 accessory.setLevel("1");
                 accessory.setModelId(1);
-                accessory.setPartId(1);
+                accessory.setPartId(Integer.valueOf(partId));
                 accessory.setStyleId(1);
                 accessoryRepository.save(accessory);
             } catch (IOException e) {
@@ -605,7 +615,8 @@ public class AccessoryServiceImpl implements AccessoryService {
             doc.add(new Field("photoId", AddZeroUtil.addZero(s + i + 1, 8), TextField.TYPE_STORED));
             doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
             doc.add(new Field("photoPath", photoUpload_A + "\\" + fileName, TextField.TYPE_STORED));
-            doc.add(new Field("partId", "1", TextField.TYPE_STORED));
+            doc.add(new Field("partId", partId, TextField.TYPE_STORED));
+            doc.add(new Field("level", "1", TextField.TYPE_STORED));
             try {
                 iWriter.addDocument(doc);
             } catch (IOException e) {
@@ -615,6 +626,19 @@ public class AccessoryServiceImpl implements AccessoryService {
         }
         try {
             iWriter.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            iWriterAll.deleteAll();
+            if(directory.listAll() != null && directory.listAll().length != 0){
+                iWriterAll.addIndexes(directory);
+            };
+            if(dirB.listAll() != null && dirB.listAll().length != 0){
+                iWriterAll.addIndexes(dirB);
+            };
+            iWriterAll.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -679,11 +703,16 @@ public class AccessoryServiceImpl implements AccessoryService {
             if (accessory.getLevel().equals("1")) {
                 Analyzer analyzerA = new StandardAnalyzer();
                 Directory directoryA = null;
+                Directory dirAll = null;
                 IndexWriter iWriterA = null;
+                IndexWriter iWriterAll = null;
                 try {
                     directoryA = FSDirectory.open(Paths.get(indexpathA));
+                    dirAll = FSDirectory.open(Paths.get(indexpathAll));
                     IndexWriterConfig config = new IndexWriterConfig(analyzerA);
+                    IndexWriterConfig configAll = new IndexWriterConfig(analyzerA);
                     iWriterA = new IndexWriter(directoryA, config);
+                    iWriterAll = new IndexWriter(dirAll, configAll);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -693,6 +722,7 @@ public class AccessoryServiceImpl implements AccessoryService {
                 try {
                     query = parser.parse(accessoryNum);
                     iWriterA.deleteDocuments(query);
+                    iWriterAll.deleteDocuments(query);
                 } catch (ParseException | IOException e2) {
                     // TODO Auto-generated catch block
                     e2.printStackTrace();
@@ -703,9 +733,12 @@ public class AccessoryServiceImpl implements AccessoryService {
                 doc.add(new Field("creDt", TimeUtils.dateToStr(accessory.getCreDt()), TextField.TYPE_STORED));
                 doc.add(new Field("photoPath", accessory.getAccessoryImg(), TextField.TYPE_STORED));
                 doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
+                doc.add(new Field("level", "1", TextField.TYPE_STORED));
                 try {
                     iWriterA.addDocument(doc);
+                    iWriterAll.addDocument(doc);
                     iWriterA.close();
+                    iWriterAll.close();
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -734,11 +767,16 @@ public class AccessoryServiceImpl implements AccessoryService {
             } else if (accessory.getLevel().equals("2")) {
                 Analyzer analyzer = new StandardAnalyzer();
                 Directory directory = null;
+                Directory dirAll = null;
                 IndexWriter iWriter = null;
+                IndexWriter iWriterAll = null;
                 try {
                     directory = FSDirectory.open(Paths.get(indexpath));
+                    dirAll = FSDirectory.open(Paths.get(indexpathAll));
                     IndexWriterConfig config = new IndexWriterConfig(analyzer);
+                    IndexWriterConfig configAll = new IndexWriterConfig(analyzer);
                     iWriter = new IndexWriter(directory, config);
+                    iWriterAll = new IndexWriter(dirAll, configAll);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -748,6 +786,7 @@ public class AccessoryServiceImpl implements AccessoryService {
                 try {
                     query = parser.parse(accessoryNum);
                     iWriter.deleteDocuments(query);
+                    iWriterAll.deleteDocuments(query);
                 } catch (ParseException | IOException e2) {
                     // TODO Auto-generated catch block
                     e2.printStackTrace();
@@ -758,9 +797,12 @@ public class AccessoryServiceImpl implements AccessoryService {
                 doc.add(new Field("creDt", TimeUtils.dateToStr(accessory.getCreDt()), TextField.TYPE_STORED));
                 doc.add(new Field("photoPath", accessory.getAccessoryImg(), TextField.TYPE_STORED));
                 doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
+                doc.add(new Field("level", "2", TextField.TYPE_STORED));
                 try {
                     iWriter.addDocument(doc);
+                    iWriterAll.addDocument(doc);
                     iWriter.close();
+                    iWriterAll.close();
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -793,12 +835,17 @@ public class AccessoryServiceImpl implements AccessoryService {
             accessory.setPartId(partId);
             if ("2".equals(level)) {
                 Analyzer analyzerA = new StandardAnalyzer();
+                Directory dirAll = null;
                 Directory directoryA = null;
                 IndexWriter iWriterA = null;
+                IndexWriter iWriterAll = null;
                 try {
+                    dirAll = FSDirectory.open(Paths.get(indexpathAll));
                     directoryA = FSDirectory.open(Paths.get(indexpathA));
                     IndexWriterConfig config = new IndexWriterConfig(analyzerA);
+                    IndexWriterConfig configAll = new IndexWriterConfig(analyzerA);
                     iWriterA = new IndexWriter(directoryA, config);
+                    iWriterAll = new IndexWriter(dirAll, configAll);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -808,6 +855,7 @@ public class AccessoryServiceImpl implements AccessoryService {
                 try {
                     query = parser.parse(accessoryNum);
                     iWriterA.deleteDocuments(query);
+                    iWriterAll.deleteDocuments(query);
                 } catch (ParseException | IOException e2) {
                     // TODO Auto-generated catch block
                     e2.printStackTrace();
@@ -862,9 +910,11 @@ public class AccessoryServiceImpl implements AccessoryService {
                 doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
                 doc.add(new Field("photoPath", rootPath + "\\" + fileBNameNew, TextField.TYPE_STORED));
                 doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
+                doc.add(new Field("level", "2", TextField.TYPE_STORED));
                 System.out.println(rootPath + "\\" + fileBNameNew);
                 try {
                     iWriter.addDocument(doc);
+                    iWriterAll.addDocument(doc);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -874,6 +924,7 @@ public class AccessoryServiceImpl implements AccessoryService {
                 try {
                     iWriter.close();
                     iWriterA.close();
+                    iWriterAll.close();
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -901,12 +952,17 @@ public class AccessoryServiceImpl implements AccessoryService {
                 }
             } else if ("1".equals(level)) {
                 Analyzer analyzer = new StandardAnalyzer();
+                Directory dirAll = null;
                 Directory directory = null;
                 IndexWriter iWriter = null;
+                IndexWriter iWriterAll = null;
                 try {
                     directory = FSDirectory.open(Paths.get(indexpath));
+                    dirAll = FSDirectory.open(Paths.get(indexpathAll));
                     IndexWriterConfig config = new IndexWriterConfig(analyzer);
+                    IndexWriterConfig configAll = new IndexWriterConfig(analyzer);
                     iWriter = new IndexWriter(directory, config);
+                    iWriterAll = new IndexWriter(dirAll, configAll);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -916,6 +972,7 @@ public class AccessoryServiceImpl implements AccessoryService {
                 try {
                     query = parser.parse(accessoryNum);
                     iWriter.deleteDocuments(query);
+                    iWriterAll.deleteDocuments(query);
                 } catch (ParseException | IOException e2) {
                     // TODO Auto-generated catch block
                     e2.printStackTrace();
@@ -970,8 +1027,10 @@ public class AccessoryServiceImpl implements AccessoryService {
                 doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
                 doc.add(new Field("photoPath", photoUpload_A + "\\" + fileBNameNew, TextField.TYPE_STORED));
                 doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
+                doc.add(new Field("level", "1", TextField.TYPE_STORED));
                 try {
                     iWriterA.addDocument(doc);
+                    iWriterAll.addDocument(doc);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -981,6 +1040,7 @@ public class AccessoryServiceImpl implements AccessoryService {
                 try {
                     iWriter.close();
                     iWriterA.close();
+                    iWriterAll.close();
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -1061,11 +1121,18 @@ public class AccessoryServiceImpl implements AccessoryService {
             }
             Analyzer analyzer = new StandardAnalyzer();
             Directory directory = null;
+            Directory dirA = null;
+            Directory dirAll = null;
             IndexWriter iWriter = null;
+            IndexWriter iWriterAll = null;
             try {
+                dirAll = FSDirectory.open(Paths.get(indexpathAll));
                 directory = FSDirectory.open(Paths.get(indexpath));
+                dirA = FSDirectory.open(Paths.get(indexpathA));
                 IndexWriterConfig config = new IndexWriterConfig(analyzer);
+                IndexWriterConfig configAll = new IndexWriterConfig(analyzer);
                 iWriter = new IndexWriter(directory, config);
+                iWriterAll = new IndexWriter(dirAll, configAll);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -1076,6 +1143,7 @@ public class AccessoryServiceImpl implements AccessoryService {
             doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
             doc.add(new Field("photoPath", rootPath + "\\" + fileNameNew, TextField.TYPE_STORED));
             doc.add(new Field("partId", "3", TextField.TYPE_STORED));
+            doc.add(new Field("level", "2", TextField.TYPE_STORED));
             try {
                 iWriter.addDocument(doc);
             } catch (IOException e) {
@@ -1084,6 +1152,19 @@ public class AccessoryServiceImpl implements AccessoryService {
             }
             try {
                 iWriter.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            try {
+                iWriterAll.deleteAll();
+                if(directory.listAll() != null && directory.listAll().length != 0){
+                    iWriterAll.addIndexes(directory);
+                }
+                if(dirA.listAll() != null && dirA.listAll().length != 0){
+                    iWriterAll.addIndexes(dirA);
+                }
+                iWriterAll.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -1102,11 +1183,11 @@ public class AccessoryServiceImpl implements AccessoryService {
         TopDocs docs = null;
         Integer count = null;
         if (page != null && page == 0) {
-            docs = iSearcher.search(query, 30);
+            docs = iSearcher.search(query, 16);
         } else {
-            docs = iSearcher.search(query, 30 * page);
+            docs = iSearcher.search(query, 16 * page);
             ScoreDoc[] hits = docs.scoreDocs;
-            docs = iSearcher.searchAfter(hits[hits.length - 1], query, 30);
+            docs = iSearcher.searchAfter(hits[hits.length - 1], query, 16);
         }
         count = iSearcher.count(query);
         ScoreDoc[] hits = docs.scoreDocs;
@@ -1137,7 +1218,8 @@ public class AccessoryServiceImpl implements AccessoryService {
             String id = hitDoc.get("photoId");
             String photoPath = hitDoc.get("photoPath");
             String partId = hitDoc.get("partId");
-            luceneOutput = new LuceneOutput(value, id, GetImageStr(photoPath), partId);
+            String level = hitDoc.get("level");
+            luceneOutput = new LuceneOutput(value, id, GetImageStr(photoPath), partId, level);
             luceneOutputs.add(luceneOutput);
             // TokenStream tokenStream = analyzer.tokenStream(value, new
             // StringReader(value));
@@ -1171,11 +1253,11 @@ public class AccessoryServiceImpl implements AccessoryService {
         TopDocs docs = null;
         Integer count = null;
         if (page != null && page == 0) {
-            docs = iSearcher.search(query, 30);
+            docs = iSearcher.search(query, 16);
         } else {
-            docs = iSearcher.search(query, 30 * page);
+            docs = iSearcher.search(query, 16 * page);
             ScoreDoc[] hits = docs.scoreDocs;
-            docs = iSearcher.searchAfter(hits[hits.length - 1], query, 30);
+            docs = iSearcher.searchAfter(hits[hits.length - 1], query, 16);
         }
         count = iSearcher.count(query);
         ScoreDoc[] hits = docs.scoreDocs;
@@ -1206,13 +1288,85 @@ public class AccessoryServiceImpl implements AccessoryService {
             String id = hitDoc.get("photoId");
             String photoPath = hitDoc.get("photoPath");
             String partId = hitDoc.get("partId");
+            String level = hitDoc.get("level");
             System.out.println(photoPath);
             try {
-                luceneOutput = new LuceneOutput(value, id, GetImageStr(photoPath), partId);
+                luceneOutput = new LuceneOutput(value, id, GetImageStr(photoPath), partId, level);
             } catch (Exception e) {
                 System.out.println(photoPath);
                 return null;
             }
+            luceneOutputs.add(luceneOutput);
+            // TokenStream tokenStream = analyzer.tokenStream(value, new
+            // StringReader(value));
+            // String str1 = highlighter.getBestFragment(tokenStream, value);
+
+            System.out.println(value);
+            System.out.println(id);
+        }
+        LucenePage lucenePage = new LucenePage();
+        lucenePage.setContent(luceneOutputs);
+        lucenePage.setSize(hits.length);
+        lucenePage.setTotalElements(count);
+        if (hits.length == 0) {
+            lucenePage.setPage(0);
+        } else {
+            lucenePage.setPage(count / hits.length);
+        }
+        iReader.close();
+        directory.close();
+        return lucenePage;
+    }
+
+    @Override
+    public LucenePage luceneInAll(String key, Integer page) throws IOException, ParseException {
+        Analyzer analyzer = new StandardAnalyzer();
+        Directory directory = FSDirectory.open(Paths.get(indexpathAll));
+        DirectoryReader iReader = DirectoryReader.open(directory);
+        IndexSearcher iSearcher = new IndexSearcher(iReader);
+        String[] multiFields = { "fileName", "photoId" };
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(multiFields, analyzer);
+        Query query = parser.parse(key);
+        TopDocs docs = null;
+        Integer count = null;
+        if (page != null && page == 0) {
+            docs = iSearcher.search(query, 16);
+        } else {
+            docs = iSearcher.search(query, 16 * page);
+            ScoreDoc[] hits = docs.scoreDocs;
+            docs = iSearcher.searchAfter(hits[hits.length - 1], query, 16);
+        }
+        count = iSearcher.count(query);
+        ScoreDoc[] hits = docs.scoreDocs;
+        // docs = iSearcher.searchAfter(hits[hits.length - 1], query, 2);
+        // hits = docs.scoreDocs;
+        System.out.println(count);
+        System.out.println(hits.length);
+
+        // SimpleHTMLFormatter simpleHTMLFormatter = new
+        // SimpleHTMLFormatter("<span style='color:green'>", "</span>");
+        // Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new
+        // QueryScorer(query));
+        // highlighter.setTextFragmenter(new SimpleFragmenter(100));
+        System.out.println("Searched " + hits.length + " documents.");
+        // Iteratethrough the results:
+        List<LuceneOutput> luceneOutputs = new ArrayList<LuceneOutput>();
+        LuceneOutput luceneOutput = null;
+        for (int i = 0; i < hits.length; i++) {
+            Document hitDoc = iSearcher.doc(hits[i].doc);
+            String[] scoreExplain = null;
+            // scoreExplain可以显示文档的得分详情，这里用split截取总分
+            scoreExplain = iSearcher.explain(query, hits[i].doc).toString().split(" ", 2);
+            String scores = scoreExplain[0];
+            // assertEquals("Thisis the text to be indexed.",
+            // hitDoc.get("fieldname"));
+            System.out.println("score:" + scores);
+            String value = hitDoc.get("fileName");
+            String id = hitDoc.get("photoId");
+            String photoPath = hitDoc.get("photoPath");
+            String partId = hitDoc.get("partId");
+            String level = hitDoc.get("level");
+            luceneOutput = new LuceneOutput(value, id, GetImageStr(photoPath), partId, level);
             luceneOutputs.add(luceneOutput);
             // TokenStream tokenStream = analyzer.tokenStream(value, new
             // StringReader(value));

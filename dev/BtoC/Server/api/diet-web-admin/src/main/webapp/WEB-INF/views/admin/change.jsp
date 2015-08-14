@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Insert title here</title>
-<script src="../resources/app/jsuser/jquery.min.js"></script>
+<script src="../resources/app/js/js_lib/jquery.js"></script>
 <script type="text/javascript"
 	src="../resources/app/plupload/plupload.full.min.js"></script>
 <script type="text/javascript"
@@ -21,7 +21,7 @@
 <script type="text/javascript" src="../resources/app/constants.js"></script>
 <script type="text/javascript" src="../resources/app/adminjs/listAcc.js"></script>
 <script type="text/javascript"
-	src="../resources/app/adminjs/bootstrap.min.js"></script>
+	src="../resources/app/adminjs/bootstrap.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -36,6 +36,19 @@
 					placeholder="奥迪 A6L 2014 左大灯(查询条件请以空格分开)"
 					oninput="searchByLuceneA();" />
 			</form>
+			<div class="btn-group"
+				style="margin-top: 8px; float: right; margin-right: 10%;">
+				<button type="button" class="btn btn-danger">批量修改</button>
+				<button type="button" class="btn btn-danger dropdown-toggle"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="caret"></span> <span class="sr-only">Toggle
+						Dropdown</span>
+				</button>
+				<ul class="dropdown-menu">
+					<li><a href="javascript:void(0);">已选配件</a></li>
+					<li role="separator" class="divider"></li>
+				</ul>
+			</div>
 		</div>
 	</div>
 	</nav>
@@ -51,6 +64,9 @@
 					<li><a href="../admin/changesB">B库库存查询</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
+					<li><a href="../admin/findAll">总库存查询</a></li>
+				</ul>
+				<ul class="nav nav-sidebar">
 					<li><a href="#">销售记录查询</a></li>
 				</ul>
 			</div>
@@ -60,4 +76,23 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	$('.dropdown-toggle').dropdown();
+	$('#accessory-list')
+			.on(
+					'click',
+					'img',
+					function(e) {
+						var accessoryNum = $(e.target).parent()
+								.children('span').html();
+						var accessoryName = $(e.target).parent().children('a')
+								.html();
+						$('.dropdown-menu').append(
+								'<li><a href="javascript:void(0);">'
+										+ accessoryNum + '</a></li>');
+					});
+	$('.dropdown-menu').on('click', 'li', function(e) {
+		$(e.target).remove();
+	});
+</script>
 </html>

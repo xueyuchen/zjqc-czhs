@@ -43,6 +43,9 @@
 					<li><a href="../admin/changesB">B库库存查询</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
+					<li><a href="../admin/findAll">总库存查询</a></li>
+				</ul>
+				<ul class="nav nav-sidebar">
 					<li><a href="#">销售记录查询</a></li>
 				</ul>
 			</div>
@@ -58,7 +61,13 @@
 				<div id="container">
 					<button type="button" class="btn btn-primary" id="pickfiles">选择照片</button>
 					<button type="button" class="btn btn-primary" id="uploadfiles">上传照片</button>
-					<button id="copyfiles" class="btn btn-primary" onclick="finishUpload();">复制照片到A库</button>
+					<button id="copyfiles" class="btn btn-primary"
+						onclick="finishUpload();">复制照片到A库</button>
+					维修状态： <select name="partId" id="partId">
+						<option value="1">未修复</option>
+						<option value="2">修复中</option>
+						<option value="3">已修复</option>
+					</select>
 				</div>
 
 				<br />
@@ -99,19 +108,27 @@
 					},
 
 					FilesAdded : function(up, files) {
-						plupload.each(files, function(file) {
-											document.getElementById('filelist').innerHTML += '<div style="  display: block;float: left;width: 40%;" id="' + file.id + '">'
+						plupload
+								.each(
+										files,
+										function(file) {
+											document.getElementById('filelist').innerHTML += '<div style="  display: block;float: left;width: 40%;" id="'
+													+ file.id
+													+ '">'
 													+ file.name
 													+ ' ('
-													+ plupload.formatSize(file.size)
-													+ ') </div>' + '<div class="progress" style="width: 60%">'
-								                    + '<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0%'
-							                    + '</div></div>';
+													+ plupload
+															.formatSize(file.size)
+													+ ') </div>'
+													+ '<div class="progress" style="width: 60%">'
+													+ '<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0%'
+													+ '</div></div>';
 										});
 					},
 
 					UploadProgress : function(up, file) {
-						$("#"+file.id).next().children().css("width", file.percent+"%").html(file.percent + "%");
+						$("#" + file.id).next().children().css("width",
+								file.percent + "%").html(file.percent + "%");
 						//document.getElementById(file.id).getElementsByTagName(
 						//		'b')[0].innerHTML = '<span>' + file.percent
 						//		+ "%</span>";
