@@ -98,7 +98,7 @@ var pageable = {
 	hasNextPage : false,
 	nextPage : null
 };
-function searchByLuceneAll(){
+function searchByLuceneAll() {
 	var key = $('#searchPar').val();
 	$.callBack = true;
 	$
@@ -123,9 +123,9 @@ function searchByLuceneAll(){
 						} else if (data.content[i].partId == 3) {
 							data.content[i].partId = "已维修";
 						}
-						if(data.content[i].level == 1){
+						if (data.content[i].level == 1) {
 							data.content[i].level = "A库房";
-						} else if (data.content[i].level == 2){
+						} else if (data.content[i].level == 2) {
 							data.content[i].level = "B库房";
 						}
 						str = str
@@ -134,10 +134,9 @@ function searchByLuceneAll(){
 								+ '<a href="../accessories/'
 								+ data.content[i].accessoryNum + '">'
 								+ data.content[i].accessoryName
-								+ '</a><br>编号：<span>' 
-								+ data.content[i].accessoryNum 
-								+ '</span><br>' 
-								+ data.content[i].level 
+								+ '</a><br>编号：<span>'
+								+ data.content[i].accessoryNum + '</span><br>'
+								+ data.content[i].level
 								+ '&nbsp<span>状态：</span>'
 								+ data.content[i].partId + '</div>';
 					}
@@ -176,8 +175,8 @@ function searchByLuceneA() {
 								+ '<a href="../accessories/'
 								+ data.content[i].accessoryNum + '">'
 								+ data.content[i].accessoryName
-								+ '</a><br>编号：<span>' 
-								+ data.content[i].accessoryNum 
+								+ '</a><br>编号：<span>'
+								+ data.content[i].accessoryNum
 								+ '</span><br><span>状态：</span>'
 								+ data.content[i].partId + '</div>';
 					}
@@ -226,7 +225,17 @@ function searchByLuceneB() {
 				}
 			});
 }
-function saveNum(e){
+function toModifyList() {
+	var $numList = $('.dropdown-menu').children().eq(1).nextAll();
+	var numList = '';
+	for(var i = 0; i < $numList.length; i++){
+		console.log($($numList[i]).children().html());
+		numList = numList + $($numList[i]).children().html()+",";
+	}
+	$('#numList').val(numList);
+	$('#listForm').submit();
+}
+function saveNum(e) {
 	alert(e);
 }
 $(window)
@@ -286,4 +295,3 @@ $(window)
 						}
 					}
 				});
-

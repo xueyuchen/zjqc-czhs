@@ -31,7 +31,8 @@ function changeDate() {
 								+ data[i].accessoryName
 								+ '</a><br><span>编号：</span>'
 								+ data[i].accessoryNum + '<br><span>状态：</span>'
-								+ data[i].partId + '</div>';
+								+ data[i].partId + '<br><span>备注：</span>'
+								+ data[i].msg + '</div>';
 					}
 					$("#accessory-list").append(str);
 				}
@@ -128,7 +129,9 @@ function searchByLuceneA() {
 								+ '</a><br><span>编号：</span>'
 								+ data.content[i].accessoryNum
 								+ '<br><span>状态：</span>'
-								+ data.content[i].partId + '</div>';
+								+ data.content[i].partId
+								+ '<br><span>备注：</span>' + data.content[i].msg
+								+ '</div>';
 					}
 					$("#accessory-list").append(str);
 				}
@@ -169,7 +172,9 @@ function searchByLuceneB() {
 								+ '</a><br><span>编号：</span>'
 								+ data.content[i].accessoryNum
 								+ '<br><span>状态：</span>'
-								+ data.content[i].partId + '</div>';
+								+ data.content[i].partId
+								+ '<br><span>备注：</span>' + data.content[i].msg
+								+ '</div>';
 					}
 					$("#accessory-list").append(str);
 				}

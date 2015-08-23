@@ -49,11 +49,13 @@ public interface AccessoryService {
     
     public Accessory findByNum(String accessoryNum);
     
-    public void changeAccessory(String accessoryNum, String level, Integer partId, MultipartFile mf);
+    public void changeAccessory(String accessoryNum, String level, Integer partId, String msg, MultipartFile mf);
     
     public LucenePage luceneInA(String key, Integer page) throws IOException, ParseException;
     
     public LucenePage luceneInB(String key, Integer page) throws IOException, ParseException;
     
     public LucenePage luceneInAll(String key, Integer page) throws IOException, ParseException;
+    
+    public List<Accessory> modifyList(String[] nums);
 }

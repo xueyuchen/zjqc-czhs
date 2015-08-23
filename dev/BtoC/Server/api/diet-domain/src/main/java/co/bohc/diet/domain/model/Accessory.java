@@ -1,6 +1,6 @@
 package co.bohc.diet.domain.model;
 
-// Generated 2015-7-30 16:51:08 by Hibernate Tools 3.2.2.GA
+// Generated 2015-8-17 15:44:16 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 
@@ -32,6 +32,7 @@ public class Accessory implements java.io.Serializable {
     private Integer partId;
     private Integer styleId;
     private Integer modelId;
+    private String msg;
 
     public Accessory() {
     }
@@ -45,7 +46,7 @@ public class Accessory implements java.io.Serializable {
     }
 
     public Accessory(Integer accessoryId, String accessoryName, String accessoryImg, String level, String accessoryNum,
-            Date creDt, Date saleDt, Double saleMoney, Integer partId, Integer styleId, Integer modelId) {
+            Date creDt, Date saleDt, Double saleMoney, Integer partId, Integer styleId, Integer modelId, String msg) {
         this.accessoryId = accessoryId;
         this.accessoryName = accessoryName;
         this.accessoryImg = accessoryImg;
@@ -57,6 +58,7 @@ public class Accessory implements java.io.Serializable {
         this.partId = partId;
         this.styleId = styleId;
         this.modelId = modelId;
+        this.msg = msg;
     }
 
     @Id
@@ -160,6 +162,15 @@ public class Accessory implements java.io.Serializable {
 
     public void setModelId(Integer modelId) {
         this.modelId = modelId;
+    }
+
+    @Column(name = "msg", length = 256)
+    public String getMsg() {
+        return this.msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
 }

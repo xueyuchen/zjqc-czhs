@@ -8,6 +8,7 @@ public class LuceneOutput {
     private String creDt;
     private String partId;
     private String level;
+    private String msg;
 
     public String getAccessoryName() {
         return accessoryName;
@@ -57,6 +58,14 @@ public class LuceneOutput {
         this.level = level;
     }
 
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
     public LuceneOutput(String accessoryName, String accessoryNum, String accessoryImg, String partId, String level) {
         super();
         this.accessoryName = accessoryName;
@@ -65,6 +74,17 @@ public class LuceneOutput {
         this.partId = partId;
         this.level = level;
     }
+    
+    public LuceneOutput(String accessoryName, String accessoryNum, String accessoryImg, String partId, String level, String msg) {
+        super();
+        this.accessoryName = accessoryName;
+        this.accessoryNum = accessoryNum;
+        this.accessoryImg = accessoryImg;
+        this.partId = partId;
+        this.level = level;
+        this.msg = msg;
+    }
+
 
     public LuceneOutput(String accessoryName, String accessoryNum, String accessoryImg) {
         super();

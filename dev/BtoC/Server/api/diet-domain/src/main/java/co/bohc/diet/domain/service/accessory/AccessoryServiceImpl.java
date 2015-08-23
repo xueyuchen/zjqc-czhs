@@ -671,7 +671,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 
     @Override
     @Transactional
-    public void changeAccessory(String accessoryNum, String level, Integer partId, MultipartFile mf) {
+    public void changeAccessory(String accessoryNum, String level, Integer partId, String msg, MultipartFile mf) {
         Accessory accessory = accessoryRepository.findOneByNum(accessoryNum);
         if (accessory.getLevel().equals(level) && accessory.getPartId() == partId && mf != null && !mf.isEmpty()) {
             InputStream is = null;
@@ -700,6 +700,7 @@ public class AccessoryServiceImpl implements AccessoryService {
             return;
         } else if (accessory.getLevel().equals(level) && accessory.getPartId() != partId) {
             accessory.setPartId(partId);
+            accessory.setMsg(msg);
             if (accessory.getLevel().equals("1")) {
                 Analyzer analyzerA = new StandardAnalyzer();
                 Directory directoryA = null;
@@ -734,6 +735,7 @@ public class AccessoryServiceImpl implements AccessoryService {
                 doc.add(new Field("photoPath", accessory.getAccessoryImg(), TextField.TYPE_STORED));
                 doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
                 doc.add(new Field("level", "1", TextField.TYPE_STORED));
+                doc.add(new Field("msg", msg, TextField.TYPE_STORED));
                 try {
                     iWriterA.addDocument(doc);
                     iWriterAll.addDocument(doc);
@@ -798,6 +800,7 @@ public class AccessoryServiceImpl implements AccessoryService {
                 doc.add(new Field("photoPath", accessory.getAccessoryImg(), TextField.TYPE_STORED));
                 doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
                 doc.add(new Field("level", "2", TextField.TYPE_STORED));
+                doc.add(new Field("msg", msg, TextField.TYPE_STORED));
                 try {
                     iWriter.addDocument(doc);
                     iWriterAll.addDocument(doc);
@@ -833,6 +836,7 @@ public class AccessoryServiceImpl implements AccessoryService {
         } else if (!accessory.getLevel().equals(level)) {
             accessory.setLevel(level);
             accessory.setPartId(partId);
+            accessory.setMsg(msg);
             if ("2".equals(level)) {
                 Analyzer analyzerA = new StandardAnalyzer();
                 Directory dirAll = null;
@@ -911,6 +915,7 @@ public class AccessoryServiceImpl implements AccessoryService {
                 doc.add(new Field("photoPath", rootPath + "\\" + fileBNameNew, TextField.TYPE_STORED));
                 doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
                 doc.add(new Field("level", "2", TextField.TYPE_STORED));
+                doc.add(new Field("msg", msg, TextField.TYPE_STORED));
                 System.out.println(rootPath + "\\" + fileBNameNew);
                 try {
                     iWriter.addDocument(doc);
@@ -1028,6 +1033,7 @@ public class AccessoryServiceImpl implements AccessoryService {
                 doc.add(new Field("photoPath", photoUpload_A + "\\" + fileBNameNew, TextField.TYPE_STORED));
                 doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
                 doc.add(new Field("level", "1", TextField.TYPE_STORED));
+                doc.add(new Field("msg", msg, TextField.TYPE_STORED));
                 try {
                     iWriterA.addDocument(doc);
                     iWriterAll.addDocument(doc);
@@ -1289,9 +1295,10 @@ public class AccessoryServiceImpl implements AccessoryService {
             String photoPath = hitDoc.get("photoPath");
             String partId = hitDoc.get("partId");
             String level = hitDoc.get("level");
+            String msg = hitDoc.get("msg");
             System.out.println(photoPath);
             try {
-                luceneOutput = new LuceneOutput(value, id, GetImageStr(photoPath), partId, level);
+                luceneOutput = new LuceneOutput(value, id, GetImageStr(photoPath), partId, level, msg);
             } catch (Exception e) {
                 System.out.println(photoPath);
                 return null;
@@ -1387,5 +1394,18 @@ public class AccessoryServiceImpl implements AccessoryService {
         iReader.close();
         directory.close();
         return lucenePage;
+    }
+
+    @Override
+    public List<Accessory> modifyList(String[] nums) {
+        List<Accessory> accessories = new ArrayList<Accessory>();
+        Accessory accessory = null;
+        for(int i = 0; i < nums.length; i++){
+            accessory = new Accessory();
+            accessory = accessoryRepository.findByNum(nums[i]);
+            accessory.setAccessoryImg(GetImageStr(accessory.getAccessoryImg()));
+            accessories.add(accessory);
+        }
+        return accessories;
     }
 }

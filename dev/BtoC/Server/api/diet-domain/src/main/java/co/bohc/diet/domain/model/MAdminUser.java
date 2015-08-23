@@ -1,6 +1,6 @@
 package co.bohc.diet.domain.model;
 
-// Generated 2015-7-30 16:51:08 by Hibernate Tools 3.2.2.GA
+// Generated 2015-8-17 15:44:16 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 
