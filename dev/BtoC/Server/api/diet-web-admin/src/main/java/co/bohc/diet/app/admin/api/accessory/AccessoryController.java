@@ -150,12 +150,12 @@ public class AccessoryController {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
         String fileName = req.getParameter("name");
         String chunk = req.getParameter("chunk");
-        File newFile = new File("C:\\fileUpload\\" + fileName);
+        File newFile = new File("/Users/local/lucene/fileUpload/" + fileName);
         String fileNameNew = fileName;
         int l = 1;
         while (newFile.exists() && "0".equals(chunk)) {
-            fileNameNew = fileName.split("\\.")[0] + l + "." + fileName.split("\\.")[1];
-            newFile = new File("C:\\fileUpload\\" + fileNameNew);
+            fileNameNew = fileName.split("/")[0] + l + "." + fileName.split("/")[1];
+            newFile = new File("/Users/local/lucene/fileUpload/" + fileNameNew);
             l++;
         }
         if ("0".equals(chunk)) {
