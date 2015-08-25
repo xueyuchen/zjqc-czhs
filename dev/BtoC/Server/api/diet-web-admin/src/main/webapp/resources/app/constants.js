@@ -1,8 +1,8 @@
 var constants = {};
 constants.api = {};
 
-//constants.api.base = 'http:' + '//' + 'localhost:8080' + '/diet-web-admin';
-constants.api.base = 'http:' + '//' + '115.28.209.203:80' + '/api';
+constants.api.base = 'http:' + '//' + 'localhost:8080' + '/diet-web-admin';
+//constants.api.base = 'http:' + '//' + '115.28.209.203:80' + '/api';
 
 constants.accessoriesSearch = constants.api.base + '/accessories/adminLucene';
 constants.accessory = constants.api.base + '/accessories';

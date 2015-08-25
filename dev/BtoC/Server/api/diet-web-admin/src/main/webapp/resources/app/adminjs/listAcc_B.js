@@ -169,9 +169,9 @@ function searchByLuceneB() {
 								+ '<a href="../accessories/'
 								+ data.content[i].accessoryNum + '">'
 								+ data.content[i].accessoryName
-								+ '</a><br><span>编号：</span>'
+								+ '</a><br>编号：<span>'
 								+ data.content[i].accessoryNum
-								+ '<br><span>状态：</span>'
+								+ '</span><br><span>状态：</span>'
 								+ data.content[i].partId
 								+ '<br><span>备注：</span>' + data.content[i].msg
 								+ '</div>';
@@ -180,7 +180,16 @@ function searchByLuceneB() {
 				}
 			});
 }
-
+function toModifyList() {
+	var $numList = $('.dropdown-menu').children().eq(1).nextAll();
+	var numList = '';
+	for(var i = 0; i < $numList.length; i++){
+		console.log($($numList[i]).children().html());
+		numList = numList + $($numList[i]).children().html()+",";
+	}
+	$('#numList').val(numList);
+	$('#listForm').submit();
+}
 $(window)
 		.on(
 				"scroll",

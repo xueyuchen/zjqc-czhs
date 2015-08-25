@@ -178,7 +178,9 @@ function searchByLuceneA() {
 								+ '</a><br>编号：<span>'
 								+ data.content[i].accessoryNum
 								+ '</span><br><span>状态：</span>'
-								+ data.content[i].partId + '</div>';
+								+ data.content[i].partId 
+								+ '<br><span>备注：</span>' + data.content[i].msg
+								+ '</div>';
 					}
 					$("#accessory-list").append(str);
 				}

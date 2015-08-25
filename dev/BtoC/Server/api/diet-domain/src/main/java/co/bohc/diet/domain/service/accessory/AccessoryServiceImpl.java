@@ -72,20 +72,20 @@ public class AccessoryServiceImpl implements AccessoryService {
     private PartRepository partRepository;
     @Inject
     private StyleRepository styleRepository;
-    
-    private static String indexpathAll = "C:\\luceneIndexAll";
 
-    private static String indexpath = "C:\\luceneIndex";
+    private static String indexpathAll = "/Users/local/lucene/luceneIndexAll/";
 
-    private static String indexpathA = "C:\\luceneIndexA";
+    private static String indexpath = "/Users/local/lucene/luceneIndex/";
 
-    private static String rootPath = "E:\\project\\czxsxt\\html\\image\\img\\zp";
+    private static String indexpathA = "/Users/local/lucene/luceneIndexA/";
 
-    private static String photoUpload = "C:\\fileUpload";
+    private static String rootPath = "/Users/local/workspace/czxsxt/html/image/img/zp/";
 
-    private static String photoUpload_B = "C:\\fileUploadB";
+    private static String photoUpload = "/Users/local/lucene/fileUpload/";
 
-    private static String photoUpload_A = "C:\\A_class";
+    private static String photoUpload_B = "/Users/local/lucene/fileUploadB/";
+
+    private static String photoUpload_A = "/Users/local/lucene/A_class/";
 
     // @Override
     // public List<Accessory> findByModelStylePart(String modelName, String
@@ -385,7 +385,7 @@ public class AccessoryServiceImpl implements AccessoryService {
             }
             accessory.setAccessoryName(photoName);
             accessory.setCreDt(date);
-            accessory.setAccessoryImg(rootPath + "\\" + photoName + "\\." + photos[i].toString().split("\\.")[1]);
+            accessory.setAccessoryImg(rootPath + photoName + "/" + photos[i].toString().split("/")[1]);
             accessory.setAccessoryNum(AddZeroUtil.addZero(photoLibNum + i, 7));
             accessory.setLevel("1");
             accessory.setModelId(1);
@@ -409,8 +409,8 @@ public class AccessoryServiceImpl implements AccessoryService {
             int i = 1;
             int bytesum = 0;
             int byteread = 0;
-            String oldPath = photoUpload + "\\" + fileName;
-            String newPath = rootPath + "\\" + fileName;
+            String oldPath = photoUpload + fileName;
+            String newPath = rootPath + fileName;
             File oldFile = new File(oldPath);
             File newFile = new File(newPath);
             String fileNameFirst = fileName.split("\\.")[0];
@@ -573,13 +573,13 @@ public class AccessoryServiceImpl implements AccessoryService {
         Date toDt = TimeUtils.getEndTimeOfMonth(date);
         Integer s = accessoryRepository.countByMonth(fromDt, toDt);
         for (int i = 0; i < fileNames.length; i++) {
-            fromPhoto = new File(photoUpload + "\\" + fileNames[i]);
-            toPhoto = new File(photoUpload_A + "\\" + fileNames[i]);
+            fromPhoto = new File(photoUpload + fileNames[i]);
+            toPhoto = new File(photoUpload_A + fileNames[i]);
             int l = 1;
             String fileName = fileNames[i];
             while (toPhoto.exists()) {
                 fileName = fileNames[i].split("\\.")[0] + "_" + l + "." + fileNames[i].split("\\.")[1];
-                toPhoto = new File(photoUpload_A + "\\" + fileName);
+                toPhoto = new File(photoUpload_A + fileName);
                 l++;
             }
             try {
@@ -599,7 +599,7 @@ public class AccessoryServiceImpl implements AccessoryService {
                 Accessory accessory = new Accessory();
                 accessory.setAccessoryName(fileName.split("\\.")[0]);
                 accessory.setCreDt(date);
-                accessory.setAccessoryImg(photoUpload_A + "\\" + fileName);
+                accessory.setAccessoryImg(photoUpload_A + fileName);
                 accessory.setAccessoryNum(AddZeroUtil.addZero(s + i + 1, 8));
                 accessory.setLevel("1");
                 accessory.setModelId(1);
@@ -614,9 +614,10 @@ public class AccessoryServiceImpl implements AccessoryService {
             doc.add(new Field("fileName", fileName.split("\\.")[0], TextField.TYPE_STORED));
             doc.add(new Field("photoId", AddZeroUtil.addZero(s + i + 1, 8), TextField.TYPE_STORED));
             doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
-            doc.add(new Field("photoPath", photoUpload_A + "\\" + fileName, TextField.TYPE_STORED));
+            doc.add(new Field("photoPath", photoUpload_A + fileName, TextField.TYPE_STORED));
             doc.add(new Field("partId", partId, TextField.TYPE_STORED));
             doc.add(new Field("level", "1", TextField.TYPE_STORED));
+            doc.add(new Field("msg", "无备注", TextField.TYPE_STORED));
             try {
                 iWriter.addDocument(doc);
             } catch (IOException e) {
@@ -632,12 +633,14 @@ public class AccessoryServiceImpl implements AccessoryService {
         }
         try {
             iWriterAll.deleteAll();
-            if(directory.listAll() != null && directory.listAll().length != 0){
+            if (directory.listAll() != null && directory.listAll().length != 0) {
                 iWriterAll.addIndexes(directory);
-            };
-            if(dirB.listAll() != null && dirB.listAll().length != 0){
+            }
+            ;
+            if (dirB.listAll() != null && dirB.listAll().length != 0) {
                 iWriterAll.addIndexes(dirB);
-            };
+            }
+            ;
             iWriterAll.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -673,7 +676,12 @@ public class AccessoryServiceImpl implements AccessoryService {
     @Transactional
     public void changeAccessory(String accessoryNum, String level, Integer partId, String msg, MultipartFile mf) {
         Accessory accessory = accessoryRepository.findOneByNum(accessoryNum);
+        if (accessory.getLevel().equals(level) && accessory.getPartId() == partId && mf == null
+                && (msg == "" || msg == null)) {
+            return;
+        }
         if (accessory.getLevel().equals(level) && accessory.getPartId() == partId && mf != null && !mf.isEmpty()) {
+            accessory.setMsg(msg);
             InputStream is = null;
             OutputStream os = null;
             File oldFile = null;
@@ -695,12 +703,8 @@ public class AccessoryServiceImpl implements AccessoryService {
                     e.printStackTrace();
                 }
             }
-        }
-        if (accessory.getLevel().equals(level) && accessory.getPartId() == partId && mf == null) {
-            return;
-        } else if (accessory.getLevel().equals(level) && accessory.getPartId() != partId) {
-            accessory.setPartId(partId);
-            accessory.setMsg(msg);
+            accessoryRepository.save(accessory);
+        } else if (accessory.getLevel().equals(level)) {
             if (accessory.getLevel().equals("1")) {
                 Analyzer analyzerA = new StandardAnalyzer();
                 Directory directoryA = null;
@@ -832,11 +836,10 @@ public class AccessoryServiceImpl implements AccessoryService {
                     e.printStackTrace();
                 }
             }
-            accessoryRepository.save(accessory);
-        } else if (!accessory.getLevel().equals(level)) {
-            accessory.setLevel(level);
             accessory.setPartId(partId);
             accessory.setMsg(msg);
+            accessoryRepository.save(accessory);
+        } else if (!accessory.getLevel().equals(level)) {
             if ("2".equals(level)) {
                 Analyzer analyzerA = new StandardAnalyzer();
                 Directory dirAll = null;
@@ -880,13 +883,13 @@ public class AccessoryServiceImpl implements AccessoryService {
                  */
                 File accessoryFileA = new File(accessory.getAccessoryImg());
                 String fileBName = accessory.getAccessoryImg().substring(
-                        accessory.getAccessoryImg().lastIndexOf("\\") + 1);
-                File accessoryFileB = new File(rootPath + "\\" + fileBName);
+                        accessory.getAccessoryImg().lastIndexOf("/") + 1);
+                File accessoryFileB = new File(rootPath + fileBName);
                 int i = 1;
                 String fileBNameNew = fileBName;
                 while (accessoryFileB.exists()) {
                     fileBNameNew = fileBName.split("\\.")[0] + "_" + i + "." + fileBName.split("\\.")[1];
-                    accessoryFileB = new File(rootPath + "\\" + fileBNameNew);
+                    accessoryFileB = new File(rootPath + fileBNameNew);
                     i++;
                 }
                 try {
@@ -912,11 +915,11 @@ public class AccessoryServiceImpl implements AccessoryService {
                 doc.add(new Field("fileName", fileBNameNew.split("\\.")[0], TextField.TYPE_STORED));
                 doc.add(new Field("photoId", accessory.getAccessoryNum(), TextField.TYPE_STORED));
                 doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
-                doc.add(new Field("photoPath", rootPath + "\\" + fileBNameNew, TextField.TYPE_STORED));
+                doc.add(new Field("photoPath", rootPath + fileBNameNew, TextField.TYPE_STORED));
                 doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
                 doc.add(new Field("level", "2", TextField.TYPE_STORED));
                 doc.add(new Field("msg", msg, TextField.TYPE_STORED));
-                System.out.println(rootPath + "\\" + fileBNameNew);
+                System.out.println(rootPath + fileBNameNew);
                 try {
                     iWriter.addDocument(doc);
                     iWriterAll.addDocument(doc);
@@ -924,7 +927,10 @@ public class AccessoryServiceImpl implements AccessoryService {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                accessory.setAccessoryImg(rootPath + "\\" + fileBNameNew);
+                accessory.setPartId(partId);
+                accessory.setMsg(msg);
+                accessory.setLevel(level);
+                accessory.setAccessoryImg(rootPath + fileBNameNew);
                 accessoryRepository.save(accessory);
                 try {
                     iWriter.close();
@@ -998,8 +1004,8 @@ public class AccessoryServiceImpl implements AccessoryService {
                  */
                 File accessoryFileA = new File(accessory.getAccessoryImg());
                 String fileBName = accessory.getAccessoryImg().substring(
-                        accessory.getAccessoryImg().lastIndexOf("\\") + 1);
-                File accessoryFileB = new File(photoUpload_A + "\\" + fileBName);
+                        accessory.getAccessoryImg().lastIndexOf("/") + 1);
+                File accessoryFileB = new File(photoUpload_A + fileBName);
                 int i = 1;
                 String fileBNameNew = fileBName;
                 while (accessoryFileB.exists()) {
@@ -1030,7 +1036,7 @@ public class AccessoryServiceImpl implements AccessoryService {
                 doc.add(new Field("fileName", fileBNameNew.split("\\.")[0], TextField.TYPE_STORED));
                 doc.add(new Field("photoId", accessory.getAccessoryNum(), TextField.TYPE_STORED));
                 doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
-                doc.add(new Field("photoPath", photoUpload_A + "\\" + fileBNameNew, TextField.TYPE_STORED));
+                doc.add(new Field("photoPath", photoUpload_A + fileBNameNew, TextField.TYPE_STORED));
                 doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
                 doc.add(new Field("level", "1", TextField.TYPE_STORED));
                 doc.add(new Field("msg", msg, TextField.TYPE_STORED));
@@ -1041,7 +1047,10 @@ public class AccessoryServiceImpl implements AccessoryService {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                accessory.setAccessoryImg(photoUpload_A + "\\" + fileBNameNew);
+                accessory.setPartId(partId);
+                accessory.setMsg(msg);
+                accessory.setLevel(level);
+                accessory.setAccessoryImg(photoUpload_A + fileBNameNew);
                 accessoryRepository.save(accessory);
                 try {
                     iWriter.close();
@@ -1088,13 +1097,13 @@ public class AccessoryServiceImpl implements AccessoryService {
         Integer s = accessoryRepository.countByMonth(fromDt, toDt);
         String fileNameNew = null;
         for (int i = 0; i < fileNames.length; i++) {
-            fromPhoto = new File(photoUpload_B + "\\" + fileNames[i]);
-            toPhoto = new File(rootPath + "\\" + fileNames[i]);
+            fromPhoto = new File(photoUpload_B + fileNames[i]);
+            toPhoto = new File(rootPath + fileNames[i]);
             int l = 1;
             fileNameNew = fileNames[i];
             while (toPhoto.exists()) {
                 fileNameNew = fileNames[i].split("\\.")[0] + "_" + l + "." + fileNames[i].split("\\.")[1];
-                toPhoto = new File(rootPath + "\\" + fileNameNew);
+                toPhoto = new File(rootPath + fileNameNew);
                 l++;
             }
             try {
@@ -1114,7 +1123,7 @@ public class AccessoryServiceImpl implements AccessoryService {
                 fromPhoto.delete();
                 accessory.setAccessoryName(fileNameNew.split("\\.")[0]);
                 accessory.setCreDt(date);
-                accessory.setAccessoryImg(rootPath + "\\" + fileNameNew);
+                accessory.setAccessoryImg(rootPath + fileNameNew);
                 accessory.setAccessoryNum(AddZeroUtil.addZero(s + i + 1, 8));
                 accessory.setLevel("2");
                 accessory.setModelId(1);
@@ -1147,9 +1156,10 @@ public class AccessoryServiceImpl implements AccessoryService {
             doc.add(new Field("fileName", fileNameNew.split("\\.")[0], TextField.TYPE_STORED));
             doc.add(new Field("photoId", accessory.getAccessoryNum(), TextField.TYPE_STORED));
             doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
-            doc.add(new Field("photoPath", rootPath + "\\" + fileNameNew, TextField.TYPE_STORED));
+            doc.add(new Field("photoPath", rootPath + fileNameNew, TextField.TYPE_STORED));
             doc.add(new Field("partId", "3", TextField.TYPE_STORED));
             doc.add(new Field("level", "2", TextField.TYPE_STORED));
+            doc.add(new Field("msg", "无备注", TextField.TYPE_STORED));
             try {
                 iWriter.addDocument(doc);
             } catch (IOException e) {
@@ -1164,10 +1174,10 @@ public class AccessoryServiceImpl implements AccessoryService {
             }
             try {
                 iWriterAll.deleteAll();
-                if(directory.listAll() != null && directory.listAll().length != 0){
+                if (directory.listAll() != null && directory.listAll().length != 0) {
                     iWriterAll.addIndexes(directory);
                 }
-                if(dirA.listAll() != null && dirA.listAll().length != 0){
+                if (dirA.listAll() != null && dirA.listAll().length != 0) {
                     iWriterAll.addIndexes(dirA);
                 }
                 iWriterAll.close();
@@ -1225,7 +1235,8 @@ public class AccessoryServiceImpl implements AccessoryService {
             String photoPath = hitDoc.get("photoPath");
             String partId = hitDoc.get("partId");
             String level = hitDoc.get("level");
-            luceneOutput = new LuceneOutput(value, id, GetImageStr(photoPath), partId, level);
+            String msg = hitDoc.get("msg");
+            luceneOutput = new LuceneOutput(value, id, GetImageStr(photoPath), partId, level, msg);
             luceneOutputs.add(luceneOutput);
             // TokenStream tokenStream = analyzer.tokenStream(value, new
             // StringReader(value));
@@ -1373,7 +1384,8 @@ public class AccessoryServiceImpl implements AccessoryService {
             String photoPath = hitDoc.get("photoPath");
             String partId = hitDoc.get("partId");
             String level = hitDoc.get("level");
-            luceneOutput = new LuceneOutput(value, id, GetImageStr(photoPath), partId, level);
+            String msg = hitDoc.get("msg");
+            luceneOutput = new LuceneOutput(value, id, GetImageStr(photoPath), partId, level, msg);
             luceneOutputs.add(luceneOutput);
             // TokenStream tokenStream = analyzer.tokenStream(value, new
             // StringReader(value));
@@ -1400,9 +1412,9 @@ public class AccessoryServiceImpl implements AccessoryService {
     public List<Accessory> modifyList(String[] nums) {
         List<Accessory> accessories = new ArrayList<Accessory>();
         Accessory accessory = null;
-        for(int i = 0; i < nums.length; i++){
+        for (int i = 0; i < nums.length; i++) {
             accessory = new Accessory();
-            accessory = accessoryRepository.findByNum(nums[i]);
+            accessory = accessoryRepository.findOneByNum(nums[i]);
             accessory.setAccessoryImg(GetImageStr(accessory.getAccessoryImg()));
             accessories.add(accessory);
         }

@@ -45,7 +45,7 @@
 			<a class="navbar-brand">配件销售系统</a>
 		</div>
 		<div class="navbar-collapse collapse">
-			<form class="navbar-form navbar-left">
+			<form class="navbar-form navbar-left" style="display: none">
 				<input id="searchPar" class="form-control"
 					style="width: 500px; margin-left: 60%;" type="text"
 					placeholder="奥迪 A6L 2014 左大灯(查询条件请以空格分开)"
@@ -72,7 +72,7 @@
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/admin">A库照片上传</a></li>
-					<li class="active"><a href="../admin/changes">A库库存查询</a></li>
+					<li><a href="../admin/changes">A库库存查询</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/uploadtoB">B库照片上传</a></li>
