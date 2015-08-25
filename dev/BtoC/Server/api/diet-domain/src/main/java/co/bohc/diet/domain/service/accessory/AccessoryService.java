@@ -49,7 +49,7 @@ public interface AccessoryService {
     
     public Accessory findByNum(String accessoryNum);
     
-    public void changeAccessory(String accessoryNum, String level, Integer partId, String msg, MultipartFile mf);
+    public void changeAccessory(String accessoryNum, String level, Integer partId, String msg, Integer saleMoney, MultipartFile mf);
     
     public LucenePage luceneInA(String key, Integer page) throws IOException, ParseException;
     

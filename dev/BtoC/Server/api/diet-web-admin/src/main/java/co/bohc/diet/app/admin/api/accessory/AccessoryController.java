@@ -258,10 +258,10 @@ public class AccessoryController {
 
     @RequestMapping(value = "{accessoryNum}", method = RequestMethod.POST)
     @ResponseBody
-    public void changeAccessory(@PathVariable String accessoryNum, Integer partId, String level, String msg, HttpServletRequest req) {
+    public void changeAccessory(@PathVariable String accessoryNum, Integer partId, String level, String msg, Integer saleMoney, HttpServletRequest req) {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
         MultipartFile mf = multipartRequest.getFile("newImg");
-        accessoryService.changeAccessory(accessoryNum, level, partId, msg, mf);
+        accessoryService.changeAccessory(accessoryNum, level, partId, msg, saleMoney, mf);
     }
 
     @RequestMapping(value = "uploadToB", method = RequestMethod.POST)

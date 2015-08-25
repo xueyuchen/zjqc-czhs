@@ -96,6 +96,18 @@
 								</select></td>
 							</tr>
 							<tr>
+								<td>备注：</td>
+								<td>
+									<input type="text" name="msg">
+								</td>
+							</tr>
+							<tr>
+								<td>销售价格：</td>
+								<td>
+									<input type="text" name="saleMoney">
+								</td>
+							</tr>
+							<tr>
 								<td colspan="3"><input type="file" name="newImg" /></td>
 							</tr>
 							<tr>

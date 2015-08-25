@@ -26,9 +26,9 @@ public class AddZeroUtil {
             monthStr = "" + month;
         }
         if (day < 10) {
-            dayStr = "0" + month;
+            dayStr = "0" + day;
         } else {
-            dayStr = "" + month;
+            dayStr = "" + day;
         }
         return "" + year + monthStr + dayStr + zeroStr + NumStr;
     }
