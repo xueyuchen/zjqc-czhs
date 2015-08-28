@@ -32,7 +32,7 @@
         <div class="navbar-collapse collapse">
             <form class="navbar-form navbar-left">
                 <input id="searchPar" class="form-control"
-                    style="width: 500px; margin-left: 60%;" type="text"
+                    style="width: 500px; margin-left: 30%;" type="text"
                     placeholder="奥迪 A6L 2014 左大灯(查询条件请以空格分开)"
                     oninput="searchByLuceneAll();" />
             </form>
@@ -67,7 +67,7 @@
                     <li class="active"><a href="../admin/findAll">总库存查询</a></li>
                 </ul>
                 <ul class="nav nav-sidebar">
-                    <li><a href="#">销售记录查询</a></li>
+                    <li><a href="../admin/statist">销售记录查询</a></li>
                 </ul>
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-12 col-md-offset-1 main">

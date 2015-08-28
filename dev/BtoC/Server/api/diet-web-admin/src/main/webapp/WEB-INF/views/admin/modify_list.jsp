@@ -82,7 +82,7 @@
 					<li><a href="../admin/findAll">总库存查询</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="#">销售记录查询</a></li>
+					<li><a href="../admin/statist">销售记录查询</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-12 col-md-offset-1 main">

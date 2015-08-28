@@ -1,6 +1,7 @@
 package co.bohc.diet.domain.service.accessory;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -58,4 +59,6 @@ public interface AccessoryService {
     public LucenePage luceneInAll(String key, Integer page) throws IOException, ParseException;
     
     public List<Accessory> modifyList(String[] nums);
+    
+    public List<Accessory> findByWeek(Date centerDate, Integer isNext);
 }

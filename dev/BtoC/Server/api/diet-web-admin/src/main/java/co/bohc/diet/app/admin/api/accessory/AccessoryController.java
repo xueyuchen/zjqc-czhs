@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 import sun.misc.BASE64Encoder;
@@ -29,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.bohc.diet.domain.common.utils.TimeUtils;
 import co.bohc.diet.domain.model.Accessory;
 import co.bohc.diet.domain.repository.accessory.AccessoryOutput;
 import co.bohc.diet.domain.repository.accessory.AccessorySearchPar;
@@ -405,11 +407,12 @@ public class AccessoryController {
         return "admin/modify_list";
     }
 
-    @RequestMapping(value = "modifyList", method = RequestMethod.POST)
-    public String modifyList(Accessory[] accessories) {
-        if (accessories != null) {
-            System.out.println(accessories.length);
-        }
-        return null;
+    @RequestMapping(value = "saledByWeek", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Accessory> modifyList(String dateStr, Integer isNext) {
+    	Date centerDate = TimeUtils.strToDate(dateStr);
+        return accessoryService.findByWeek(centerDate, isNext);
     }
+    
+    
 }

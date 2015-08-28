@@ -49,4 +49,7 @@ public interface AccessoryRepository extends JpaRepository<Accessory, Integer>, 
     
     @Query(value = "SELECT a FROM Accessory a WHERE a.accessoryNum = :accessoryNum")
     public Accessory findOneByNum(@Param("accessoryNum") String accessoryNum);
+    
+    @Query(value="SELECT a FROM Accessory a WHERE a.saleDt >= :fromDt AND a.saleDt <= :toDt")
+    public List<Accessory> findByWeek(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt);
 }

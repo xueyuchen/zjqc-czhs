@@ -64,4 +64,9 @@ public class AdminController {
     public String toFindAll() {
         return "admin/all";
     }
+    
+    @RequestMapping(value = "statist", method = RequestMethod.GET)
+    public String toStatistics(){
+    	return "admin/saledHistory";
+    }
 }

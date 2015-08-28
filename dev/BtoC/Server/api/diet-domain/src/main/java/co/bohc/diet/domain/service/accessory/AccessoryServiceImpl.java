@@ -13,6 +13,7 @@ import java.io.StringReader;
 import java.nio.file.Paths;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 
 	private static String indexpathA = "/Users/local/lucene/luceneIndexA/";
 
-	private static String rootPath = "/Users/local/workspace/czxsxt/html/image/img/zp/";
+	private static String rootPath = "/Users/local/workspace/czglxt/html/image/img/zp/";
 
 	private static String photoUpload = "/Users/local/lucene/fileUpload/";
 
@@ -641,14 +642,12 @@ public class AccessoryServiceImpl implements AccessoryService {
 		}
 		try {
 			iWriterAll.deleteAll();
-			if (directory.listAll() != null && directory.listAll().length != 0) {
+			if (directory.listAll() != null && directory.listAll().length != 1) {
 				iWriterAll.addIndexes(directory);
 			}
-			;
-			if (dirB.listAll() != null && dirB.listAll().length != 0) {
+			if (dirB.listAll() != null && dirB.listAll().length != 1) {
 				iWriterAll.addIndexes(dirB);
 			}
-			;
 			iWriterAll.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -1546,5 +1545,28 @@ public class AccessoryServiceImpl implements AccessoryService {
 			accessories.add(accessory);
 		}
 		return accessories;
+	}
+
+	@Override
+	public List<Accessory> findByWeek(Date centerDate, Integer isNext) {
+		Date fromDt = null;
+		Date toDt = null;
+		if(isNext == 0){
+			fromDt = TimeUtils.getFirstDayOfWeek(centerDate);
+			toDt = TimeUtils.getLastDayOfWeek(centerDate);
+		}else if(isNext == -1){
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(centerDate);
+			cal.add(Calendar.DAY_OF_MONTH, -7);
+			fromDt = TimeUtils.getFirstDayOfWeek(cal.getTime());
+			toDt = TimeUtils.getLastDayOfWeek(cal.getTime());
+		}else if(isNext == 1){
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(centerDate);
+			cal.add(Calendar.DAY_OF_MONTH, 7);
+			fromDt = TimeUtils.getFirstDayOfWeek(cal.getTime());
+			toDt = TimeUtils.getLastDayOfWeek(cal.getTime());
+		}
+		return accessoryRepository.findByWeek(fromDt, toDt);
 	}
 }
