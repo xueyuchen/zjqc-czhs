@@ -69,6 +69,7 @@
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/findAll">总库存查询</a></li>
+					<li><a href="#">库存分类查询</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/statist">销售记录查询</a></li>

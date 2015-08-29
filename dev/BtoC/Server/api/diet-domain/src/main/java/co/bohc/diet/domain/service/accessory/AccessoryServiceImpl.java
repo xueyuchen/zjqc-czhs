@@ -15,10 +15,12 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
+import javax.persistence.Access;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -578,9 +580,9 @@ public class AccessoryServiceImpl implements AccessoryService {
 		Date toDt = TimeUtils.getEndTimeOfMonth(date);
 		Integer s = accessoryRepository.countByMonth(fromDt, toDt);
 		for (int i = 0; i < fileNames.length; i++) {
-			if(fileNames[i].equals(".DS_Store")){
-				
-			}else{
+			if (fileNames[i].equals(".DS_Store")) {
+
+			} else {
 				fromPhoto = new File(photoUpload + fileNames[i]);
 				toPhoto = new File(photoUpload_A + fileNames[i]);
 				int l = 1;
@@ -1219,9 +1221,9 @@ public class AccessoryServiceImpl implements AccessoryService {
 		Integer s = accessoryRepository.countByMonth(fromDt, toDt);
 		String fileNameNew = null;
 		for (int i = 0; i < fileNames.length; i++) {
-			if(fileNames[i].equals(".DS_Store")){
-				
-			}else{
+			if (fileNames[i].equals(".DS_Store")) {
+
+			} else {
 				fromPhoto = new File(photoUpload_B + fileNames[i]);
 				toPhoto = new File(rootPath + fileNames[i]);
 				int l = 1;
@@ -1548,25 +1550,54 @@ public class AccessoryServiceImpl implements AccessoryService {
 	}
 
 	@Override
-	public List<Accessory> findByWeek(Date centerDate, Integer isNext) {
+	public SaleHistoryOutput findByWeek(Date centerDate, Integer isNext) {
 		Date fromDt = null;
 		Date toDt = null;
-		if(isNext == 0){
+		SaleHistoryOutput output = null;
+		if (isNext == 0) {
 			fromDt = TimeUtils.getFirstDayOfWeek(centerDate);
 			toDt = TimeUtils.getLastDayOfWeek(centerDate);
-		}else if(isNext == -1){
+			output = initOutput(fromDt);
+		} else if (isNext == -1) {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(centerDate);
 			cal.add(Calendar.DAY_OF_MONTH, -7);
 			fromDt = TimeUtils.getFirstDayOfWeek(cal.getTime());
 			toDt = TimeUtils.getLastDayOfWeek(cal.getTime());
-		}else if(isNext == 1){
+			output = initOutput(fromDt);
+		} else if (isNext == 1) {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(centerDate);
 			cal.add(Calendar.DAY_OF_MONTH, 7);
 			fromDt = TimeUtils.getFirstDayOfWeek(cal.getTime());
 			toDt = TimeUtils.getLastDayOfWeek(cal.getTime());
+			output = initOutput(fromDt);
 		}
-		return accessoryRepository.findByWeek(fromDt, toDt);
+		output.setAccessories(accessoryRepository.findSaleByWeek(fromDt, toDt));
+		output.setInAccessories(accessoryRepository.findInByWeek(fromDt, toDt));
+		Iterator<Accessory> it = output.getAccessories().iterator();
+		while(it.hasNext()){
+			Date date = it.next().getSaleDt();
+			int index = (int) ((date.getTime() - fromDt.getTime())/(1000 * 60 * 60 * 24));
+			output.getNum()[index] = output.getNum()[index] + 1;
+		}
+		Iterator<Accessory> it2 = output.getInAccessories().iterator();
+		while(it2.hasNext()){
+			Date date = it2.next().getCreDt();
+			int index = (int) ((date.getTime() - fromDt.getTime())/(1000 * 60 * 60 * 24));
+			output.getInNum()[index] = output.getInNum()[index] + 1;
+		}
+		return output;
+	}
+
+	private SaleHistoryOutput initOutput(Date fromDt) {
+		SaleHistoryOutput output = new SaleHistoryOutput();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(fromDt);
+		for (int i = 0; i < 7; i++) {
+			output.getDays()[i] = cal.getTime().toLocaleString();
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+		}
+		return output;
 	}
 }

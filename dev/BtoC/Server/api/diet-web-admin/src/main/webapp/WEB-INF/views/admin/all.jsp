@@ -44,10 +44,10 @@
                     <span class="caret"></span> <span class="sr-only">Toggle
                         Dropdown</span>
                 </button>
-                <ul class="dropdown-menu">
+                <!-- <ul class="dropdown-menu">
                     <li><a href="javascript:void(0);">已选配件</a></li>
                     <li role="separator" class="divider"></li>
-                </ul>
+                </ul> -->
             </div>
         </div>
     </div>
@@ -65,6 +65,7 @@
                 </ul>
                 <ul class="nav nav-sidebar">
                     <li class="active"><a href="../admin/findAll">总库存查询</a></li>
+                    <li><a href="#">库存分类查询</a></li>
                 </ul>
                 <ul class="nav nav-sidebar">
                     <li><a href="../admin/statist">销售记录查询</a></li>

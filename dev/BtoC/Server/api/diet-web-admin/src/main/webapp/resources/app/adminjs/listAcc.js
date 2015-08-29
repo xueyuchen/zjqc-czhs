@@ -277,18 +277,17 @@ $(window)
 													data.content[i].partId = "已维修";
 												}
 												str = str
-														+ '<div class="part-detial"><img src="data:image/jpg;base64,'
-														+ data.content[i].accessoryImg
-														+ '">'
-														+ '<a href="../accessories/'
-														+ data.content[i].accessoryNum
-														+ '">'
-														+ data.content[i].accessoryName
-														+ '</a><br><span>编号：</span>'
-														+ data.content[i].accessoryNum
-														+ '<br><span>状态：</span>'
-														+ data.content[i].partId
-														+ '</div>';
+												+'<div class="col-sm-6 col-md-3"><div class="thumbnail">'
+												+'<img id='
+												+data.content[i].accessoryNum +' src="data:image/jpg;base64,'
+												+data.content[i].accessoryImg +'" alt="..."><div class="caption"><h5>'
+												+data.content[i].accessoryName+'</h5><span>'
+												+data.content[i].accessoryNum + '</span>&nbsp<span>'
+												+data.content[i].partId + '</span>&nbsp<br><span>'
+												+data.content[i].msg + '&nbsp&nbsp&nbsp</span>'
+												+'<a href="../accessories/'
+												+data.content[i].accessoryNum +'" class="btn btn-primary" role="button">修改</a>'
+												+'</div></div></div>'
 											}
 											$("#accessory-list").append(str);
 											$.callBack = true;

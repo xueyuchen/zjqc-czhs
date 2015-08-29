@@ -18,6 +18,8 @@
 <script type="text/javascript" src="../resources/app/constants.js"></script>
 <script type="text/javascript"
 	src="../resources/app/adminjs/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="../resources/app/adminjs/saleHistory.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -49,6 +51,7 @@
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/findAll">总库存查询</a></li>
+					<li><a href="#">库存分类查询</a></li>
 				</ul>
 				<hr>
 				<ul class="nav nav-sidebar">
@@ -61,48 +64,31 @@
 					<li role="presentation"><a href="#">已售配件分类记录</a></li>
 					<li role="presentation"><a href="#">自定义查询</a></li>
 				</ul>
-				<div style="width: 50%">
-					<canvas id="canvas" height="450" width="600"></canvas>
+				<div style="width: 50%; float: left">
+					<canvas id="canvas-sale" height="450" width="600"></canvas>
+				</div>
+				<div
+					style="width: 50%; float: left; width: 50%; float: left; height: 336px; overflow: scroll;">
+					<ul class="list-group" id="accessory-list">
+					</ul>
+				</div>
+				<div class="btn-group btn-group-justified" role="group"
+					aria-label="...">
+					<div class="btn-group" role="group">
+						<button type="button" class="btn btn-default"
+							onclick="saledHistory(-1);">上一周</button>
+					</div>
+					<div class="btn-group" role="group">
+						<button type="button" class="btn btn-default"
+							onclick="saledHistory(0);">本周</button>
+					</div>
+					<div class="btn-group" role="group">
+						<button type="button" class="btn btn-default"
+							onclick="saledHistory(1);">下一周</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
-<script type="text/javascript">
-	var randomScalingFactor = function() {
-		return Math.round(Math.random() * 100)
-	};
-
-	var barChartData = {
-		labels : [ "8-24", "8-25", "8-26", "8-27", "8-28", "8-29", "8-30" ],
-		datasets : [
-				{
-					fillColor : "rgba(220,220,220,0.5)",
-					strokeColor : "rgba(220,220,220,0.8)",
-					highlightFill : "rgba(220,220,220,0.75)",
-					highlightStroke : "rgba(220,220,220,1)",
-					data : [ randomScalingFactor(), randomScalingFactor(),
-							randomScalingFactor(), randomScalingFactor(),
-							randomScalingFactor(), randomScalingFactor(),
-							randomScalingFactor() ]
-				},
-				{
-					fillColor : "rgba(151,187,205,0.5)",
-					strokeColor : "rgba(151,187,205,0.8)",
-					highlightFill : "rgba(151,187,205,0.75)",
-					highlightStroke : "rgba(151,187,205,1)",
-					data : [ randomScalingFactor(), randomScalingFactor(),
-							randomScalingFactor(), randomScalingFactor(),
-							randomScalingFactor(), randomScalingFactor(),
-							randomScalingFactor() ]
-				} ]
-
-	}
-	window.onload = function() {
-		var ctx = document.getElementById("canvas").getContext("2d");
-		window.myBar = new Chart(ctx).Bar(barChartData, {
-			responsive : true
-		});
-	}
-</script>
 </html>

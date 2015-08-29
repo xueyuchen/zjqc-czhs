@@ -60,5 +60,5 @@ public interface AccessoryService {
     
     public List<Accessory> modifyList(String[] nums);
     
-    public List<Accessory> findByWeek(Date centerDate, Integer isNext);
+    public SaleHistoryOutput findByWeek(Date centerDate, Integer isNext);
 }
