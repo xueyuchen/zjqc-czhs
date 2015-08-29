@@ -643,7 +643,9 @@ public class AccessoryServiceImpl implements AccessoryService {
 			e.printStackTrace();
 		}
 		try {
-			iWriterAll.deleteAll();
+			if(dirAll.listAll() != null && dirAll.listAll().length != 1){
+				iWriterAll.deleteAll();
+			}
 			if (directory.listAll() != null && directory.listAll().length != 1) {
 				iWriterAll.addIndexes(directory);
 			}
