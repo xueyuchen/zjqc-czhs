@@ -647,7 +647,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 			if (directory.listAll() != null && directory.listAll().length != 1) {
 				iWriterAll.addIndexes(directory);
 			}
-			if (dirB.listAll() != null && dirB.listAll().length != 1) {
+			if (dirB.listAll() != null && dirB.listAll().length != 1 && dirB.listAll().length != 0) {
 				iWriterAll.addIndexes(dirB);
 			}
 			iWriterAll.close();
@@ -1300,11 +1300,13 @@ public class AccessoryServiceImpl implements AccessoryService {
 					e.printStackTrace();
 				}
 				try {
-					iWriterAll.deleteAll();
+					if (dirAll.listAll() != null && dirAll.listAll().length != 1) {
+						iWriterAll.deleteAll();
+					}
 					if (directory.listAll() != null && directory.listAll().length != 0) {
 						iWriterAll.addIndexes(directory);
 					}
-					if (dirA.listAll() != null && dirA.listAll().length != 0) {
+					if (dirA.listAll() != null && dirA.listAll().length != 0 && dirA.listAll().length != 0) {
 						iWriterAll.addIndexes(dirA);
 					}
 					iWriterAll.close();
@@ -1576,15 +1578,15 @@ public class AccessoryServiceImpl implements AccessoryService {
 		output.setAccessories(accessoryRepository.findSaleByWeek(fromDt, toDt));
 		output.setInAccessories(accessoryRepository.findInByWeek(fromDt, toDt));
 		Iterator<Accessory> it = output.getAccessories().iterator();
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			Date date = it.next().getSaleDt();
-			int index = (int) ((date.getTime() - fromDt.getTime())/(1000 * 60 * 60 * 24));
+			int index = (int) ((date.getTime() - fromDt.getTime()) / (1000 * 60 * 60 * 24));
 			output.getNum()[index] = output.getNum()[index] + 1;
 		}
 		Iterator<Accessory> it2 = output.getInAccessories().iterator();
-		while(it2.hasNext()){
+		while (it2.hasNext()) {
 			Date date = it2.next().getCreDt();
-			int index = (int) ((date.getTime() - fromDt.getTime())/(1000 * 60 * 60 * 24));
+			int index = (int) ((date.getTime() - fromDt.getTime()) / (1000 * 60 * 60 * 24));
 			output.getInNum()[index] = output.getInNum()[index] + 1;
 		}
 		return output;
