@@ -67,4 +67,10 @@ public interface AccessoryRepository extends JpaRepository<Accessory, Integer>, 
 
 	@Query(value = "SELECT a FROM Accessory a WHERE a.creDt >= :fromDt AND a.creDt <= :toDt")
 	public List<Accessory> findInByWeek(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt);
+	
+	@Query(value = "SELECT a FROM Accessory a WHERE a.creDt >= :fromDt AND a.creDt <= :toDt AND a.level = 2")
+	public List<Accessory> findInBByWeek(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt);
+	
+	@Query(value = "SELECT a FROM Accessory a WHERE a.saleDt >= :fromDt AND a.saleDt <= :toDt AND a.level = 2")
+	public List<Accessory> findSaleBByWeek(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt);
 }

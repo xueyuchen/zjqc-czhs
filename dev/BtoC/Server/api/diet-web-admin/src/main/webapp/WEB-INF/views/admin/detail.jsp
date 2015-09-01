@@ -39,13 +39,15 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="../admin/admin">A库照片上传</a></li>
-					<li><a href="../admin/changes">A库库存查询</a></li>
+					<li><a href="../admin/admin">成库照片上传</a></li>
+					<li><a href="../admin/changes">成库库存查询</a></li>
+					<li><a href="../admin/totalA">成库库存统计</a></li>
 				</ul>
 				<hr>
 				<ul class="nav nav-sidebar">
-					<li><a href="../admin/uploadtoB">B库照片上传</a></li>
-					<li><a href="../admin/changesB">B库库存查询</a></li>
+					<li><a href="../admin/uploadtoB">都库照片上传</a></li>
+					<li><a href="../admin/changesB">都库库存查询</a></li>
+					<li><a href="../admin/totalB">都库库存统计</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/findAll">总库存查询</a></li>
@@ -78,9 +80,9 @@
 								<td>库房：</td>
 								<td><select name="level" id="level">
 										<option value=1
-											<c:if test="${1 == accessory.level}">selected</c:if>>A库房</option>
+											<c:if test="${1 == accessory.level}">selected</c:if>>成库</option>
 										<option value=2
-											<c:if test="${2 == accessory.level}">selected</c:if>>B库房</option>
+											<c:if test="${2 == accessory.level}">selected</c:if>>都库</option>
 										<option value=3
 											<c:if test="${3 == accessory.level}">selected</c:if>>销售库房</option>
 								</select></td>
@@ -93,13 +95,13 @@
 										<option value=2
 											<c:if test="${2 == accessory.partId}">selected</c:if>>维修中</option>
 										<option value=3
-											<c:if test="${3 == accessory.partId}">selected</c:if>>已维修</option>
+											<c:if test="${3 == accessory.partId}">selected</c:if>>成品</option>
 								</select></td>
 							</tr>
 							<tr>
 								<td>备注：</td>
 								<td>
-									<input type="text" name="msg">
+									<input type="text" name="msg" value="${accessory.msg}">
 								</td>
 							</tr>
 							<tr>

@@ -341,8 +341,8 @@ public class AccessoryController {
 
 	@RequestMapping(value = "copytob", method = RequestMethod.GET)
 	@ResponseBody
-	public void savePhotoToB() {
-		accessoryService.savePictureToB();
+	public void savePhotoToB(String partId) {
+		accessoryService.savePictureToB(partId);
 
 	}
 
@@ -416,4 +416,10 @@ public class AccessoryController {
 		return accessoryService.findByWeek(centerDate, isNext);
 	}
 
+	@RequestMapping(value = "saledBByWeek", method = RequestMethod.GET)
+	@ResponseBody
+	public SaleHistoryOutput saledBByWeek(String dateStr, Integer isNext) {
+		Date centerDate = TimeUtils.strToDate(dateStr);
+		return accessoryService.findBByWeek(centerDate, isNext);
+	}
 }

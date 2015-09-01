@@ -71,12 +71,14 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="../admin/admin">A库照片上传</a></li>
-					<li><a href="../admin/changes">A库库存查询</a></li>
+					<li><a href="../admin/admin">成库照片上传</a></li>
+					<li><a href="../admin/changes">成库库存查询</a></li>
+					<li><a href="../admin/totalA">成库库存统计</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="../admin/uploadtoB">B库照片上传</a></li>
-					<li><a href="../admin/changesB">B库库存查询</a></li>
+					<li><a href="../admin/uploadtoB">都库照片上传</a></li>
+					<li><a href="../admin/changesB">都库库存查询</a></li>
+					<li><a href="../admin/totalB">都库库存统计</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/findAll">总库存查询</a></li>
@@ -110,13 +112,13 @@
 												<option value="2"
 													<c:if test="${item.partId == 2}">selected="selected"</c:if>>维修中</option>
 												<option value="3"
-													<c:if test="${item.partId == 3}">selected="selected"</c:if>>已维修</option>
+													<c:if test="${item.partId == 3}">selected="selected"</c:if>>成品</option>
 										</select></td>
 										<td><select name="level">
 												<option value="1"
-													<c:if test="${item.level == 1}">selected="selected"</c:if>>A仓库</option>
+													<c:if test="${item.level == 1}">selected="selected"</c:if>>成库</option>
 												<option value="2"
-													<c:if test="${item.level == 2}">selected="selected"</c:if>>B仓库</option>
+													<c:if test="${item.level == 2}">selected="selected"</c:if>>都库</option>
 										</select></td>
 										<td><input type="text" name="msg" style="height: 23px" value="${item.msg}"/></td>
 										<td><input type="file" name="newImg" style="width: 200px;"/></td>

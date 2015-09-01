@@ -643,7 +643,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 			e.printStackTrace();
 		}
 		try {
-			if(dirAll.listAll() != null && dirAll.listAll().length != 1){
+			if (dirAll.listAll() != null && dirAll.listAll().length != 1) {
 				iWriterAll.deleteAll();
 			}
 			if (directory.listAll() != null && directory.listAll().length != 1) {
@@ -776,7 +776,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 			doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
 			doc.add(new Field("photoPath", saled_class + fileBNameNew, TextField.TYPE_STORED));
 			doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
-			doc.add(new Field("level", "4", TextField.TYPE_STORED));
+			doc.add(new Field("level", accessory.getLevel(), TextField.TYPE_STORED));
 			doc.add(new Field("msg", msg, TextField.TYPE_STORED));
 			System.out.println(saled_class + fileBNameNew);
 			try {
@@ -787,7 +787,6 @@ public class AccessoryServiceImpl implements AccessoryService {
 			}
 			accessory.setPartId(partId);
 			accessory.setMsg(msg);
-			accessory.setLevel("4");
 			accessory.setAccessoryImg(saled_class + fileBNameNew);
 			accessory.setSaleMoney(Double.valueOf(String.valueOf(saleMoney)));
 			accessory.setSaleDt(date);
@@ -1212,7 +1211,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 	}
 
 	@Override
-	public void savePictureToB() {
+	public void savePictureToB(String partId) {
 		File photoUploadFile = new File(photoUpload_B);
 		String[] fileNames = photoUploadFile.list();
 		File fromPhoto = null;
@@ -1256,7 +1255,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 					accessory.setAccessoryNum(AddZeroUtil.addZero(s + i + 1, 8));
 					accessory.setLevel("2");
 					accessory.setModelId(1);
-					accessory.setPartId(3);
+					accessory.setPartId(Integer.valueOf(partId));
 					accessory.setStyleId(1);
 					accessoryRepository.save(accessory);
 				} catch (IOException e) {
@@ -1286,7 +1285,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 				doc.add(new Field("photoId", accessory.getAccessoryNum(), TextField.TYPE_STORED));
 				doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
 				doc.add(new Field("photoPath", rootPath + fileNameNew, TextField.TYPE_STORED));
-				doc.add(new Field("partId", "3", TextField.TYPE_STORED));
+				doc.add(new Field("partId", partId, TextField.TYPE_STORED));
 				doc.add(new Field("level", "2", TextField.TYPE_STORED));
 				doc.add(new Field("msg", "无备注", TextField.TYPE_STORED));
 				try {
@@ -1308,7 +1307,8 @@ public class AccessoryServiceImpl implements AccessoryService {
 					if (directory.listAll() != null && directory.listAll().length != 0) {
 						iWriterAll.addIndexes(directory);
 					}
-					if (dirA.listAll() != null && dirA.listAll().length != 0 && dirA.listAll().length != 0) {
+					if (dirA.listAll() != null && dirA.listAll().length != 0 && dirA.listAll().length != 2
+							&& dirA.listAll().length != 1) {
 						iWriterAll.addIndexes(dirA);
 					}
 					iWriterAll.close();
@@ -1330,7 +1330,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 		Query query = parser.parse(key);
 		TopDocs docs = null;
 		Integer count = null;
-		if (page != null && page == 0) {
+		if (page != null && page == 1) {
 			docs = iSearcher.search(query, 16);
 		} else {
 			docs = iSearcher.search(query, 16 * page);
@@ -1382,9 +1382,9 @@ public class AccessoryServiceImpl implements AccessoryService {
 		lucenePage.setSize(hits.length);
 		lucenePage.setTotalElements(count);
 		if (hits.length == 0) {
-			lucenePage.setPage(0);
+			lucenePage.setPage(page);
 		} else {
-			lucenePage.setPage(count / hits.length);
+			lucenePage.setPage(page);
 		}
 		iReader.close();
 		directory.close();
@@ -1401,10 +1401,10 @@ public class AccessoryServiceImpl implements AccessoryService {
 		Query query = parser.parse(key);
 		TopDocs docs = null;
 		Integer count = null;
-		if (page != null && page == 0) {
+		if (page != null && page == 1) {
 			docs = iSearcher.search(query, 16);
 		} else {
-			docs = iSearcher.search(query, 16 * page);
+			docs = iSearcher.search(query, 16 * (page - 1));
 			ScoreDoc[] hits = docs.scoreDocs;
 			docs = iSearcher.searchAfter(hits[hits.length - 1], query, 16);
 		}
@@ -1599,8 +1599,49 @@ public class AccessoryServiceImpl implements AccessoryService {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(fromDt);
 		for (int i = 0; i < 7; i++) {
-			output.getDays()[i] = cal.getTime().toLocaleString();
+			output.getDays()[i] = TimeUtils.dateToStr(cal.getTime());
 			cal.add(Calendar.DAY_OF_MONTH, 1);
+		}
+		return output;
+	}
+
+	@Override
+	public SaleHistoryOutput findBByWeek(Date centerDate, Integer isNext) {
+		Date fromDt = null;
+		Date toDt = null;
+		SaleHistoryOutput output = null;
+		if (isNext == 0) {
+			fromDt = TimeUtils.getFirstDayOfWeek(centerDate);
+			toDt = TimeUtils.getLastDayOfWeek(centerDate);
+			output = initOutput(fromDt);
+		} else if (isNext == -1) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(centerDate);
+			cal.add(Calendar.DAY_OF_MONTH, -7);
+			fromDt = TimeUtils.getFirstDayOfWeek(cal.getTime());
+			toDt = TimeUtils.getLastDayOfWeek(cal.getTime());
+			output = initOutput(fromDt);
+		} else if (isNext == 1) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(centerDate);
+			cal.add(Calendar.DAY_OF_MONTH, 7);
+			fromDt = TimeUtils.getFirstDayOfWeek(cal.getTime());
+			toDt = TimeUtils.getLastDayOfWeek(cal.getTime());
+			output = initOutput(fromDt);
+		}
+		output.setAccessories(accessoryRepository.findSaleBByWeek(fromDt, toDt));
+		output.setInAccessories(accessoryRepository.findInBByWeek(fromDt, toDt));
+		Iterator<Accessory> it = output.getAccessories().iterator();
+		while (it.hasNext()) {
+			Date date = it.next().getSaleDt();
+			int index = (int) ((date.getTime() - fromDt.getTime()) / (1000 * 60 * 60 * 24));
+			output.getNum()[index] = output.getNum()[index] + 1;
+		}
+		Iterator<Accessory> it2 = output.getInAccessories().iterator();
+		while (it2.hasNext()) {
+			Date date = it2.next().getCreDt();
+			int index = (int) ((date.getTime() - fromDt.getTime()) / (1000 * 60 * 60 * 24));
+			output.getInNum()[index] = output.getInNum()[index] + 1;
 		}
 		return output;
 	}

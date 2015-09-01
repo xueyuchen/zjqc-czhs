@@ -60,12 +60,14 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="../admin/admin">A库照片上传</a></li>
-					<li class="active"><a href="../admin/changes">A库库存查询</a></li>
+					<li><a href="../admin/admin">成库照片上传</a></li>
+					<li class="active"><a href="../admin/changes">成库库存查询</a></li>
+					<li><a href="../admin/totalA">成库库存统计</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="../admin/uploadtoB">B库照片上传</a></li>
-					<li><a href="../admin/changesB">B库库存查询</a></li>
+					<li><a href="../admin/uploadtoB">都库照片上传</a></li>
+					<li><a href="../admin/changesB">都库库存查询</a></li>
+					<li><a href="../admin/totalB">都库库存统计</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/findAll">总库存查询</a></li>

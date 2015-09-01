@@ -50,7 +50,7 @@
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/uploadtoB">都库照片上传</a></li>
 					<li><a href="../admin/changesB">都库库存查询</a></li>
-					<li><a href="../admin/totalB">都库库存统计</a></li>
+					<li class="active"><a href="../admin/totalB">都库库存统计</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/findAll">总库存查询</a></li>
@@ -58,7 +58,7 @@
 				</ul>
 				<hr>
 				<ul class="nav nav-sidebar">
-					<li class="active"><a href="../admin/statist">销售记录查询</a></li>
+					<li><a href="../admin/statist">销售记录查询</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -79,15 +79,15 @@
 					aria-label="...">
 					<div class="btn-group" role="group">
 						<button type="button" class="btn btn-default"
-							onclick="saledHistory(-1);">上一周</button>
+							onclick="saledBHistory(-1);">上一周</button>
 					</div>
 					<div class="btn-group" role="group">
 						<button type="button" class="btn btn-default"
-							onclick="saledHistory(0);">本周</button>
+							onclick="saledBHistory(0);">本周</button>
 					</div>
 					<div class="btn-group" role="group">
 						<button type="button" class="btn btn-default"
-							onclick="saledHistory(1);">下一周</button>
+							onclick="saledBHistory(1);">下一周</button>
 					</div>
 				</div>
 			</div>

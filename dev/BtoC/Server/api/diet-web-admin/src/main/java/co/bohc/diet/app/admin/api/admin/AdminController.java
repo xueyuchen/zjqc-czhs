@@ -69,4 +69,14 @@ public class AdminController {
     public String toStatistics(){
     	return "admin/saledHistory";
     }
+    
+    @RequestMapping(value = "totalA", method = RequestMethod.GET)
+    public String toTotalA(){
+    	return "admin/totalA";
+    }
+    
+    @RequestMapping(value = "totalB", method = RequestMethod.GET)
+    public String toTotalB(){
+    	return "admin/totalBClass";
+    }
 }

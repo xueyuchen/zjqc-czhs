@@ -35,12 +35,14 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li class="active"><a href="../admin/admin">A库照片上传</a></li>
-					<li><a href="../admin/changes">A库库存查询</a></li>
+					<li class="active"><a href="../admin/admin">成库照片上传</a></li>
+					<li><a href="../admin/changes">成库库存查询</a></li>
+					<li><a href="../admin/totalA">成库库存统计</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="../admin/uploadtoB">B库照片上传</a></li>
-					<li><a href="../admin/changesB">B库库存查询</a></li>
+					<li><a href="../admin/uploadtoB">都库照片上传</a></li>
+					<li><a href="../admin/changesB">都库库存查询</a></li>
+					<li><a href="../admin/totalB">都库库存统计</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/findAll">总库存查询</a></li>
@@ -51,7 +53,7 @@
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<h1 class="page-header">A库配件照片上传</h1>
+				<h1 class="page-header">成库配件照片上传</h1>
 
 				<p>友情提示：一次可以上传多张照片，所有照片上传进度为100%后，才能关闭浏览器</p>
 
@@ -63,11 +65,11 @@
 					<button type="button" class="btn btn-primary" id="pickfiles">选择照片</button>
 					<button type="button" class="btn btn-primary" id="uploadfiles">上传照片</button>
 					<button id="copyfiles" class="btn btn-primary"
-						onclick="finishUpload();">复制照片到A库</button>
+						onclick="finishUpload();">复制照片到成库</button>
 					维修状态： <select name="partId" id="partId">
 						<option value="1">未修复</option>
 						<option value="2">修复中</option>
-						<option value="3">已修复</option>
+						<option value="3">成品</option>
 					</select>
 				</div>
 

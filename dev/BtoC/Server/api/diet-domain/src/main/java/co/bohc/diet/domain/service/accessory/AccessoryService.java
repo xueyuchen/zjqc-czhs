@@ -40,7 +40,7 @@ public interface AccessoryService {
     
     public void savePictureToA(String partId);
     
-    public void savePictureToB();
+    public void savePictureToB(String partId);
 
     public LucenePage SearchByLucene(String key, Integer page);
     
@@ -61,4 +61,6 @@ public interface AccessoryService {
     public List<Accessory> modifyList(String[] nums);
     
     public SaleHistoryOutput findByWeek(Date centerDate, Integer isNext);
+    
+    public SaleHistoryOutput findBByWeek(Date centerDate, Integer isNext);
 }
