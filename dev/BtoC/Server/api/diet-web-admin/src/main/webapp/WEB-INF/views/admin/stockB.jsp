@@ -63,8 +63,8 @@
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<ul class="nav nav-tabs nav-justified">
-					<li role="presentation" class="active"><a href="#">周销售记录</a></li>
-					<li role="presentation"><a href="../admin/stockBs">库存状态统计</a></li>
+					<li role="presentation"><a href="../admin/totalB">周销售记录</a></li>
+					<li role="presentation" class="active"><a href="../admin/stockBs">库存状态统计</a></li>
 					<li role="presentation"><a href="#">自定义查询</a></li>
 				</ul>
 				<div style="width: 50%; float: left">
@@ -79,15 +79,7 @@
 					aria-label="...">
 					<div class="btn-group" role="group">
 						<button type="button" class="btn btn-default"
-							onclick="saledBHistory(-1);">上一周</button>
-					</div>
-					<div class="btn-group" role="group">
-						<button type="button" class="btn btn-default"
-							onclick="saledBHistory(0);">本周</button>
-					</div>
-					<div class="btn-group" role="group">
-						<button type="button" class="btn btn-default"
-							onclick="saledBHistory(1);">下一周</button>
+							onclick="stockB();">都库库存查询</button>
 					</div>
 				</div>
 			</div>

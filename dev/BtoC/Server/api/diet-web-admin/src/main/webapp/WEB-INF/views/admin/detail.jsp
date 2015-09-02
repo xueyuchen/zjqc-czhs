@@ -98,6 +98,10 @@
 											<c:if test="${3 == accessory.partId}">selected</c:if>>成品</option>
 								</select></td>
 							</tr>
+							<%-- <tr>
+								<td>维修人：</td>
+								<td><input name="worker" id="worker" value="${accessory.worker}"/></td>
+							</tr> --%>
 							<tr>
 								<td>备注：</td>
 								<td>

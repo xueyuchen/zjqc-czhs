@@ -121,3 +121,26 @@ var saledBHistory = function(isNext) {
 		}
 	});
 }
+var stockB = function(){
+	$.ajax({
+		url : constants.stockB,
+		type : 'get',
+		success : function(data) {
+			console.log(data);
+			var barChartData = {
+				labels : ["未维修", "维修中", "成品"],
+				datasets : [ {
+					fillColor : "rgba(151,187,205,0.5)",
+					strokeColor : "rgba(151,187,205,0.8)",
+					highlightFill : "rgba(151,187,205,0.75)",
+					highlightStroke : "rgba(151,187,205,1)",
+					data : data
+				}]
+			}
+			var ctx = document.getElementById("canvas-sale").getContext("2d");
+			window.myBar = new Chart(ctx).Bar(barChartData, {
+				responsive : true
+			});
+		}
+	});
+}

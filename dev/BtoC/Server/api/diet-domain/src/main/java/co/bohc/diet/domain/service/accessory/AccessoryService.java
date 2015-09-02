@@ -63,4 +63,6 @@ public interface AccessoryService {
     public SaleHistoryOutput findByWeek(Date centerDate, Integer isNext);
     
     public SaleHistoryOutput findBByWeek(Date centerDate, Integer isNext);
+    
+    public Integer[] stockB();
 }

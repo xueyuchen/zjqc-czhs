@@ -19,3 +19,4 @@ constants.searchByLuceneAll = constants.api.base + '/accessories/luceneall';
 constants.toModifyList = constants.api.base + '/accessories/toModifyList';
 constants.saleHistory = constants.api.base + '/accessories/saledByWeek';
 constants.saleBHistory = constants.api.base + '/accessories/saledBByWeek';
+constants.stockB = constants.api.base + '/accessories/stock';

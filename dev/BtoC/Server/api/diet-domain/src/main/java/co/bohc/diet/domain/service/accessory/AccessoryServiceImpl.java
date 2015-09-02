@@ -646,10 +646,10 @@ public class AccessoryServiceImpl implements AccessoryService {
 			if (dirAll.listAll() != null && dirAll.listAll().length != 1) {
 				iWriterAll.deleteAll();
 			}
-			if (directory.listAll() != null && directory.listAll().length != 1) {
+			if (directory.listAll() != null && directory.listAll().length != 0) {
 				iWriterAll.addIndexes(directory);
 			}
-			if (dirB.listAll() != null && dirB.listAll().length != 1 && dirB.listAll().length != 0) {
+			if (dirB.listAll() != null && dirB.listAll().length != 1 && dirB.listAll().length != 2) {
 				iWriterAll.addIndexes(dirB);
 			}
 			iWriterAll.close();
@@ -1333,7 +1333,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 		if (page != null && page == 1) {
 			docs = iSearcher.search(query, 16);
 		} else {
-			docs = iSearcher.search(query, 16 * page);
+			docs = iSearcher.search(query, 16 * (page - 1));
 			ScoreDoc[] hits = docs.scoreDocs;
 			docs = iSearcher.searchAfter(hits[hits.length - 1], query, 16);
 		}
@@ -1644,5 +1644,14 @@ public class AccessoryServiceImpl implements AccessoryService {
 			output.getInNum()[index] = output.getInNum()[index] + 1;
 		}
 		return output;
+	}
+
+	@Override
+	public Integer[] stockB() {
+		Integer unfix = accessoryRepository.findByPartId(1, "2");
+		Integer fixing = accessoryRepository.findByPartId(2, "2");
+		Integer fixed = accessoryRepository.findByPartId(3, "2");
+		Integer[] status = {unfix, fixing, fixed};
+		return status;
 	}
 }

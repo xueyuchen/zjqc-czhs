@@ -79,4 +79,9 @@ public class AdminController {
     public String toTotalB(){
     	return "admin/totalBClass";
     }
+    
+    @RequestMapping(value = "stockBs", method = RequestMethod.GET)
+    public String stockB(){
+    	return "admin/stockB";
+    }
 }
