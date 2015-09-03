@@ -144,3 +144,54 @@ var stockB = function(){
 		}
 	});
 }
+var statusB = function(isNext) {
+	$('#accessory-list').empty();
+	var dateStr = $('#centerDate').html();
+	if(!dateStr){
+		var dateStr = new Date().Format('yyyy-MM-dd');
+	}
+	console.log(dateStr);
+	$.ajax({
+		url : constants.statusBByWeek,
+		type : 'get',
+		data : {
+			dateStr : dateStr,
+			isNext : isNext
+		},
+		success : function(data) {
+			console.log(data);
+			for (var i = 0; i < data.days.length; i++) {
+				data.days[i] = data.days[i].substring(0, 10);
+				if(i == 1){
+					$('#centerDate').html(data.days[i]);
+				}
+			}
+			var barChartData = {
+				labels : data.days,
+				datasets : [ {
+					fillColor : "rgba(151,187,205,0.5)",
+					strokeColor : "rgba(151,187,205,0.8)",
+					highlightFill : "rgba(151,187,205,0.75)",
+					highlightStroke : "rgba(151,187,205,1)",
+					data : data.toIn
+				}, {
+					fillColor : "rgba(220,0,220,0.5)",
+					strokeColor : "rgba(220,0,220,0.8)",
+					highlightFill : "rgba(220,0,220,0.75)",
+					highlightStroke : "rgba(220,0,220,1)",
+					data : data.toFix
+				}, {
+					fillColor : "rgba(220,220,220,0.5)",
+					strokeColor : "rgba(220,220,220,0.8)",
+					highlightFill : "rgba(220,220,220,0.75)",
+					highlightStroke : "rgba(220,220,220,1)",
+					data : data.toFinish
+				} ]
+			}
+			var ctx = document.getElementById("canvas-sale").getContext("2d");
+			window.myBar = new Chart(ctx).Bar(barChartData, {
+				responsive : true
+			});
+		}
+	});
+}

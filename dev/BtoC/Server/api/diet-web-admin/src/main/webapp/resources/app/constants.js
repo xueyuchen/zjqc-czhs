@@ -20,3 +20,4 @@ constants.toModifyList = constants.api.base + '/accessories/toModifyList';
 constants.saleHistory = constants.api.base + '/accessories/saledByWeek';
 constants.saleBHistory = constants.api.base + '/accessories/saledBByWeek';
 constants.stockB = constants.api.base + '/accessories/stock';
+constants.statusBByWeek = constants.api.base + '/status/statusBByWeek';

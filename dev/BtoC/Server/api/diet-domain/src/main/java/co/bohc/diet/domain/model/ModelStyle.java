@@ -1,6 +1,5 @@
 package co.bohc.diet.domain.model;
-
-// Generated 2015-8-17 15:44:16 by Hibernate Tools 3.2.2.GA
+// Generated 2015-9-3 19:49:07 by Hibernate Tools 3.2.2.GA
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,66 +18,66 @@ import javax.persistence.Table;
 @Table(name = "model_style", schema = "dbo")
 public class ModelStyle implements java.io.Serializable {
 
-    private static final long serialVersionUID = 1L;
-    private Integer modelStyleId;
-    private Style style;
-    private Model model;
-    private Integer delFlg;
+	private static final long serialVersionUID = 1L;
+	private Integer modelStyleId;
+	private Style style;
+	private Model model;
+	private Integer delFlg;
 
-    public ModelStyle() {
-    }
+	public ModelStyle() {
+	}
 
-    public ModelStyle(Integer modelStyleId, Style style, Model model) {
-        this.modelStyleId = modelStyleId;
-        this.style = style;
-        this.model = model;
-    }
+	public ModelStyle(Integer modelStyleId, Style style, Model model) {
+		this.modelStyleId = modelStyleId;
+		this.style = style;
+		this.model = model;
+	}
 
-    public ModelStyle(Integer modelStyleId, Style style, Model model, Integer delFlg) {
-        this.modelStyleId = modelStyleId;
-        this.style = style;
-        this.model = model;
-        this.delFlg = delFlg;
-    }
+	public ModelStyle(Integer modelStyleId, Style style, Model model, Integer delFlg) {
+		this.modelStyleId = modelStyleId;
+		this.style = style;
+		this.model = model;
+		this.delFlg = delFlg;
+	}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "model_style_id", unique = true, nullable = false)
-    public Integer getModelStyleId() {
-        return this.modelStyleId;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "model_style_id", unique = true, nullable = false)
+	public Integer getModelStyleId() {
+		return this.modelStyleId;
+	}
 
-    public void setModelStyleId(Integer modelStyleId) {
-        this.modelStyleId = modelStyleId;
-    }
+	public void setModelStyleId(Integer modelStyleId) {
+		this.modelStyleId = modelStyleId;
+	}
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "style_id", nullable = false)
-    public Style getStyle() {
-        return this.style;
-    }
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "style_id", nullable = false)
+	public Style getStyle() {
+		return this.style;
+	}
 
-    public void setStyle(Style style) {
-        this.style = style;
-    }
+	public void setStyle(Style style) {
+		this.style = style;
+	}
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "model_id", nullable = false)
-    public Model getModel() {
-        return this.model;
-    }
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "model_id", nullable = false)
+	public Model getModel() {
+		return this.model;
+	}
 
-    public void setModel(Model model) {
-        this.model = model;
-    }
+	public void setModel(Model model) {
+		this.model = model;
+	}
 
-    @Column(name = "del_flg")
-    public Integer getDelFlg() {
-        return this.delFlg;
-    }
+	@Column(name = "del_flg")
+	public Integer getDelFlg() {
+		return this.delFlg;
+	}
 
-    public void setDelFlg(Integer delFlg) {
-        this.delFlg = delFlg;
-    }
+	public void setDelFlg(Integer delFlg) {
+		this.delFlg = delFlg;
+	}
 
 }

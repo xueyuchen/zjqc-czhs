@@ -84,4 +84,9 @@ public class AdminController {
     public String stockB(){
     	return "admin/stockB";
     }
+    
+    @RequestMapping(value = "toSaled", method = RequestMethod.GET)
+    public String toSaled(){
+    	return "admin/saled";
+    }
 }

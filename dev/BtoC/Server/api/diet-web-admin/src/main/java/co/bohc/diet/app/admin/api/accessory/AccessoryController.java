@@ -422,9 +422,11 @@ public class AccessoryController {
 		Date centerDate = TimeUtils.strToDate(dateStr);
 		return accessoryService.findBByWeek(centerDate, isNext);
 	}
+
 	@RequestMapping(value = "stock", method = RequestMethod.GET)
 	@ResponseBody
-	public Integer[] status(){
+	public Integer[] status() {
 		return accessoryService.stockB();
 	}
+
 }

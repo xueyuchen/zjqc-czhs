@@ -55,12 +55,14 @@ import co.bohc.diet.domain.common.utils.TimeUtils;
 import co.bohc.diet.domain.model.Accessory;
 import co.bohc.diet.domain.model.Model;
 import co.bohc.diet.domain.model.Part;
+import co.bohc.diet.domain.model.Status;
 import co.bohc.diet.domain.model.Style;
 import co.bohc.diet.domain.repository.accessory.AccessoryOutput;
 import co.bohc.diet.domain.repository.accessory.AccessoryRepository;
 import co.bohc.diet.domain.repository.accessory.AccessorySearchPar;
 import co.bohc.diet.domain.repository.model.ModelRepository;
 import co.bohc.diet.domain.repository.part.PartRepository;
+import co.bohc.diet.domain.repository.status.StatusRepository;
 import co.bohc.diet.domain.repository.style.StyleRepository;
 
 @Service
@@ -75,6 +77,8 @@ public class AccessoryServiceImpl implements AccessoryService {
 	private PartRepository partRepository;
 	@Inject
 	private StyleRepository styleRepository;
+	@Inject
+	private StatusRepository statusRepository;
 
 	private static String indexpathAll = "/Users/local/lucene/luceneIndexAll/";
 
@@ -606,11 +610,12 @@ public class AccessoryServiceImpl implements AccessoryService {
 					resizeImage(inStream, fs, 900, "JPG");
 					inStream.close();
 					fromPhoto.delete();
+					String Num = AddZeroUtil.addZero(s + i + 1, 8);
 					Accessory accessory = new Accessory();
 					accessory.setAccessoryName(fileName.split("\\.")[0]);
 					accessory.setCreDt(date);
 					accessory.setAccessoryImg(photoUpload_A + fileName);
-					accessory.setAccessoryNum(AddZeroUtil.addZero(s + i + 1, 8));
+					accessory.setAccessoryNum(Num);
 					accessory.setLevel("1");
 					accessory.setModelId(1);
 					accessory.setPartId(Integer.valueOf(partId));
@@ -785,6 +790,12 @@ public class AccessoryServiceImpl implements AccessoryService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			Status status = new Status();
+			status.setAccessoryNum(accessory.getAccessoryNum());
+			status.setCreDt(new Date());
+			status.setStatusFrom(partId);
+			status.setStatusTo(4);
+			statusRepository.save(status);
 			accessory.setPartId(partId);
 			accessory.setMsg(msg);
 			accessory.setAccessoryImg(saled_class + fileBNameNew);
@@ -961,6 +972,12 @@ public class AccessoryServiceImpl implements AccessoryService {
 					e.printStackTrace();
 				}
 			}
+			Status status = new Status();
+			status.setAccessoryNum(accessory.getAccessoryNum());
+			status.setCreDt(new Date());
+			status.setStatusFrom(accessory.getPartId());
+			status.setStatusTo(partId);
+			statusRepository.save(status);
 			accessory.setPartId(partId);
 			accessory.setMsg(msg);
 			accessoryRepository.save(accessory);
@@ -1052,6 +1069,12 @@ public class AccessoryServiceImpl implements AccessoryService {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				Status status = new Status();
+				status.setAccessoryNum(accessory.getAccessoryNum());
+				status.setCreDt(new Date());
+				status.setStatusFrom(accessory.getPartId());
+				status.setStatusTo(partId);
+				statusRepository.save(status);
 				accessory.setPartId(partId);
 				accessory.setMsg(msg);
 				accessory.setLevel(level);
@@ -1172,6 +1195,12 @@ public class AccessoryServiceImpl implements AccessoryService {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				Status status = new Status();
+				status.setAccessoryNum(accessory.getAccessoryNum());
+				status.setCreDt(new Date());
+				status.setStatusFrom(accessory.getPartId());
+				status.setStatusTo(partId);
+				statusRepository.save(status);
 				accessory.setPartId(partId);
 				accessory.setMsg(msg);
 				accessory.setLevel(level);
@@ -1257,6 +1286,12 @@ public class AccessoryServiceImpl implements AccessoryService {
 					accessory.setModelId(1);
 					accessory.setPartId(Integer.valueOf(partId));
 					accessory.setStyleId(1);
+					Status status = new Status();
+					status.setAccessoryNum(accessory.getAccessoryNum());
+					status.setCreDt(new Date());
+					status.setStatusFrom(0);
+					status.setStatusTo(Integer.valueOf(partId));
+					statusRepository.save(status);
 					accessoryRepository.save(accessory);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

@@ -1,6 +1,5 @@
 package co.bohc.diet.domain.model;
-
-// Generated 2015-8-17 15:44:16 by Hibernate Tools 3.2.2.GA
+// Generated 2015-9-3 19:49:07 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 
@@ -20,157 +19,157 @@ import javax.persistence.TemporalType;
 @Table(name = "accessory", schema = "dbo")
 public class Accessory implements java.io.Serializable {
 
-    private static final long serialVersionUID = 1L;
-    private Integer accessoryId;
-    private String accessoryName;
-    private String accessoryImg;
-    private String level;
-    private String accessoryNum;
-    private Date creDt;
-    private Date saleDt;
-    private Double saleMoney;
-    private Integer partId;
-    private Integer styleId;
-    private Integer modelId;
-    private String msg;
+	private static final long serialVersionUID = 1L;
+	private Integer accessoryId;
+	private String accessoryName;
+	private String accessoryImg;
+	private String level;
+	private String accessoryNum;
+	private Date creDt;
+	private Date saleDt;
+	private Double saleMoney;
+	private Integer partId;
+	private Integer styleId;
+	private Integer modelId;
+	private String msg;
 
-    public Accessory() {
-    }
+	public Accessory() {
+	}
 
-    public Accessory(Integer accessoryId, String accessoryName, String accessoryImg, String accessoryNum, Date creDt) {
-        this.accessoryId = accessoryId;
-        this.accessoryName = accessoryName;
-        this.accessoryImg = accessoryImg;
-        this.accessoryNum = accessoryNum;
-        this.creDt = creDt;
-    }
+	public Accessory(Integer accessoryId, String accessoryName, String accessoryImg, String accessoryNum, Date creDt) {
+		this.accessoryId = accessoryId;
+		this.accessoryName = accessoryName;
+		this.accessoryImg = accessoryImg;
+		this.accessoryNum = accessoryNum;
+		this.creDt = creDt;
+	}
 
-    public Accessory(Integer accessoryId, String accessoryName, String accessoryImg, String level, String accessoryNum,
-            Date creDt, Date saleDt, Double saleMoney, Integer partId, Integer styleId, Integer modelId, String msg) {
-        this.accessoryId = accessoryId;
-        this.accessoryName = accessoryName;
-        this.accessoryImg = accessoryImg;
-        this.level = level;
-        this.accessoryNum = accessoryNum;
-        this.creDt = creDt;
-        this.saleDt = saleDt;
-        this.saleMoney = saleMoney;
-        this.partId = partId;
-        this.styleId = styleId;
-        this.modelId = modelId;
-        this.msg = msg;
-    }
+	public Accessory(Integer accessoryId, String accessoryName, String accessoryImg, String level, String accessoryNum,
+			Date creDt, Date saleDt, Double saleMoney, Integer partId, Integer styleId, Integer modelId, String msg) {
+		this.accessoryId = accessoryId;
+		this.accessoryName = accessoryName;
+		this.accessoryImg = accessoryImg;
+		this.level = level;
+		this.accessoryNum = accessoryNum;
+		this.creDt = creDt;
+		this.saleDt = saleDt;
+		this.saleMoney = saleMoney;
+		this.partId = partId;
+		this.styleId = styleId;
+		this.modelId = modelId;
+		this.msg = msg;
+	}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "accessory_id", unique = true, nullable = false)
-    public Integer getAccessoryId() {
-        return this.accessoryId;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "accessory_id", unique = true, nullable = false)
+	public Integer getAccessoryId() {
+		return this.accessoryId;
+	}
 
-    public void setAccessoryId(Integer accessoryId) {
-        this.accessoryId = accessoryId;
-    }
+	public void setAccessoryId(Integer accessoryId) {
+		this.accessoryId = accessoryId;
+	}
 
-    @Column(name = "accessory_name", nullable = false, length = 256)
-    public String getAccessoryName() {
-        return this.accessoryName;
-    }
+	@Column(name = "accessory_name", nullable = false, length = 256)
+	public String getAccessoryName() {
+		return this.accessoryName;
+	}
 
-    public void setAccessoryName(String accessoryName) {
-        this.accessoryName = accessoryName;
-    }
+	public void setAccessoryName(String accessoryName) {
+		this.accessoryName = accessoryName;
+	}
 
-    @Column(name = "accessory_img", nullable = false, length = 256)
-    public String getAccessoryImg() {
-        return this.accessoryImg;
-    }
+	@Column(name = "accessory_img", nullable = false, length = 256)
+	public String getAccessoryImg() {
+		return this.accessoryImg;
+	}
 
-    public void setAccessoryImg(String accessoryImg) {
-        this.accessoryImg = accessoryImg;
-    }
+	public void setAccessoryImg(String accessoryImg) {
+		this.accessoryImg = accessoryImg;
+	}
 
-    @Column(name = "level", length = 256)
-    public String getLevel() {
-        return this.level;
-    }
+	@Column(name = "level", length = 256)
+	public String getLevel() {
+		return this.level;
+	}
 
-    public void setLevel(String level) {
-        this.level = level;
-    }
+	public void setLevel(String level) {
+		this.level = level;
+	}
 
-    @Column(name = "accessory_num", nullable = false, length = 256)
-    public String getAccessoryNum() {
-        return this.accessoryNum;
-    }
+	@Column(name = "accessory_num", nullable = false, length = 256)
+	public String getAccessoryNum() {
+		return this.accessoryNum;
+	}
 
-    public void setAccessoryNum(String accessoryNum) {
-        this.accessoryNum = accessoryNum;
-    }
+	public void setAccessoryNum(String accessoryNum) {
+		this.accessoryNum = accessoryNum;
+	}
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "cre_dt", nullable = false, length = 23)
-    public Date getCreDt() {
-        return this.creDt;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "cre_dt", nullable = false, length = 23)
+	public Date getCreDt() {
+		return this.creDt;
+	}
 
-    public void setCreDt(Date creDt) {
-        this.creDt = creDt;
-    }
+	public void setCreDt(Date creDt) {
+		this.creDt = creDt;
+	}
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "sale_dt", length = 23)
-    public Date getSaleDt() {
-        return this.saleDt;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "sale_dt", length = 23)
+	public Date getSaleDt() {
+		return this.saleDt;
+	}
 
-    public void setSaleDt(Date saleDt) {
-        this.saleDt = saleDt;
-    }
+	public void setSaleDt(Date saleDt) {
+		this.saleDt = saleDt;
+	}
 
-    @Column(name = "sale_money", precision = 53, scale = 0)
-    public Double getSaleMoney() {
-        return this.saleMoney;
-    }
+	@Column(name = "sale_money", precision = 53, scale = 0)
+	public Double getSaleMoney() {
+		return this.saleMoney;
+	}
 
-    public void setSaleMoney(Double saleMoney) {
-        this.saleMoney = saleMoney;
-    }
+	public void setSaleMoney(Double saleMoney) {
+		this.saleMoney = saleMoney;
+	}
 
-    @Column(name = "part_id")
-    public Integer getPartId() {
-        return this.partId;
-    }
+	@Column(name = "part_id")
+	public Integer getPartId() {
+		return this.partId;
+	}
 
-    public void setPartId(Integer partId) {
-        this.partId = partId;
-    }
+	public void setPartId(Integer partId) {
+		this.partId = partId;
+	}
 
-    @Column(name = "style_id")
-    public Integer getStyleId() {
-        return this.styleId;
-    }
+	@Column(name = "style_id")
+	public Integer getStyleId() {
+		return this.styleId;
+	}
 
-    public void setStyleId(Integer styleId) {
-        this.styleId = styleId;
-    }
+	public void setStyleId(Integer styleId) {
+		this.styleId = styleId;
+	}
 
-    @Column(name = "model_id")
-    public Integer getModelId() {
-        return this.modelId;
-    }
+	@Column(name = "model_id")
+	public Integer getModelId() {
+		return this.modelId;
+	}
 
-    public void setModelId(Integer modelId) {
-        this.modelId = modelId;
-    }
+	public void setModelId(Integer modelId) {
+		this.modelId = modelId;
+	}
 
-    @Column(name = "msg", length = 256)
-    public String getMsg() {
-        return this.msg;
-    }
+	@Column(name = "msg", length = 256)
+	public String getMsg() {
+		return this.msg;
+	}
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 
 }

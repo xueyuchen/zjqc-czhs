@@ -1,6 +1,5 @@
 package co.bohc.diet.domain.model;
-
-// Generated 2015-8-17 15:44:16 by Hibernate Tools 3.2.2.GA
+// Generated 2015-9-3 19:49:07 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -27,90 +26,90 @@ import javax.persistence.TemporalType;
 @Table(name = "model", schema = "dbo")
 public class Model implements java.io.Serializable {
 
-    private static final long serialVersionUID = 1L;
-    private Integer modelId;
-    private Brand brand;
-    private String modelName;
-    private Date creDt;
-    private Date delFlg;
-    private Set<ModelStyle> modelStyles = new HashSet<ModelStyle>(0);
+	private static final long serialVersionUID = 1L;
+	private Integer modelId;
+	private Brand brand;
+	private String modelName;
+	private Date creDt;
+	private Date delFlg;
+	private Set<ModelStyle> modelStyles = new HashSet<ModelStyle>(0);
 
-    public Model() {
-    }
+	public Model() {
+	}
 
-    public Model(Integer modelId, Brand brand, String modelName, Date creDt) {
-        this.modelId = modelId;
-        this.brand = brand;
-        this.modelName = modelName;
-        this.creDt = creDt;
-    }
+	public Model(Integer modelId, Brand brand, String modelName, Date creDt) {
+		this.modelId = modelId;
+		this.brand = brand;
+		this.modelName = modelName;
+		this.creDt = creDt;
+	}
 
-    public Model(Integer modelId, Brand brand, String modelName, Date creDt, Date delFlg, Set<ModelStyle> modelStyles) {
-        this.modelId = modelId;
-        this.brand = brand;
-        this.modelName = modelName;
-        this.creDt = creDt;
-        this.delFlg = delFlg;
-        this.modelStyles = modelStyles;
-    }
+	public Model(Integer modelId, Brand brand, String modelName, Date creDt, Date delFlg, Set<ModelStyle> modelStyles) {
+		this.modelId = modelId;
+		this.brand = brand;
+		this.modelName = modelName;
+		this.creDt = creDt;
+		this.delFlg = delFlg;
+		this.modelStyles = modelStyles;
+	}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "model_id", unique = true, nullable = false)
-    public Integer getModelId() {
-        return this.modelId;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "model_id", unique = true, nullable = false)
+	public Integer getModelId() {
+		return this.modelId;
+	}
 
-    public void setModelId(Integer modelId) {
-        this.modelId = modelId;
-    }
+	public void setModelId(Integer modelId) {
+		this.modelId = modelId;
+	}
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "brand_id", nullable = false)
-    public Brand getBrand() {
-        return this.brand;
-    }
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "brand_id", nullable = false)
+	public Brand getBrand() {
+		return this.brand;
+	}
 
-    public void setBrand(Brand brand) {
-        this.brand = brand;
-    }
+	public void setBrand(Brand brand) {
+		this.brand = brand;
+	}
 
-    @Column(name = "model_name", nullable = false, length = 256)
-    public String getModelName() {
-        return this.modelName;
-    }
+	@Column(name = "model_name", nullable = false, length = 256)
+	public String getModelName() {
+		return this.modelName;
+	}
 
-    public void setModelName(String modelName) {
-        this.modelName = modelName;
-    }
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "cre_dt", nullable = false, length = 23)
-    public Date getCreDt() {
-        return this.creDt;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "cre_dt", nullable = false, length = 23)
+	public Date getCreDt() {
+		return this.creDt;
+	}
 
-    public void setCreDt(Date creDt) {
-        this.creDt = creDt;
-    }
+	public void setCreDt(Date creDt) {
+		this.creDt = creDt;
+	}
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "del_flg", length = 23)
-    public Date getDelFlg() {
-        return this.delFlg;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "del_flg", length = 23)
+	public Date getDelFlg() {
+		return this.delFlg;
+	}
 
-    public void setDelFlg(Date delFlg) {
-        this.delFlg = delFlg;
-    }
+	public void setDelFlg(Date delFlg) {
+		this.delFlg = delFlg;
+	}
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "model")
-    public Set<ModelStyle> getModelStyles() {
-        return this.modelStyles;
-    }
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "model")
+	public Set<ModelStyle> getModelStyles() {
+		return this.modelStyles;
+	}
 
-    public void setModelStyles(Set<ModelStyle> modelStyles) {
-        this.modelStyles = modelStyles;
-    }
+	public void setModelStyles(Set<ModelStyle> modelStyles) {
+		this.modelStyles = modelStyles;
+	}
 
 }

@@ -1,6 +1,5 @@
 package co.bohc.diet.domain.model;
-
-// Generated 2015-8-17 15:44:16 by Hibernate Tools 3.2.2.GA
+// Generated 2015-9-3 19:49:07 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 
@@ -20,65 +19,65 @@ import javax.persistence.TemporalType;
 @Table(name = "part", schema = "dbo")
 public class Part implements java.io.Serializable {
 
-    private static final long serialVersionUID = 1L;
-    private Integer partId;
-    private String partName;
-    private Date creDt;
-    private Integer delFlg;
+	private static final long serialVersionUID = 1L;
+	private Integer partId;
+	private String partName;
+	private Date creDt;
+	private Integer delFlg;
 
-    public Part() {
-    }
+	public Part() {
+	}
 
-    public Part(Integer partId, String partName, Date creDt) {
-        this.partId = partId;
-        this.partName = partName;
-        this.creDt = creDt;
-    }
+	public Part(Integer partId, String partName, Date creDt) {
+		this.partId = partId;
+		this.partName = partName;
+		this.creDt = creDt;
+	}
 
-    public Part(Integer partId, String partName, Date creDt, Integer delFlg) {
-        this.partId = partId;
-        this.partName = partName;
-        this.creDt = creDt;
-        this.delFlg = delFlg;
-    }
+	public Part(Integer partId, String partName, Date creDt, Integer delFlg) {
+		this.partId = partId;
+		this.partName = partName;
+		this.creDt = creDt;
+		this.delFlg = delFlg;
+	}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "part_id", unique = true, nullable = false)
-    public Integer getPartId() {
-        return this.partId;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "part_id", unique = true, nullable = false)
+	public Integer getPartId() {
+		return this.partId;
+	}
 
-    public void setPartId(Integer partId) {
-        this.partId = partId;
-    }
+	public void setPartId(Integer partId) {
+		this.partId = partId;
+	}
 
-    @Column(name = "part_name", nullable = false, length = 256)
-    public String getPartName() {
-        return this.partName;
-    }
+	@Column(name = "part_name", nullable = false, length = 256)
+	public String getPartName() {
+		return this.partName;
+	}
 
-    public void setPartName(String partName) {
-        this.partName = partName;
-    }
+	public void setPartName(String partName) {
+		this.partName = partName;
+	}
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "cre_dt", nullable = false, length = 23)
-    public Date getCreDt() {
-        return this.creDt;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "cre_dt", nullable = false, length = 23)
+	public Date getCreDt() {
+		return this.creDt;
+	}
 
-    public void setCreDt(Date creDt) {
-        this.creDt = creDt;
-    }
+	public void setCreDt(Date creDt) {
+		this.creDt = creDt;
+	}
 
-    @Column(name = "del_flg")
-    public Integer getDelFlg() {
-        return this.delFlg;
-    }
+	@Column(name = "del_flg")
+	public Integer getDelFlg() {
+		return this.delFlg;
+	}
 
-    public void setDelFlg(Integer delFlg) {
-        this.delFlg = delFlg;
-    }
+	public void setDelFlg(Integer delFlg) {
+		this.delFlg = delFlg;
+	}
 
 }

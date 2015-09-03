@@ -26,12 +26,11 @@
 			<a class="navbar-brand">配件销售系统</a>
 		</div>
 		<div class="navbar-collapse collapse">
-			<!-- <form class="navbar-form navbar-left">
+			<form class="navbar-form navbar-left">
 				<input id="searchPar" class="form-control"
 					style="width: 500px; margin-left: 60%;" type="text"
-					placeholder="奥迪 A6L 2014 左大灯(查询条件请以空格分开)"
-					oninput="searchByLuceneB();" />
-			</form> -->
+					placeholder="奥迪 A6L 2014 左大灯(查询条件请以空格分开)"/>
+			</form>
 		</div>
 	</div>
 	</nav>
@@ -122,11 +121,7 @@
 								<td>
 									<button type="button" id="sbumit"
 										data-complete-text="finished!" class="btn btn-primary"
-										autocomplete="off" onclick="submitInfo();">提交修改</button>
-								</td>
-								<td>
-									<button type="button" id="back" data-complete-text="finished!"
-										class="btn btn-primary" autocomplete="off" onclick="goBack();">返回</button>
+										autocomplete="off" onclick="">回退已售状态</button>
 								</td>
 							</tr>
 						</table>
