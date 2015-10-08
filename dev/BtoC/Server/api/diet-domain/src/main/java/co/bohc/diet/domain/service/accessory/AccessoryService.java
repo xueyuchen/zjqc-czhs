@@ -65,4 +65,6 @@ public interface AccessoryService {
     public SaleHistoryOutput findBByWeek(Date centerDate, Integer isNext);
     
     public Integer[] stockB();
+    
+    public String reStock(String accessoryNum, String level, Integer partId, String msg, Integer saleMoney, MultipartFile mf);
 }

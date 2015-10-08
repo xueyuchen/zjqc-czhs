@@ -1,8 +1,8 @@
 var constants = {};
 constants.api = {};
 
-constants.api.base = 'http:' + '//' + 'localhost:8080' + '/diet-web-admin';
-//constants.api.base = 'http:' + '//' + '115.28.209.203:80' + '/api';
+//constants.api.base = 'http:' + '//' + 'localhost:8080' + '/diet-web-admin';
+constants.api.base = 'http:' + '//' + 'woyaopeijian.cn:80' + '/api';
 
 constants.accessoriesSearch = constants.api.base + '/accessories/adminLucene';
 constants.accessory = constants.api.base + '/accessories';
@@ -21,3 +21,5 @@ constants.saleHistory = constants.api.base + '/accessories/saledByWeek';
 constants.saleBHistory = constants.api.base + '/accessories/saledBByWeek';
 constants.stockB = constants.api.base + '/accessories/stock';
 constants.statusBByWeek = constants.api.base + '/status/statusBByWeek';
+constants.statusByDate = constants.api.base + '/status/statusByDate';
+constants.findBySaled = constants.api.base + '/accessories/findSaled';

@@ -62,7 +62,7 @@
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/admin">成库照片上传</a></li>
 					<li class="active"><a href="../admin/changes">成库库存查询</a></li>
-					<li><a href="../admin/totalA">成库库存统计</a></li>
+					<!-- <li><a href="../admin/totalA">成库库存统计</a></li> -->
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/uploadtoB">都库照片上传</a></li>
@@ -71,7 +71,7 @@
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/findAll">总库存查询</a></li>
-					<li><a href="#">库存分类查询</a></li>
+					<!-- <li><a href="#">库存分类查询</a></li> -->
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/toSaled">已售配件修改</a></li>

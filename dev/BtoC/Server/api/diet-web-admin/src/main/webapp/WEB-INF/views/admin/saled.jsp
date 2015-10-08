@@ -12,7 +12,7 @@
 <link rel="stylesheet"
 	href="../resources/app/adminjs/bootstrap-theme.min.css">
 <link rel="stylesheet" href="../resources/app/adminjs/dashboard.css">
-<script type="text/javascript" src="../resources/app/adminjs/listAcc.js"></script>
+<script type="text/javascript" src="../resources/app/adminjs/saled.js"></script>
 <script type="text/javascript"
 	src="../resources/app/adminjs/jquery.form.js"></script>
 <script type="text/javascript" src="../resources/app/constants.js"></script>
@@ -31,6 +31,11 @@
 					style="width: 500px; margin-left: 60%;" type="text"
 					placeholder="奥迪 A6L 2014 左大灯(查询条件请以空格分开)"/>
 			</form>
+			<div class="btn-group"
+				style="margin-top: 8px; float: right; margin-right: 10%;">
+				<button type="button" class="btn btn-danger"
+					onclick="searchSaled();">查询</button>
+			</div>
 		</div>
 	</div>
 	</nav>
@@ -40,7 +45,7 @@
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/admin">成库照片上传</a></li>
 					<li><a href="../admin/changes">成库库存查询</a></li>
-					<li><a href="../admin/totalA">成库库存统计</a></li>
+					<!-- <li><a href="../admin/totalA">成库库存统计</a></li> -->
 				</ul>
 				<hr>
 				<ul class="nav nav-sidebar">
@@ -50,7 +55,7 @@
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/findAll">总库存查询</a></li>
-					<li><a href="#">库存分类查询</a></li>
+					<!-- <li><a href="#">库存分类查询</a></li> -->
 				</ul>
 				<hr>
 				<ul class="nav nav-sidebar">
@@ -60,42 +65,35 @@
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header">配件详细信息</h1>
-				<img style="display: block; width: 50%; float: left;"
-					src="${accessory.accessoryImg}" />
+				<img style="display: block; width: 50%; float: left;" id="img"/>
 
 				<div style="float: left; margin-left: 50px; margin-top: 1%;">
-					<form action="${accessory.accessoryNum}" method="post"
+					<form action="" method="post"
 						enctype="multipart/form-data" id="form"
 						onsubmit="return submitInfo();">
 						<table class="table table-striped">
 							<tr>
 								<td>配件名称：</td>
-								<td>${accessory.accessoryName}</td>
+								<td id="accessoryName" name="accessoryName"></td>
 							</tr>
 							<tr>
 								<td>配件编号：</td>
-								<td id="accessoryNum">${accessory.accessoryNum}</td>
+								<td id="accessoryNum" name="accessoryNum"></td>
 							</tr>
 							<tr>
 								<td>库房：</td>
 								<td><select name="level" id="level">
-										<option value=1
-											<c:if test="${1 == accessory.level}">selected</c:if>>成库</option>
-										<option value=2
-											<c:if test="${2 == accessory.level}">selected</c:if>>都库</option>
-										<option value=3
-											<c:if test="${3 == accessory.level}">selected</c:if>>销售库房</option>
+										<option value=1>成库</option>
+										<option value=2>都库</option>
+										<option value=3>销售库房</option>
 								</select></td>
 							</tr>
 							<tr>
 								<td>维修状态：</td>
 								<td><select name="partId" id="partId">
-										<option value=1
-											<c:if test="${1 == accessory.partId}">selected</c:if>>未维修</option>
-										<option value=2
-											<c:if test="${2 == accessory.partId}">selected</c:if>>维修中</option>
-										<option value=3
-											<c:if test="${3 == accessory.partId}">selected</c:if>>成品</option>
+										<option value=1>未维修</option>
+										<option value=2>维修中</option>
+										<option value=3>成品</option>
 								</select></td>
 							</tr>
 							<%-- <tr>
@@ -105,13 +103,13 @@
 							<tr>
 								<td>备注：</td>
 								<td>
-									<input type="text" name="msg" value="${accessory.msg}">
+									<input type="text" name="msg" id="msg">
 								</td>
 							</tr>
 							<tr>
 								<td>销售价格：</td>
 								<td>
-									<input type="text" name="saleMoney">
+									<input type="text" name="saleMoney" id="saleMoney">
 								</td>
 							</tr>
 							<tr>
@@ -121,7 +119,7 @@
 								<td>
 									<button type="button" id="sbumit"
 										data-complete-text="finished!" class="btn btn-primary"
-										autocomplete="off" onclick="">回退已售状态</button>
+										autocomplete="off" onclick="submitInfo();">回退已售状态</button>
 								</td>
 							</tr>
 						</table>

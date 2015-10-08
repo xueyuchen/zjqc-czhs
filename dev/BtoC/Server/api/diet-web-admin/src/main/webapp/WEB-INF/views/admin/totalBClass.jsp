@@ -44,7 +44,7 @@
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/admin">成库照片上传</a></li>
 					<li><a href="../admin/changes">成库库存查询</a></li>
-					<li><a href="../admin/totalA">成库库存统计</a></li>
+					<!-- <li><a href="../admin/totalA">成库库存统计</a></li> -->
 				</ul>
 				<hr>
 				<ul class="nav nav-sidebar">
@@ -54,7 +54,7 @@
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="../admin/findAll">总库存查询</a></li>
-					<li><a href="#">库存分类查询</a></li>
+					<!-- <li><a href="#">库存分类查询</a></li> -->
 				</ul>
 				<hr>
 				<ul class="nav nav-sidebar">
@@ -73,8 +73,17 @@
 				</div>
 				<div
 					style="width: 50%; float: left; width: 50%; float: left; height: 336px; overflow: scroll;">
-					<ul class="list-group" id="accessory-list">
-					</ul>
+					<input type="date" style="width: 100%" onchange="statusByDay();" id="date">
+					<table>
+						<thead>
+							<tr>
+								<td>编号</td>
+								<td>名称</td>
+								<td>状态</td>
+							</tr>
+						</thead>
+						<tbody id="accessory-list"></tbody>
+					</table>
 				</div>
 				<div class="btn-group btn-group-justified" role="group"
 					aria-label="...">

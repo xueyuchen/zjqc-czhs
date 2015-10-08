@@ -1,11 +1,25 @@
 package co.bohc.diet.domain.service.status;
 
+import java.util.List;
+
+import co.bohc.diet.domain.model.Status;
+
 public class StatusOutput {
 
 	private String[] days = new String[7];
 	private int[] toIn = new int[7];
 	private int[] toFix = new int[7];
 	private int[] toFinish = new int[7];
+	private List<Status> list;
+	
+
+	public List<Status> getList() {
+		return list;
+	}
+
+	public void setList(List<Status> list) {
+		this.list = list;
+	}
 
 	public String[] getDays() {
 		return days;

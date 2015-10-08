@@ -21,7 +21,7 @@ Date.prototype.Format = function(fmt) { // author: meizz
 var saledHistory = function(isNext) {
 	$('#accessory-list').empty();
 	var dateStr = $('#centerDate').html();
-	if(!dateStr){
+	if (!dateStr) {
 		var dateStr = new Date().Format('yyyy-MM-dd');
 	}
 	console.log(dateStr);
@@ -36,7 +36,7 @@ var saledHistory = function(isNext) {
 			console.log(data);
 			for (var i = 0; i < data.days.length; i++) {
 				data.days[i] = data.days[i].substring(0, 10);
-				if(i == 1){
+				if (i == 1) {
 					$('#centerDate').html(data.days[i]);
 				}
 			}
@@ -61,10 +61,13 @@ var saledHistory = function(isNext) {
 				responsive : true
 			});
 			for (var j = 0; j < data.accessories.length; j++) {
-				$('#accessory-list').append(
-						'<li class="list-group-item">'
-								+ data.accessories[j].accessoryName + '&nbsp'
-								+ '￥' + data.accessories[j].saleMoney +'</li>')
+				$('#accessory-list')
+						.append(
+								'<li class="list-group-item">'
+										+ data.accessories[j].accessoryName
+										+ '&nbsp' + '￥'
+										+ data.accessories[j].saleMoney
+										+ '</li>')
 			}
 		}
 	});
@@ -73,7 +76,7 @@ var saledHistory = function(isNext) {
 var saledBHistory = function(isNext) {
 	$('#accessory-list').empty();
 	var dateStr = $('#centerDate').html();
-	if(!dateStr){
+	if (!dateStr) {
 		var dateStr = new Date().Format('yyyy-MM-dd');
 	}
 	console.log(dateStr);
@@ -88,7 +91,7 @@ var saledBHistory = function(isNext) {
 			console.log(data);
 			for (var i = 0; i < data.days.length; i++) {
 				data.days[i] = data.days[i].substring(0, 10);
-				if(i == 1){
+				if (i == 1) {
 					$('#centerDate').html(data.days[i]);
 				}
 			}
@@ -113,29 +116,32 @@ var saledBHistory = function(isNext) {
 				responsive : true
 			});
 			for (var j = 0; j < data.accessories.length; j++) {
-				$('#accessory-list').append(
-						'<li class="list-group-item">'
-								+ data.accessories[j].accessoryName + '&nbsp'
-								+ '￥' + data.accessories[j].saleMoney +'</li>')
+				$('#accessory-list')
+						.append(
+								'<li class="list-group-item">'
+										+ data.accessories[j].accessoryName
+										+ '&nbsp' + '￥'
+										+ data.accessories[j].saleMoney
+										+ '</li>')
 			}
 		}
 	});
 }
-var stockB = function(){
+var stockB = function() {
 	$.ajax({
 		url : constants.stockB,
 		type : 'get',
 		success : function(data) {
 			console.log(data);
 			var barChartData = {
-				labels : ["未维修", "维修中", "成品"],
+				labels : [ "未维修", "维修中", "成品" ],
 				datasets : [ {
 					fillColor : "rgba(151,187,205,0.5)",
 					strokeColor : "rgba(151,187,205,0.8)",
 					highlightFill : "rgba(151,187,205,0.75)",
 					highlightStroke : "rgba(151,187,205,1)",
 					data : data
-				}]
+				} ]
 			}
 			var ctx = document.getElementById("canvas-sale").getContext("2d");
 			window.myBar = new Chart(ctx).Bar(barChartData, {
@@ -147,51 +153,86 @@ var stockB = function(){
 var statusB = function(isNext) {
 	$('#accessory-list').empty();
 	var dateStr = $('#centerDate').html();
-	if(!dateStr){
+	if (!dateStr) {
 		var dateStr = new Date().Format('yyyy-MM-dd');
 	}
 	console.log(dateStr);
-	$.ajax({
-		url : constants.statusBByWeek,
-		type : 'get',
-		data : {
-			dateStr : dateStr,
-			isNext : isNext
-		},
-		success : function(data) {
-			console.log(data);
-			for (var i = 0; i < data.days.length; i++) {
-				data.days[i] = data.days[i].substring(0, 10);
-				if(i == 1){
-					$('#centerDate').html(data.days[i]);
+	$
+			.ajax({
+				url : constants.statusBByWeek,
+				type : 'get',
+				data : {
+					dateStr : dateStr,
+					isNext : isNext
+				},
+				success : function(data) {
+					console.log(data);
+					for (var i = 0; i < data.days.length; i++) {
+						data.days[i] = data.days[i].substring(0, 10);
+						if (i == 1) {
+							$('#centerDate').html(data.days[i]);
+						}
+					}
+					var barChartData = {
+						labels : data.days,
+						datasets : [ {
+							fillColor : "rgba(151,187,205,0.5)",
+							strokeColor : "rgba(151,187,205,0.8)",
+							highlightFill : "rgba(151,187,205,0.75)",
+							highlightStroke : "rgba(151,187,205,1)",
+							data : data.toIn
+						}, {
+							fillColor : "rgba(220,0,220,0.5)",
+							strokeColor : "rgba(220,0,220,0.8)",
+							highlightFill : "rgba(220,0,220,0.75)",
+							highlightStroke : "rgba(220,0,220,1)",
+							data : data.toFix
+						}, {
+							fillColor : "rgba(220,220,220,0.5)",
+							strokeColor : "rgba(220,220,220,0.8)",
+							highlightFill : "rgba(220,220,220,0.75)",
+							highlightStroke : "rgba(220,220,220,1)",
+							data : data.toFinish
+						} ]
+					}
+					var ctx = document.getElementById("canvas-sale")
+							.getContext("2d");
+					window.myBar = new Chart(ctx).Bar(barChartData, {
+						responsive : true
+					});
 				}
-			}
-			var barChartData = {
-				labels : data.days,
-				datasets : [ {
-					fillColor : "rgba(151,187,205,0.5)",
-					strokeColor : "rgba(151,187,205,0.8)",
-					highlightFill : "rgba(151,187,205,0.75)",
-					highlightStroke : "rgba(151,187,205,1)",
-					data : data.toIn
-				}, {
-					fillColor : "rgba(220,0,220,0.5)",
-					strokeColor : "rgba(220,0,220,0.8)",
-					highlightFill : "rgba(220,0,220,0.75)",
-					highlightStroke : "rgba(220,0,220,1)",
-					data : data.toFix
-				}, {
-					fillColor : "rgba(220,220,220,0.5)",
-					strokeColor : "rgba(220,220,220,0.8)",
-					highlightFill : "rgba(220,220,220,0.75)",
-					highlightStroke : "rgba(220,220,220,1)",
-					data : data.toFinish
-				} ]
-			}
-			var ctx = document.getElementById("canvas-sale").getContext("2d");
-			window.myBar = new Chart(ctx).Bar(barChartData, {
-				responsive : true
 			});
+}
+var statusByDay = function(){
+	$("#accessory-list").empty();
+	var date = $("#date").val();
+	$.ajax({
+		url: constants.statusByDate,
+		type: 'get',
+		data: {
+			date: date
+		},
+		success: function(data){
+			console.log(data);
+			for ( var i in data) {
+				if (data[i].statusFrom == 0) {
+					data[i].statusFrom = "新入库";
+				} else if (data[i].statusFrom == 1
+						&& data[i].statusTo == 2) {
+					data[i].statusFrom = "进入维修";
+				} else if (data[i].statusFrom == 2
+						&& data[i].statusTo == 3) {
+					data[i].statusFrom = "完成维修";
+				} else if(data[i].statusTo == 4){
+					data[i].statusFrom = "已出售";
+				} else if(data[i].statusFrom == 4){
+					data[i].statusFrom = "客户退回";
+				}
+				$("#accessory-list").append(
+						"<tr><td><a href=../accessories/"+data[i].accessoryNum+">" + data[i].accessoryNum + "</a></td><td>"
+								+ data[i].accessoryName + "</td><td>"
+								+ data[i].statusFrom + "</td></tr>");
+			}
 		}
 	});
 }

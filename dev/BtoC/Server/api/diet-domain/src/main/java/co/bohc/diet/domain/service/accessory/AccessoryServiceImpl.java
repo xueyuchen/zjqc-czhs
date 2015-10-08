@@ -4,14 +4,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.StringReader;
 import java.nio.file.Paths;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,10 +17,8 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
-import javax.persistence.Access;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -46,24 +41,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 import co.bohc.diet.domain.common.utils.AddZeroUtil;
 import co.bohc.diet.domain.common.utils.TimeUtils;
 import co.bohc.diet.domain.model.Accessory;
-import co.bohc.diet.domain.model.Model;
-import co.bohc.diet.domain.model.Part;
 import co.bohc.diet.domain.model.Status;
-import co.bohc.diet.domain.model.Style;
-import co.bohc.diet.domain.repository.accessory.AccessoryOutput;
 import co.bohc.diet.domain.repository.accessory.AccessoryRepository;
 import co.bohc.diet.domain.repository.accessory.AccessorySearchPar;
 import co.bohc.diet.domain.repository.model.ModelRepository;
 import co.bohc.diet.domain.repository.part.PartRepository;
 import co.bohc.diet.domain.repository.status.StatusRepository;
 import co.bohc.diet.domain.repository.style.StyleRepository;
+import sun.misc.BASE64Encoder;
 
 @Service
 @Transactional(readOnly = true)
@@ -86,7 +75,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 
 	private static String indexpathA = "/Users/local/lucene/luceneIndexA/";
 
-	private static String rootPath = "/Users/local/workspace/czglxt/html/image/img/zp/";
+	private static String rootPath = "/project/czxsxt/html/image/img/zp/";
 
 	private static String photoUpload = "/Users/local/lucene/fileUpload/";
 
@@ -98,135 +87,11 @@ public class AccessoryServiceImpl implements AccessoryService {
 
 	private static String saled_class = "/Users/local/lucene/saledFile/";
 
-	// @Override
-	// public List<Accessory> findByModelStylePart(String modelName, String
-	// styleName, String partName) {
-	// List<Accessory> accessories =
-	// accessoryRepository.findByModelStylePart(modelName, styleName, partName);
-	// return accessories;
-	// }
-
 	@Override
 	public List<Accessory> findByCreDt() {
 		List<Accessory> accessories = accessoryRepository.findByCreDt();
 		return accessories;
 	}
-
-	// @Override
-	// public void saveAccessory(String level, Integer modelId, Integer styleId,
-	// Integer partId, String imgDataUrl) {
-	// String accessoryImg = generateImage(modelId, styleId, partId,
-	// imgDataUrl);
-	// Model model = modelRepository.findOne(modelId);
-	// Style style = styleRepository.findOne(styleId);
-	// Part part = partRepository.findOne(partId);
-	// String accessoryName = model.getBrand().getBrandName() + " " +
-	// model.getModelName() + " "
-	// + style.getStyleName() + " " + part.getPartName();
-	// Accessory accessory = new Accessory();
-	// accessory.setAccessoryImg(accessoryImg);
-	// accessory.setAccessoryName(accessoryName);
-	// accessory.setAccessoryNum(getImgName(modelId, styleId, partId));
-	// accessory.setCreDt(new Date());
-	// // accessory.setModel(model);
-	// // accessory.setPart(part);
-	// // accessory.setStyle(style);
-	// accessory.setLevel(level);
-	// accessoryRepository.save(accessory);
-	//
-	// }
-
-	// public String generateImage(Integer modelId, Integer styleId, Integer
-	// partId, String imgDataUrl) { // 对字节数组字符串进行Base64解码并生成图片
-	// String modelIdStr = String.valueOf(modelId);
-	// String styleIdStr = String.valueOf(styleId);
-	// String partIdStr = String.valueOf(partId);
-	// if (imgDataUrl == null) // 图像数据为空
-	// return null;
-	// BASE64Decoder decoder = new BASE64Decoder();
-	// imgDataUrl = imgDataUrl.split(",")[1];
-	// try {
-	// // Base64解码
-	// byte[] b = decoder.decodeBuffer(imgDataUrl);
-	// // for(int i=0;i<b.length;++i)
-	// // {
-	// // if(b[i]<0)
-	// // {//调整异常数据
-	// // b[i]+=256;
-	// // }
-	// // }
-	// // 生成jpeg图片
-	// String imgName = "image/img/" + modelIdStr + "/" + styleIdStr + "/" +
-	// partIdStr + "/"
-	// + getImgName(modelId, styleId, partId) + ".jpg";
-	// File pageElementFileDir = new
-	// File("c://project//czxsxt//html//image//img//" + modelIdStr + "//"
-	// + styleIdStr + "//" + partIdStr);
-	// if (!pageElementFileDir.exists()) {
-	// pageElementFileDir.mkdirs();
-	// }
-	// String imgFilePath = "c://project//czxsxt//html//image//img//" +
-	// modelIdStr + "//" + styleIdStr + "//"
-	// + partIdStr + "//" + getImgName(modelId, styleId, partId) + ".jpg";//
-	// 新生成的图片
-	// OutputStream out = new FileOutputStream(imgFilePath);
-	// out.write(b);
-	// out.flush();
-	// out.close();
-	// return imgName;
-	// } catch (Exception e) {
-	// return null;
-	// }
-	// }
-
-	// private String getImgName(Integer modelId, Integer styleId, Integer
-	// partId) {
-	// Integer count = accessoryRepository.findCountByMSP(modelId, styleId,
-	// partId);
-	// if (count == null) {
-	// count = 0;
-	// } else {
-	// count = count + 1;
-	// }
-	// String modelIdStr = String.valueOf(modelId);
-	// String styleIdStr = String.valueOf(styleId);
-	// String partIdStr = String.valueOf(partId);
-	// String countNumStr = String.valueOf(count);
-	// if (modelIdStr.length() == 1) {
-	// modelIdStr = "00" + modelIdStr;
-	// } else if (modelIdStr.length() == 2) {
-	// modelIdStr = "0" + modelIdStr;
-	// }
-	// if (styleIdStr.length() == 1) {
-	// styleIdStr = "0" + styleIdStr;
-	// // } else if (styleIdStr.length() == 2) {
-	// // styleIdStr = "0" + styleIdStr;
-	// }
-	// if (partIdStr.length() == 1) {
-	// partIdStr = "00" + partIdStr;
-	// } else if (partIdStr.length() == 2) {
-	// partIdStr = "0" + partIdStr;
-	// }
-	// Integer zeroNum = 5 - countNumStr.length();
-	// for (int i = 0; i < zeroNum; i++) {
-	// countNumStr = "0" + countNumStr;
-	// }
-	// return modelIdStr + styleIdStr + partIdStr + countNumStr;
-	// }
-
-	// @Override
-	// public Page<Accessory> findByBrandId(Integer brandId, Pageable pageable)
-	// {
-	// List<Accessory> accessories = accessoryRepository.findByBrandId(brandId,
-	// pageable);
-	// Integer count = accessoryRepository.countByBrandId(brandId);
-	// Page<Accessory> page = new PageImpl<Accessory>(accessories, pageable,
-	// count);
-	// if (accessories == null) {
-	// return null;
-	// }
-	// return page;
-	// }
 
 	@Override
 	public Page<Accessory> findByParam(AccessorySearchPar accessorySearchPar, Pageable pageable) {
@@ -239,30 +104,6 @@ public class AccessoryServiceImpl implements AccessoryService {
 	public List<Accessory> findByParamSale(AccessorySearchPar accessorySearchPar) {
 		return accessoryRepository.findByParamSale(accessorySearchPar);
 	}
-
-	// @Override
-	// public List<Accessory> findByBrandIdSale(Integer brandId) {
-	// List<Accessory> accessories = null;
-	// if (brandId == null) {
-	// accessories = accessoryRepository.findByCreDtSale();
-	// } else {
-	// accessories = accessoryRepository.findByBrandIdAndSale(brandId);
-	// }
-	// if (accessories == null) {
-	// return null;
-	// }
-	// return accessories;
-	// }
-
-	// @Override
-	// public List<Accessory> findByBrandIdAndSale(Integer brandId) {
-	// List<Accessory> accessories =
-	// accessoryRepository.findByBrandIdAndSale(brandId);
-	// if (accessories == null) {
-	// return null;
-	// }
-	// return accessories;
-	// }
 
 	@Override
 	@Transactional
@@ -684,7 +525,11 @@ public class AccessoryServiceImpl implements AccessoryService {
 	@Override
 	public Accessory findByNum(String accessoryNum) {
 		Accessory accessory = accessoryRepository.findOneByNum(accessoryNum);
-		accessory.setAccessoryImg("data:image/png;base64," + GetImageStr(accessory.getAccessoryImg()));
+		if (accessory == null) {
+			return null;
+		} else {
+			accessory.setAccessoryImg("data:image/png;base64," + GetImageStr(accessory.getAccessoryImg()));
+		}
 		return accessory;
 	}
 
@@ -795,6 +640,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 			status.setCreDt(new Date());
 			status.setStatusFrom(partId);
 			status.setStatusTo(4);
+			status.setAccessoryName(accessory.getAccessoryName());
 			statusRepository.save(status);
 			accessory.setPartId(partId);
 			accessory.setMsg(msg);
@@ -977,6 +823,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 			status.setCreDt(new Date());
 			status.setStatusFrom(accessory.getPartId());
 			status.setStatusTo(partId);
+			status.setAccessoryName(accessory.getAccessoryName());
 			statusRepository.save(status);
 			accessory.setPartId(partId);
 			accessory.setMsg(msg);
@@ -1074,6 +921,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 				status.setCreDt(new Date());
 				status.setStatusFrom(accessory.getPartId());
 				status.setStatusTo(partId);
+				status.setAccessoryName(accessory.getAccessoryName());
 				statusRepository.save(status);
 				accessory.setPartId(partId);
 				accessory.setMsg(msg);
@@ -1200,6 +1048,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 				status.setCreDt(new Date());
 				status.setStatusFrom(accessory.getPartId());
 				status.setStatusTo(partId);
+				status.setAccessoryName(accessory.getAccessoryName());
 				statusRepository.save(status);
 				accessory.setPartId(partId);
 				accessory.setMsg(msg);
@@ -1291,6 +1140,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 					status.setCreDt(new Date());
 					status.setStatusFrom(0);
 					status.setStatusTo(Integer.valueOf(partId));
+					status.setAccessoryName(accessory.getAccessoryName());
 					statusRepository.save(status);
 					accessoryRepository.save(accessory);
 				} catch (IOException e) {
@@ -1686,7 +1536,136 @@ public class AccessoryServiceImpl implements AccessoryService {
 		Integer unfix = accessoryRepository.findByPartId(1, "2");
 		Integer fixing = accessoryRepository.findByPartId(2, "2");
 		Integer fixed = accessoryRepository.findByPartId(3, "2");
-		Integer[] status = {unfix, fixing, fixed};
+		Integer[] status = { unfix, fixing, fixed };
 		return status;
+	}
+
+	@Override
+	@Transactional
+	public String reStock(String accessoryNum, String level, Integer partId, String msg, Integer saleMoney,
+			MultipartFile mf) {
+		Accessory accessory = accessoryRepository.findOneByNum(accessoryNum);
+		File oldFile = new File(accessory.getAccessoryImg());
+		String fileName = accessory.getAccessoryImg().split("/")[accessory.getAccessoryImg().split("/").length -1];
+		File newFile = new File(rootPath + fileName);
+		int i = 1;
+		String newFileName = fileName;
+		if(newFile.exists()){
+			newFileName = fileName.split("\\.")[0] + "_" + i + "." + fileName.split(".")[1];
+			newFile = new File(rootPath + newFileName);
+		}
+		accessory.setAccessoryName(newFileName.split("\\.")[0]);
+		accessory.setPartId(partId);
+		accessory.setMsg(msg);
+		try {
+			newFile.createNewFile();
+			InputStream is = new FileInputStream(oldFile);
+			OutputStream os = new FileOutputStream(newFile);
+			if(mf != null && !mf.isEmpty()){
+				is = mf.getInputStream();
+				resizeImage(is, os, 300, "JPG");
+			}else{
+				byte[] bytes = new byte[1024 * 10];
+				int num = -1;
+				while ((num = is.read(bytes)) != -1) {
+					os.write(bytes, 0, num);
+				}
+			}
+			os.close();
+			is.close();
+			oldFile.delete();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		accessory.setAccessoryImg(rootPath + newFileName);
+		//更新索引
+		Analyzer analyzerA = new StandardAnalyzer();
+		Directory directory = null;
+		IndexWriter iWriter = null;
+		Directory dirAll = null;
+		IndexWriter iWriterAll = null;
+		Directory directorySaled = null;
+		IndexWriter iWriterSaled = null;
+		try {
+			directorySaled = FSDirectory.open(Paths.get(indexPathSaled));
+			IndexWriterConfig config = new IndexWriterConfig(analyzerA);
+			iWriterSaled = new IndexWriter(directorySaled, config);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		QueryParser parser = new QueryParser("photoId", analyzerA);
+		Query query;
+		try {
+			query = parser.parse(accessoryNum);
+			iWriterSaled.deleteDocuments(query);
+		} catch (ParseException | IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		if (accessory.getLevel().equals("1")) {
+			try {
+				directory = FSDirectory.open(Paths.get(indexpathA));
+				dirAll = FSDirectory.open(Paths.get(indexpathAll));
+				IndexWriterConfig config = new IndexWriterConfig(analyzerA);
+				IndexWriterConfig configAll = new IndexWriterConfig(analyzerA);
+				iWriter = new IndexWriter(directory, config);
+				iWriterAll = new IndexWriter(dirAll, configAll);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "error";
+			}
+		} else {
+			try {
+				directory = FSDirectory.open(Paths.get(indexpath));
+				dirAll = FSDirectory.open(Paths.get(indexpathAll));
+				IndexWriterConfig config = new IndexWriterConfig(analyzerA);
+				IndexWriterConfig configAll = new IndexWriterConfig(analyzerA);
+				iWriter = new IndexWriter(directory, config);
+				iWriterAll = new IndexWriter(dirAll, configAll);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "error";
+			}
+		}
+		Date date = new Date();
+		Document doc = new Document();
+		doc.add(new Field("fileName", accessory.getAccessoryName(), TextField.TYPE_STORED));
+		doc.add(new Field("photoId", accessory.getAccessoryNum(), TextField.TYPE_STORED));
+		doc.add(new Field("creDt", TimeUtils.datetimeToStr(date), TextField.TYPE_STORED));
+		doc.add(new Field("photoPath", accessory.getAccessoryImg(), TextField.TYPE_STORED));
+		doc.add(new Field("partId", partId.toString(), TextField.TYPE_STORED));
+		doc.add(new Field("level", accessory.getLevel(), TextField.TYPE_STORED));
+		doc.add(new Field("msg", msg, TextField.TYPE_STORED));
+		try {
+			iWriter.addDocument(doc);
+			iWriterAll.addDocument(doc);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Status status = new Status();
+		status.setAccessoryNum(accessory.getAccessoryNum());
+		status.setCreDt(date);
+		status.setStatusFrom(4);
+		status.setStatusTo(partId);
+		status.setAccessoryName(accessory.getAccessoryName());
+		statusRepository.save(status);
+		accessory.setSaleMoney(null);
+		accessory.setSaleDt(null);
+		accessoryRepository.save(accessory);
+		try {
+			iWriter.close();
+			iWriterAll.close();
+			iWriterSaled.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "success";
+		
 	}
 }

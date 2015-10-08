@@ -36,7 +36,7 @@
                     placeholder="奥迪 A6L 2014 左大灯(查询条件请以空格分开)"
                     oninput="searchByLuceneAll();" />
             </form>
-            <div class="btn-group"
+            <!-- <div class="btn-group"
                 style="margin-top: 8px; float: right; margin-right: 10%;">
                 <button type="button" class="btn btn-danger">批量修改</button>
                 <button type="button" class="btn btn-danger dropdown-toggle"
@@ -44,11 +44,11 @@
                     <span class="caret"></span> <span class="sr-only">Toggle
                         Dropdown</span>
                 </button>
-                <!-- <ul class="dropdown-menu">
+                <ul class="dropdown-menu">
                     <li><a href="javascript:void(0);">已选配件</a></li>
                     <li role="separator" class="divider"></li>
-                </ul> -->
-            </div>
+                </ul>
+            </div> -->
         </div>
     </div>
     </nav>
@@ -58,7 +58,7 @@
                 <ul class="nav nav-sidebar">
                     <li><a href="../admin/admin">成库照片上传</a></li>
                     <li><a href="../admin/changes">成库库存查询</a></li>
-                    <li><a href="../admin/totalA">成库库存统计</a></li>
+                   <!--  <li><a href="../admin/totalA">成库库存统计</a></li> -->
                 </ul>
                 <ul class="nav nav-sidebar">
                     <li><a href="../admin/uploadtoB">都库照片上传</a></li>
@@ -67,7 +67,7 @@
                 </ul>
                 <ul class="nav nav-sidebar">
                     <li class="active"><a href="../admin/findAll">总库存查询</a></li>
-                    <li><a href="#">库存分类查询</a></li>
+                    <!-- <li><a href="#">库存分类查询</a></li> -->
                 </ul>
                 <ul class="nav nav-sidebar">
                 	<li><a href="../admin/toSaled">已售配件修改</a></li>

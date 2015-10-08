@@ -1,5 +1,5 @@
 package co.bohc.diet.domain.model;
-// Generated 2015-9-3 20:30:33 by Hibernate Tools 3.2.2.GA
+// Generated 2015-9-5 14:00:47 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -26,6 +26,7 @@ public class Status implements java.io.Serializable {
 	private Integer delFlg;
 	private String accessoryNum;
 	private String worker;
+	private String accessoryName;
 
 	public Status() {
 	}
@@ -39,7 +40,7 @@ public class Status implements java.io.Serializable {
 	}
 
 	public Status(Integer statusId, Integer statusFrom, Integer statusTo, Date creDt, Integer delFlg,
-			String accessoryNum, String worker) {
+			String accessoryNum, String worker, String accessoryName) {
 		this.statusId = statusId;
 		this.statusFrom = statusFrom;
 		this.statusTo = statusTo;
@@ -47,6 +48,7 @@ public class Status implements java.io.Serializable {
 		this.delFlg = delFlg;
 		this.accessoryNum = accessoryNum;
 		this.worker = worker;
+		this.accessoryName = accessoryName;
 	}
 
 	@Id
@@ -113,6 +115,15 @@ public class Status implements java.io.Serializable {
 
 	public void setWorker(String worker) {
 		this.worker = worker;
+	}
+
+	@Column(name = "accessory_name", length = 256)
+	public String getAccessoryName() {
+		return this.accessoryName;
+	}
+
+	public void setAccessoryName(String accessoryName) {
+		this.accessoryName = accessoryName;
 	}
 
 }

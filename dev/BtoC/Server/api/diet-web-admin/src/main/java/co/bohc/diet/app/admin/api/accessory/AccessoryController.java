@@ -262,10 +262,14 @@ public class AccessoryController {
 	@RequestMapping(value = "{accessoryNum}", method = RequestMethod.POST)
 	@ResponseBody
 	public void changeAccessory(@PathVariable String accessoryNum, Integer partId, String level, String msg,
-			Integer saleMoney, HttpServletRequest req) {
+			Integer saleMoney, HttpServletRequest req, Integer re) {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
 		MultipartFile mf = multipartRequest.getFile("newImg");
-		accessoryService.changeAccessory(accessoryNum, level, partId, msg, saleMoney, mf);
+		if(re != null && re == 1){
+			accessoryService.reStock(accessoryNum, level, partId, msg, saleMoney, mf);
+		}else{
+			accessoryService.changeAccessory(accessoryNum, level, partId, msg, saleMoney, mf);
+		}
 	}
 
 	@RequestMapping(value = "uploadToB", method = RequestMethod.POST)
@@ -428,5 +432,10 @@ public class AccessoryController {
 	public Integer[] status() {
 		return accessoryService.stockB();
 	}
-
+	
+	@RequestMapping(value = "findSaled/{accessoryNum}", method = RequestMethod.GET)
+	@ResponseBody
+	public Accessory findSaled(@PathVariable String accessoryNum) {
+		return accessoryService.findByNum(accessoryNum);
+	}
 }

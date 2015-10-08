@@ -79,7 +79,17 @@ public class StatusServiceImpl implements StatusService {
 				output.getToFinish()[day] = output.getToFinish()[day] + 1;
 			}
 		}
+		output.setList(statuses);
 		return output;
 	}
+
+	@Override
+	public List<Status> statusByDay(Date date) {
+		Date fromDt = TimeUtils.getStartTimeOfDay(date);
+		Date toDt = TimeUtils.getEndTimeOfDay(date);
+		return statusRepository.statusChangeByWeek(fromDt, toDt);
+	}
+	
+	
 
 }
