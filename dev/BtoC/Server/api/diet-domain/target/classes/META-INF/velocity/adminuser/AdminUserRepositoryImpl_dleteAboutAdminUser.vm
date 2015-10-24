@@ -1,8 +1,0 @@
-UPDATE t_meal_comment SET del_flg = 1 WHERE admin_user_id = :adminUserId
-UPDATE t_evaluate SET del_flg = 1 WHERE admin_user_id = :adminUserId
-UPDATE t_tel_counseling SET del_flg = 1 WHERE admin_user_id = :adminUserId
-UPDATE t_time_line SET del_flg = 1 WHERE admin_user_id = :adminUserId
-UPDATE t_user SET del_flg = 1 WHERE admin_user_id = :adminUserId
-UPDATE t_counseling SET del_flg = 1 WHERE admin_user_id = :adminUserId
-UPDATE t_user_sheet SET del_flg = 1 WHERE admin_user_id = :adminUserId
-UPDATE t_evaluate SET del_flg = 1 WHERE admin_user_id = :adminUserId

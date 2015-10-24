@@ -1,7 +1,0 @@
-SELECT
-count(m.meal_id)as counts
-FROM
-	t_meal m
-WHERE
-	m.del_flg = 0
-AND m.user_id = :userId

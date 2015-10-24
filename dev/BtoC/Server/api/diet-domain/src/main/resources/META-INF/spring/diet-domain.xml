@@ -27,8 +27,8 @@
     </aop:config>
 
 	<bean id="environment" class="co.bohc.diet.domain.common.Environment">
-		<property name="payDurationInDay" value="${boh.payment.duration}"/>
-		<!-- <property name="iconPath" value="${boh.user.iconPath}"/> -->
+		<!-- <property name="payDurationInDay" value="${boh.payment.duration}"/>
+		<property name="iconPath" value="${boh.user.iconPath}"/>
 		<property name="backgroundImgPath" value="${boh.user.backgroundImgPath}"/>
 		<property name="shopID" value="${shop.id}"/>
         <property name="retURL" value="${shop.returl}"/>
@@ -76,6 +76,6 @@
         <property name="p0002Title" value = "${p0002_mail_title}"/>
         <property name="p0006Title" value = "${p0006_mail_title}"/>
         <property name="codeFilePath" value = "${code.file.path}"/>
-        <property name="paperFilePath" value = "${paper.file.path}"/>
+        <property name="paperFilePath" value = "${paper.file.path}"/> -->
 	</bean>
 </beans>

@@ -1,5 +1,0 @@
-
-    INSERT INTO [t_user_cancel_hist] ([cancel_dt], [user_id], [password], [email], [last_name_kanji], [first_name_kanji], [first_name_kana], [last_name_kana], [sex], [nick_name], [birthday], [zip], [prefecture], [address1], [address2], [phone_number], [mobile_number], [payment_kbn], [payment_dt], [order_num], [start_rec_date], [target_weight ], [first_weight ], [target_point], [auth_token], [user_img_path], [background_img_no], [height], [cre_dt], [upd_dt], [cre_user_id], [upd_user_id], [del_flg])
-    SELECT GETDATE(),[user_id], [password], [email], [last_name_kanji], [first_name_kanji], [first_name_kana], [last_name_kana], [sex], [nick_name], [birthday], [zip], [prefecture], [address1], [address2], [phone_number], [mobile_number], [payment_kbn], [payment_dt], [order_num], [start_rec_date], [target_weight ], [first_weight ], [target_point], [auth_token], [user_img_path], [background_img_no], [height], [cre_dt], [upd_dt], [cre_user_id], [upd_user_id], [del_flg]
-    FROM t_user 
-    WHERE user_id= :userId

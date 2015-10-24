@@ -142,5 +142,11 @@ public class CodeController {
     public List<String> allWorks() {
         return codeService.allWorks();
     }
+    
+    @RequestMapping(value = "expiredcode", method = RequestMethod.GET)
+    @ResponseBody
+    public Integer expiredcode(){
+    	return codeService.expiredcode();
+    }
 
 }

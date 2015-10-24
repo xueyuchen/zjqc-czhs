@@ -1,1 +1,0 @@
-delete from t_meal where user_id=1

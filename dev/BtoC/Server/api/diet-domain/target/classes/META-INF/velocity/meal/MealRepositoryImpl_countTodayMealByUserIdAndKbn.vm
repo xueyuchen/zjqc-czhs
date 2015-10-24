@@ -1,9 +1,0 @@
-SELECT
-    COUNT (*) as mealCount
-FROM
-    t_meal m
-WHERE
-    m.time_kbn = :timeKbn
-AND m.user_id = :userId
-AND CONVERT (VARCHAR(10), m.eat_dt, 120) = :targetDay
-AND m.del_flg = 0

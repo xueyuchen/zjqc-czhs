@@ -29,4 +29,6 @@ public interface CodeRepository extends JpaRepository<Code, Integer>, CodeReposi
     @Query(value = "SELECT c FROM Code c WHERE c.worker.workerId = :workerId AND c.creDt >= :fromDt AND c.creDt <= :toDt")
     public List<Code> findByWorkerIdAndCreDt(@Param("workerId")Integer workerId, @Param("fromDt")Date fromDt, @Param("toDt")Date toDt);
 
+    @Query(value = "SELECT c FROM Code c WHERE c.codeKbn IS NULL AND c.checkDt IS NULL AND c.creDt < :toDt")
+    public List<Code> findNoExpired(@Param("toDt")Date toDt);
 }

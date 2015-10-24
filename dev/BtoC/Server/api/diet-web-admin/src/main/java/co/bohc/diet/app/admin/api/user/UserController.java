@@ -91,12 +91,12 @@ public class UserController {
     @RequestMapping(value = "querypaper", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> queryPaper(String option, String code) {
-        try {
-            code = new String(code.getBytes("ISO8859-1"), "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//        try {
+//            code = new String(code.getBytes("ISO8859-1"), "utf-8");
+//        } catch (UnsupportedEncodingException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
         if ("czdh".equals(option)) {
             Map<String, Object> map = paperService.queryPaper(option, code);
             return map;

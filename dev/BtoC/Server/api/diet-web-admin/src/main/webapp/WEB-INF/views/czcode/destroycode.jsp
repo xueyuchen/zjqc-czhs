@@ -139,6 +139,11 @@
 											<td><input type='button' onclick='destroycode();'
 												value='销毁' /></td>
 										</tr>
+										<tr>
+											<td>注销上个月残值编码：</td>
+											<td><input type='button' onclick='expiredcode();'
+												value='注销' /></td>
+										</tr>
 									</table>
 								</fieldset>
 							</div>

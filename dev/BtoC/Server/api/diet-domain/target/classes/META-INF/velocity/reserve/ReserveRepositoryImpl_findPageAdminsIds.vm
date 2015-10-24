@@ -1,5 +1,0 @@
-SELECT 
-  a.admin_user_id 
-FROM m_admin_user a 
-WHERE a.del_flg=0 
-ORDER BY a.admin_user_id ASC

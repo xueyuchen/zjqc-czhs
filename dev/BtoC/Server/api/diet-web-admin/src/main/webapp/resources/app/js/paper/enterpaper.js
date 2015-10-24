@@ -29,6 +29,9 @@ function checkpaper() {
 			$("#codeTotal").val(data.codeTotal);
 			if (data.ispass) {
 				$("#checkpass").show();
+				if(data.isExpried){
+					alert("此次扫描中存在过期条码！请核对!")
+				}
 			} else {
 				$("#fail").show();
 			}

@@ -21,5 +21,7 @@ public interface CodeService extends CrudService<Code, Integer> {
     public List<Worker> destroyCode(Integer workerId);
     
     public void saveCodes(List<Code> codes);
+    
+    public Integer expiredcode();
 
 }
