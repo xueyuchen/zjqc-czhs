@@ -83,6 +83,16 @@ public class CodeController {
             return null;
         }
     }
+    
+    @RequestMapping(value = "toexpire", method = RequestMethod.GET)
+    public String toExpireCode(HttpServletRequest req){
+        String session = (String) req.getSession().getAttribute("_");
+        if(session != null && session == "czhs"){
+            return "czcode/expirecode";
+        }else{
+            return null;
+        }
+    }
 
     @RequestMapping(value = "destroycode", method = RequestMethod.POST)
     @ResponseBody
@@ -107,10 +117,10 @@ public class CodeController {
     }
 
     @RequestMapping(value = "createcode", method = RequestMethod.POST)
-    public void creatCode(Integer num, Integer workerId, HttpServletResponse response, HttpServletRequest req) {
+    public void creatCode(Integer num, Integer workerId, Integer month, HttpServletResponse response, HttpServletRequest req) {
         String session = (String) req.getSession().getAttribute("_");
         if(session != null && session == "czhs"){
-            WorkerOutput worker = codeService.createCode(num, workerId);
+            WorkerOutput worker = codeService.createCode(num, workerId, month);
             codeService.createfile(worker, num);
             String fileName = "/" + worker.getWorkerName() + "-" + num + ".txt";
             try {
@@ -143,10 +153,13 @@ public class CodeController {
         return codeService.allWorks();
     }
     
-    @RequestMapping(value = "expiredcode", method = RequestMethod.GET)
+    @RequestMapping(value = "expire", method = RequestMethod.POST)
     @ResponseBody
-    public Integer expiredcode(){
-    	return codeService.expiredcode();
+    public Integer expiredcode(String codeArray){
+        String[] codes = codeArray.split("\n");
+        for(int i = 0; i < codes.length; i++){
+            codeService.expiredcode(codes[i]);
+        }
+        return codes.length;
     }
-
 }

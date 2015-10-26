@@ -97,12 +97,21 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
 	 * 批量生成code
 	 */
 	@Transactional
-	public WorkerOutput createCode(Integer num, Integer workerId) {
+	public WorkerOutput createCode(Integer num, Integer workerId, Integer month) {
 		Calendar cal = Calendar.getInstance();
-		Integer month = cal.get(Calendar.MONTH) + 1;
+//		Integer month = cal.get(Calendar.MONTH) + 1;
+//		Integer day = cal.get(Calendar.DAY_OF_MONTH);
 		Integer year = cal.get(Calendar.YEAR) % 10;
-		Date date = cal.getTime();
+//		Date date = cal.getTime();
 		Integer lastCodeSeq = codeIndex(month, year, workerId);
+		if(lastCodeSeq == 0){
+		    cal.set(Calendar.MONTH, month - 1);
+		    cal.set(Calendar.DAY_OF_MONTH, 1);
+		}else{
+		    
+		}
+		month = cal.get(Calendar.MONTH) + 1;
+		Date date = cal.getTime();
 		String monthStr = null;
 		String workerIdStr = null;
 		String localStr = null;
@@ -247,16 +256,26 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
 
 	@Override
 	@Transactional
-	public Integer expiredcode() {
-		Date currentDt = new Date();
-		Date toDt = TimeUtils.getStartTimeOfMonth(currentDt);
-		List<Code> list = repository.findNoExpired(toDt);
-		Iterator<Code> it = list.iterator();
-		while(it.hasNext()){
-			it.next().setCodeKbn("GQ");
-		}
-		repository.save(list);
-		return list.size();
+	public Integer expiredcode(String codeNum) {
+		Code code = repository.findByCodeNum(codeNum);
+		code.setDelFlg("1");
+		repository.save(code);
+		return 1;
 	}
+
+    @Override
+    public void expireCode() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -2);
+        Date date = cal.getTime();
+        Date fromDt = TimeUtils.getStartTimeOfMonth(date);
+        Date toDt = TimeUtils.getEndTimeOfMonth(date);
+        List<Code> list = repository.findNoExpiredByMonth(fromDt, toDt);
+        Iterator<Code> it = list.iterator();
+        while(it.hasNext()){
+            it.next().setCodeKbn("GQ");
+        }
+        repository.save(list);
+    }
 
 }

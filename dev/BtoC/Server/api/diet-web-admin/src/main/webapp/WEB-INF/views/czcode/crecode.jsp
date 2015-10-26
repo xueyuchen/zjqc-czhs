@@ -88,6 +88,7 @@
 						<li><a href="../codes/tocre">残值编码生成 </a></li>
 						<li><a href="../codes/tocheck">残值编码检测</a></li>
 						<li><a href="../codes/todestroy">残值编码销毁</a></li>
+						<li><a href="../codes/toexpire">残值编码注销</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
 						data-target="#accounts-menu">
@@ -143,6 +144,21 @@
 														<option value="150">150</option>
 														<option value="100">100</option>
 														<option value="50">50</option>
+												</select></td>
+												<td>生成月份：</td>
+												<td><select name="month" id="month">
+												    <option value="1">1月份</option>
+												    <option value="2">2月份</option>
+												    <option value="3">3月份</option>
+												    <option value="4">4月份</option>
+												    <option value="5">5月份</option>
+												    <option value="6">6月份</option>
+												    <option value="7">7月份</option>
+												    <option value="8">8月份</option>
+												    <option value="9">9月份</option>
+												    <option value="10">10月份</option>
+												    <option value="11">11月份</option>
+												    <option value="21">12月份</option>
 												</select></td>
 											</tr>
 											<tr>

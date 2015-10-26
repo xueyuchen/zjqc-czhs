@@ -86,6 +86,7 @@
 						<li><a href="../codes/tocre">残值编码生成 </a></li>
 						<li><a href="../codes/tocheck">残值编码检测</a></li>
 						<li><a href="../codes/todestroy">残值编码销毁</a></li>
+						<li><a href="../codes/toexpire">残值编码注销</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
 						data-target="#accounts-menu">
@@ -138,11 +139,6 @@
 											<td></td>
 											<td><input type='button' onclick='destroycode();'
 												value='销毁' /></td>
-										</tr>
-										<tr>
-											<td>注销上个月残值编码：</td>
-											<td><input type='button' onclick='expiredcode();'
-												value='注销' /></td>
 										</tr>
 									</table>
 								</fieldset>

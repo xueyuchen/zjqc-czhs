@@ -190,7 +190,7 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 								+ "\n" + "条码归属：" + LocalEnums.getByName(code.getLocal()) + " "
 								+ code.getWorker().getWorkerName());
 						isCodeRight = false;
-					} else if (code != null && code.getCodeKbn() == "GQ") {
+					} else if (code != null && code.getCodeKbn() != null && "GQ".equals(code.getCodeKbn())) {
 						errors.add(codes[i] + "：" + "该条码已过期！条码归属：" + LocalEnums.getByName(code.getLocal()) + " "
 								+ code.getWorker().getWorkerName());
 						codesSave.add(code);

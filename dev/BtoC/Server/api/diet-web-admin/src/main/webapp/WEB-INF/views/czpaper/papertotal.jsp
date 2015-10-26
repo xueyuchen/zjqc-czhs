@@ -114,6 +114,7 @@ table.gridtable td {
 						<li><a href="../codes/tocre">残值编码生成 </a></li>
 						<li><a href="../codes/tocheck">残值编码检测</a></li>
 						<li><a href="../codes/todestroy">残值编码销毁</a></li>
+						<li><a href="../codes/toexpire">残值编码注销</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
 						data-target="#accounts-menu">

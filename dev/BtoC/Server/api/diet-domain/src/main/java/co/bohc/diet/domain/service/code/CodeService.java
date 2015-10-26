@@ -12,7 +12,7 @@ public interface CodeService extends CrudService<Code, Integer> {
 
     public Map<String, Object> checkCode(String codeNum);
 
-    public WorkerOutput createCode(Integer num, Integer workerId);
+    public WorkerOutput createCode(Integer num, Integer workerId, Integer month);
 
     public void createfile(WorkerOutput worker, Integer num);
     
@@ -22,6 +22,8 @@ public interface CodeService extends CrudService<Code, Integer> {
     
     public void saveCodes(List<Code> codes);
     
-    public Integer expiredcode();
+    public Integer expiredcode(String codeNum);
+    
+    public void expireCode();
 
 }
