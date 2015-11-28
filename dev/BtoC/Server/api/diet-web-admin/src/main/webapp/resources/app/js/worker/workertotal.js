@@ -14,7 +14,7 @@ function countPaper(pageIndex) {
 		alert('定损员、区域请至少输入一项！');
 		return false;
 	}
-	if(workerName && local){
+	if (workerName && local) {
 		$.ajax({
 			type : "post",
 			url : "totalpaperbyworker",
@@ -44,13 +44,16 @@ function countPaper(pageIndex) {
 							data.content[i].local = '本部';
 						} else if (data.content[i].local == '5') {
 							data.content[i].local = '大案';
+						} else if (data.content[i].local == '6') {
+							data.content[i].local = '快查';
 						}
-						html += "<tr><td>" + data.content[i].entryDt + "</td><td>"
-								+ data.content[i].paperCode + "</td><td>"
-								+ data.content[i].carLicensePlate + "</td><td>"
-								+ data.content[i].reportCode + "</td><td>"
-								+ data.content[i].printNum + "</td><td>"
-								+ data.content[i].local+'/'+data.content[i].workerName + "</td></tr>";
+						html += "<tr><td>" + data.content[i].entryDt
+								+ "</td><td>" + data.content[i].paperCode
+								+ "</td><td>" + data.content[i].carLicensePlate
+								+ "</td><td>" + data.content[i].reportCode
+								+ "</td><td>" + data.content[i].printNum
+								+ "</td><td>" + data.content[i].local + '/'
+								+ data.content[i].workerName + "</td></tr>";
 					}
 				}
 				$("#table1 tbody").append(html);
@@ -58,7 +61,7 @@ function countPaper(pageIndex) {
 				$("#table1").show();
 			}
 		});
-	}else{
+	} else {
 		$.ajax({
 			type : "post",
 			url : "statisticsworker",
@@ -88,13 +91,16 @@ function countPaper(pageIndex) {
 							data.content[i].local = '本部';
 						} else if (data.content[i].local == '5') {
 							data.content[i].local = '大案';
+						} else if (data.content[i].local == '6') {
+							data.content[i].local = '快查';
 						}
-						html += "<tr><td>" + data.content[i].local + "</td><td>"
-								+ data.content[i].workerName + "</td><td>"
-								+ data.content[i].codeNum + "</td><td>"
-								+ data.content[i].firstCode + "</td><td>"
-								+ data.content[i].usedNum + "</td><td>"
-								+ data.content[i].creDt + "</td></tr>";
+						html += "<tr><td>" + data.content[i].local
+								+ "</td><td>" + data.content[i].workerName
+								+ "</td><td>" + data.content[i].codeNum
+								+ "</td><td>" + data.content[i].firstCode
+								+ "</td><td>" + data.content[i].usedNum
+								+ "</td><td>" + data.content[i].creDt
+								+ "</td></tr>";
 					}
 				}
 				$("#table tbody").append(html);

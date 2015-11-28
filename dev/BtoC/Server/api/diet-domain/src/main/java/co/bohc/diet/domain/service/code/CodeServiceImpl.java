@@ -63,7 +63,7 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
 			map.put("workerName", code.getWorker().getWorkerName());
 			return map;
 		}
-		if (code.getCodeKbn() != null && code.getCodeKbn() == "CK") {
+		if (code.getCodeKbn() != null && code.getCodeKbn().equals("CK")) {
 			String message = "此残值编码已于：" + TimeUtils.datetimeToStr(code.getPaper().getEntryDt()) + "录入过！";
 			map.put("codeNum", code.getCheckNum());
 			map.put("message", message);
@@ -73,7 +73,7 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
 			map.put("entryDt", TimeUtils.datetimeToStr(code.getPaper().getEntryDt()));
 			return map;
 		}
-		if (code.getCodeKbn() != null && code.getCodeKbn() == "GQ"){
+		if (code.getCodeKbn() != null && code.getCodeKbn().equals("GQ")){
 			String message = "此残值编码已过期！";
 			map.put("codeNum", code.getCheckNum());
 			map.put("message", message);
@@ -264,6 +264,7 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
 	}
 
     @Override
+    @Transactional
     public void expireCode() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -2);

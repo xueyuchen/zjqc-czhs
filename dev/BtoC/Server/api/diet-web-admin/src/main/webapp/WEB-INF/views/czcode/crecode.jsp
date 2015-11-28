@@ -124,7 +124,8 @@
 										<table>
 											<tr>
 												<td>需要生产编码数量：</td>
-												<td><select name="num" id="num">
+												<td><input type="text" name="num" id="num"/></td>
+												<!-- <td><select name="num" id="num">
 														<option value="1000">1000</option>
 														<option value="950">950</option>
 														<option value="900">900</option>
@@ -144,7 +145,7 @@
 														<option value="150">150</option>
 														<option value="100">100</option>
 														<option value="50">50</option>
-												</select></td>
+												</select></td>  -->
 												<td>生成月份：</td>
 												<td><select name="month" id="month">
 												    <option value="1">1月份</option>
@@ -172,6 +173,7 @@
 														<option value="3">东南</option>
 														<option value="4">东北</option>
 														<option value="5">大案</option>
+														<option value="6">快查</option>
 												</select></td>
 											</tr>
 											<tr>

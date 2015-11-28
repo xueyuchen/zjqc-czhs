@@ -34,6 +34,8 @@ function countPaper(pageIndex) {
 							data.content[i].workers[j].local = '本部';
 						} else if (data.content[i].workers[j].local == '5') {
 							data.content[i].workers[j].local = '大案';
+						} else if (data.content[i].workers[j].local == '6') {
+							data.content[i].workers[j].local = '快查';
 						}
 						issu = data.content[i].workers[j].local + ' '
 								+ data.content[i].workers[j].workerName + '/'

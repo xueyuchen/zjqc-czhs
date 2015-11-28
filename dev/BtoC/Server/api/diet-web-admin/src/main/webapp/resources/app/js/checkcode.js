@@ -30,6 +30,8 @@ function checkcode() {
 				$('#local').val("东北");
 			} else if (data.local == "5") {
 				$('#local').val("大案");
+			} else if (data.local == "6") {
+				$('#local').val("快查");
 			} else if (data.local == "0") {
 				$('#local').val("本部");
 			}

@@ -80,6 +80,8 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 		String monthStr = null;
 		if (month <= 10) {
 			monthStr = "0" + String.valueOf(month);
+		}else{
+			monthStr = month.toString();
 		}
 		Paper paper = null;
 		for (int i = beginCodeNum; i <= beginCodeNum + printSize - 1; i++) {

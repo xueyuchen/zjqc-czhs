@@ -167,6 +167,7 @@ table.gridtable td {
 													<option value="3">东南</option>
 													<option value="4">东北</option>
 													<option value="5">大案</option>
+													<option value="6">快查</option>
 											</select></td>
 											<td>锁定定损员查询：</td>
 											<td><input type="text" id="workerName"></td>
