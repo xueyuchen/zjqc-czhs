@@ -133,6 +133,8 @@
 														<option value="3">东南</option>
 														<option value="4">东北</option>
 														<option value="5">大案</option>
+														<option value="6">快查</option>
+														<option value="7">车商</option>
 												</select></td>
 											</tr>
 											<tr>

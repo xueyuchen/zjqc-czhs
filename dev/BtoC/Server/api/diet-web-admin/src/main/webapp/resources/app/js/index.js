@@ -40,10 +40,18 @@ function querycode() {
 						$('#local').val("西南");
 					} else if (data.local == "2") {
 						$('#local').val("西北");
-//					} else if (data.local == "3") {
-//						$('#local').val("南");
-//					} else if (data.local == "4") {
-//						$('#local').val("北");
+					} else if (data.local == "3") {
+						$('#local').val("东南");
+					} else if (data.local == "4") {
+						$('#local').val("东北");
+					} else if (data.local == "5") {
+						$('#local').val("大案");
+					} else if (data.local == "6") {
+						$('#local').val("快查");
+					} else if (data.local == "7") {
+						$('#local').val("车商");
+					} else if (data.local == "0") {
+						$('#local').val("本部");
 					}
 					$("#creDt").val(data.creDt);
 					$("#entryDt1").val(data.entryDt);

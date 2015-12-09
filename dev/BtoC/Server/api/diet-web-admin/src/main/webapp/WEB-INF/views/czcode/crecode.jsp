@@ -159,7 +159,7 @@
 												    <option value="9">9月份</option>
 												    <option value="10">10月份</option>
 												    <option value="11">11月份</option>
-												    <option value="21">12月份</option>
+												    <option value="12">12月份</option>
 												</select></td>
 											</tr>
 											<tr>
@@ -174,6 +174,7 @@
 														<option value="4">东北</option>
 														<option value="5">大案</option>
 														<option value="6">快查</option>
+														<option value="7">车商</option>
 												</select></td>
 											</tr>
 											<tr>

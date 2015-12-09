@@ -32,6 +32,8 @@ function checkcode() {
 				$('#local').val("大案");
 			} else if (data.local == "6") {
 				$('#local').val("快查");
+			} else if (data.local == "7") {
+				$('#local').val("车商");
 			} else if (data.local == "0") {
 				$('#local').val("本部");
 			}

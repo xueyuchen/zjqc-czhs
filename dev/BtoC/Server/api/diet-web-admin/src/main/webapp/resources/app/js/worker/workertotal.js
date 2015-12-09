@@ -46,6 +46,8 @@ function countPaper(pageIndex) {
 							data.content[i].local = '大案';
 						} else if (data.content[i].local == '6') {
 							data.content[i].local = '快查';
+						} else if (data.content[i].local == '7') {
+							data.content[i].local = '车商';
 						}
 						html += "<tr><td>" + data.content[i].entryDt
 								+ "</td><td>" + data.content[i].paperCode
@@ -93,6 +95,8 @@ function countPaper(pageIndex) {
 							data.content[i].local = '大案';
 						} else if (data.content[i].local == '6') {
 							data.content[i].local = '快查';
+						} else if (data.content[i].local == '7') {
+							data.content[i].local = '车商';
 						}
 						html += "<tr><td>" + data.content[i].local
 								+ "</td><td>" + data.content[i].workerName
