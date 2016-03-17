@@ -99,11 +99,16 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
 	@Transactional
 	public WorkerOutput createCode(Integer num, Integer workerId, Integer month) {
 		Calendar cal = Calendar.getInstance();
-//		Integer month = cal.get(Calendar.MONTH) + 1;
-//		Integer day = cal.get(Calendar.DAY_OF_MONTH);
+		Integer monthLocal = cal.get(Calendar.MONTH) + 1;
 		Integer year = cal.get(Calendar.YEAR) % 10;
+		if(month == 1 && monthLocal == 12){
+			year = year + 1;
+			cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) + 1);
+		}
+//		Integer day = cal.get(Calendar.DAY_OF_MONTH);
 //		Date date = cal.getTime();
 		Integer lastCodeSeq = codeIndex(month, year, workerId);
+//		Integer lastCodeSeq = 50;
 		if(lastCodeSeq == 0){
 		    cal.set(Calendar.MONTH, month - 1);
 		    cal.set(Calendar.DAY_OF_MONTH, 1);
@@ -164,8 +169,13 @@ public class CodeServiceImpl extends CrudServiceImpl<Code, Integer, CodeReposito
 		 */
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(lastCode.getCreDt());
-		if (month.equals(cal.get(Calendar.MONTH) + 1) && year.equals(cal.get(Calendar.YEAR) % 10)) {
-			Integer num = Integer.parseInt(lastCode.getCodeNum().substring(8));
+		String code = lastCode.getCodeNum();
+		String s = code.substring(0, 1);
+		Integer lastYear = Integer.parseInt(s);
+		String ss = code.substring(1, 3);
+		Integer lastMonth = Integer.parseInt(ss);
+		if (month == lastMonth && year == lastYear) {
+			Integer num = Integer.parseInt(code.substring(8));
 			return num;
 		} else {
 			return 0;
