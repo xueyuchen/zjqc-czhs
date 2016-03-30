@@ -21,7 +21,7 @@
 <title>残值管理系统</title>
 <style type="text/css">
 #line-chart {
-	height: 500px;
+	height: 700px;
 	width: 800px;
 	margin: 0px auto;
 	margin-top: 1em;
@@ -104,6 +104,13 @@
 					<ul id="accounts-menu" class="nav nav-list collapse in">
 						<li><a href="../papers/tototal">残值回收账目</a></li>
 					</ul>
+					<div class="nav-header" data-toggle="collapse"
+						data-target="#accounts-menu">
+						<i class="icon-briefcase"></i>修理厂信息
+					</div>
+					<ul id="accounts-menu" class="nav nav-list collapse in">
+						<li><a href="../garage/tocreate">修理厂录入</a></li>
+					</ul>
 				</div>
 			</div>
 			<div class="span9">
@@ -178,6 +185,16 @@
 										<td width="80">残值总数：</td>
 										<td><input type="text" name="codeTotal" id="codeTotal"
 											readonly="readonly"></td>
+									</tr>
+								</table>
+								<table>
+									<tr>
+										<td width="80">修理厂：</td>
+										<td><select name="garage" id="garage">
+											<option value="0"></option>
+										</select></td>
+										<td width="80"></td>
+										<td></td>
 									</tr>
 								</table>
 								<table>

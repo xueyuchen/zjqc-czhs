@@ -12,18 +12,16 @@
 	href="../resources/app/lib/bootstrap/css/bootstrap.css">
 <link rel="stylesheet" type="text/css"
 	href="../resources/app/stylesheets/theme.css">
-<link rel="stylesheet" type="text/css"
-	href="../resources/app/js/bootstrap-datetimepicker.css">
 <link rel="stylesheet"
 	href="../resources/app/lib/font-awesome/css/font-awesome.css">
 <script type="text/javascript"
 	src="../resources/app/js/js_lib/jquery.js" /></script>
 <script type="text/javascript"
-	src="../resources/app/js/paper/papertotal.js"></script>
-<script type="text/javascript" src="../resources/app/lib/jquery.page.js"></script>
+	src="../resources/app/js/creategarage.js"></script>
 <title>残值管理系统</title>
 <style type="text/css">
 #line-chart {
+	height: 300px;
 	width: 800px;
 	margin: 0px auto;
 	margin-top: 1em;
@@ -41,31 +39,6 @@
 .brand .second {
 	color: #fff;
 	font-weight: bold;
-}
-
-table.gridtable {
-	font-family: verdana, arial, sans-serif;
-	font-size: 11px;
-	color: #333333;
-	border-width: 1px;
-	border-color: #666666;
-	border-collapse: collapse;
-}
-
-table.gridtable th {
-	border-width: 1px;
-	padding: 8px;
-	border-style: solid;
-	border-color: #666666;
-	background-color: #dedede;
-}
-
-table.gridtable td {
-	border-width: 1px;
-	padding: 8px;
-	border-style: solid;
-	border-color: #666666;
-	background-color: #ffffff;
 }
 </style>
 </head>
@@ -122,7 +95,7 @@ table.gridtable td {
 					</div>
 					<ul id="accounts-menu" class="nav nav-list collapse in">
 						<li><a href="../papers/tocre">残值单单号生成</a></li>
-						<li><a href="../papers/toenter">残值单录入</a></li>
+						<li><a href="../codes/toenter">残值单录入</a></li>
 					</ul>
 					<div class="nav-header" data-toggle="collapse"
 						data-target="#accounts-menu">
@@ -147,48 +120,29 @@ table.gridtable td {
 
 
 				<div class="row-fluid">
-					<div class="block">
+					<div class="block-height">
 						<p class="block-heading" data-toggle="collapse"
-							data-target="#chart-container">残值回收账目</p>
+							data-target="#chart-container">修理厂录入</p>
 						<div id="chart-container" class="block-body collapse in">
 							<div id="line-chart">
-								<fieldset>
-									<table>
-										<tr>
-											<td>查询开始日期：</td>
-											<td><input type="text" id="fromDt" class="form_datetime"
-												data-date-format="yyyy-mm-dd" /></td>
-											<td>查询结束日期：</td>
-											<td><input type="text" id="toDt" class="form_datetime"
-												data-date-format="yyyy-mm-dd" /></td>
-											<td><input type="button" onclick="countPaper();"
-												value="查询" /></td>
-										</tr>
-									</table>
-								</fieldset>
-								<fieldset>
-									<table id="table" class="gridtable">
-										<thead>
+								<form action="createworker" method="post">
+									<fieldset>
+										<table>
 											<tr>
-												<th style="width: 250px">录入时间：</th>
-												<th style="width: 150px">残值单单号：</th>
-												<th style="width: 150px">车牌号：</th>
-												<th style="width: 150px">报案号：</th>
-												<th style="width: 110px">收残数量：</th>
-												<th style="width: 350px">定损员</th>
+												<td>修理厂名称：</td>
+												<td><input type="text" name="ame"
+													id="name" /></td>
+												<td>地址：</td>
+												<td><input type="text" name="location" id="location"/></td>
 											</tr>
-										</thead>
-										<tbody>
-										</tbody>
-										<tfoot>
 											<tr>
-												<td colspan="6" align="center">
-													<div id="Pagination" class="digg"></div>
-												</td>
+												<td></td>
+												<td><input type="button" class="number" value="录入"
+													onclick="createGarage();"></td>
 											</tr>
-										</tfoot>
-									</table>
-								</fieldset>
+										</table>
+									</fieldset>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -196,22 +150,5 @@ table.gridtable td {
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="../resources/app/js/bootstrap.js"></script>
-	<script type="text/javascript"
-		src="../resources/app/js/bootstrap-datetimepicker.js"></script>
-	<script type="text/javascript"
-		src="../resources/app/js/bootstrap-datetimepicker.zh-CN.js"></script>
-	<script type="text/javascript">
-		$(".form_datetime").datetimepicker({
-			language : 'zh-CN',
-			weekStart : 1,
-			todayBtn : 1,
-			autoclose : 1,
-			todayHighlight : 1,
-			startView : 2,
-			minView : 2,
-			forceParse : 0
-		});
-	</script>
 </body>
 </html>

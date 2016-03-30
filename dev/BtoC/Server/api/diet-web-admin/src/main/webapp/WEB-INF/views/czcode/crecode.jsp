@@ -105,6 +105,13 @@
 					<ul id="accounts-menu" class="nav nav-list collapse in">
 						<li><a href="../papers/tototal">残值回收账目</a></li>
 					</ul>
+					<div class="nav-header" data-toggle="collapse"
+						data-target="#accounts-menu">
+						<i class="icon-briefcase"></i>修理厂信息
+					</div>
+					<ul id="accounts-menu" class="nav nav-list collapse in">
+						<li><a href="../garage/tocreate">修理厂录入</a></li>
+					</ul>
 				</div>
 			</div>
 			<div class="span9">
