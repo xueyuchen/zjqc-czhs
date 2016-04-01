@@ -6,6 +6,7 @@ function checkpaper() {
 	var reportCode = $('#reportCode').val();
 	var carLicensePlate = $('#carLicensePlate').val();
 	var garageId = $('#garageId').val();
+	console.log(garageId);
 	var codeArray = $('#codeArray').val();
 	if (!paperCode || !reportCode || !carLicensePlate || !codeArray) {
 		alert("请输入完整的录入信息！");
@@ -49,6 +50,7 @@ function entrypaper() {
 	var reportCode = $('#reportCode').val();
 	var carLicensePlate = $('#abbr').val() + $('#carLicensePlate').val();
 	var codeArray = $('#codeArray').val();
+	var garageId = $('#garageId').val();
 	if (!paperCode || !reportCode || !carLicensePlate || !codeArray) {
 		alert("请先检查残值编码！");
 		return;
@@ -61,7 +63,8 @@ function entrypaper() {
 			paperCode : paperCode,
 			reportCode : reportCode,
 			carLicensePlate : carLicensePlate,
-			codeArray : codeArray
+			codeArray : codeArray,
+			garageId: garageId
 		},
 		success : function(data) {
 			var allMessage = "";

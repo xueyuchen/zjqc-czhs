@@ -46,7 +46,7 @@ function countPaper(pageIndex) {
 							+ data.content[i].carLicensePlate + "</td><td>"
 							+ data.content[i].reportCode + "</td><td>"
 							+ data.content[i].printNum + "</td><td>" + issu
-							+ "</td></tr>";
+							+ "</td><td>"+data.content[i].garageName+"</td></tr>";
 				}
 			}
 			$("#table tbody").append(html);

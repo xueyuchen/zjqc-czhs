@@ -176,13 +176,14 @@ table.gridtable td {
 												<th style="width: 150px">报案号：</th>
 												<th style="width: 110px">收残数量：</th>
 												<th style="width: 350px">定损员</th>
+												<th style="width: 200px">修理厂</th>
 											</tr>
 										</thead>
 										<tbody>
 										</tbody>
 										<tfoot>
 											<tr>
-												<td colspan="6" align="center">
+												<td colspan="7" align="center">
 													<div id="Pagination" class="digg"></div>
 												</td>
 											</tr>

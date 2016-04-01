@@ -32,6 +32,7 @@ import co.bohc.diet.domain.common.Environment;
 import co.bohc.diet.domain.common.enums.LocalEnums;
 import co.bohc.diet.domain.common.utils.TimeUtils;
 import co.bohc.diet.domain.model.Code;
+import co.bohc.diet.domain.model.Garage;
 import co.bohc.diet.domain.model.Paper;
 import co.bohc.diet.domain.model.Worker;
 import co.bohc.diet.domain.repository.code.CodeRepository;
@@ -213,6 +214,8 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 				map.put("isExpried", true);
 			}
 			if (isSave && isCodeRight) {
+				Garage garage = new Garage();
+				garage.setId(garageId);
 				Iterator<Code> it = codesSave.iterator();
 				while (it.hasNext()) {
 					Code c = it.next();
@@ -224,6 +227,7 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 				paper.setReportCode(reportCode);
 				paper.setEntryDt(date);
 				paper.setPrintNum(codes.length);
+				paper.setGarage(garage);
 			} else {
 				map.put("errors", errors);
 				map.put("codeTotal", codeTotal);
@@ -253,6 +257,7 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 			output.setPaperCode(paper.getPaperCode());
 			output.setReportCode(paper.getReportCode());
 			output.setPrintNum(paper.getPrintNum());
+			output.setGarageName(paper.getGarage().getName());
 			Set<Code> codes = paper.getCodes();
 			Map<Integer, WorkerOutput> workers = new HashMap<Integer, WorkerOutput>();
 			Iterator<Code> itCode = codes.iterator();
@@ -477,7 +482,7 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 			}
 			return "此残值单号已录入完成！" + "\n残值单号：" + paper.getPaperCode() + "\n车牌号：" + paper.getCarLicensePlate() + "\n报案号："
 					+ paper.getReportCode() + "\n残值件数：" + paper.getPrintNum() + "\n录入日期："
-					+ TimeUtils.dateToStr(paper.getEntryDt()) + "\n定损员：" + workersStr + "\n感谢使用PICC残值查询服务！";
+					+ TimeUtils.dateToStr(paper.getEntryDt()) + "\n定损员：" + workersStr + "\n修理厂：" + paper.getGarage().getName() + "\n感谢使用PICC残值查询服务！";
 		}
 	}
 

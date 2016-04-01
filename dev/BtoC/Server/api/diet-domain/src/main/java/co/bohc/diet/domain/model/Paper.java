@@ -13,6 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -41,6 +43,7 @@ public class Paper implements java.io.Serializable {
     private Date entryDt;
     private Date checkDt;
     private String delFlg;
+    private Garage garage;
     private Set<Code> codes = new HashSet<Code>(0);
 
     public Paper() {
@@ -52,7 +55,7 @@ public class Paper implements java.io.Serializable {
         this.printSize = printSize;
     }
 
-    public Paper(Integer paperId, String paperCode, String carLicensePlate, String reportCode, Integer printNum,
+    public Paper(Garage garage, Integer paperId, String paperCode, String carLicensePlate, String reportCode, Integer printNum,
             Integer printSize, Date creDt, Date entryDt, Date checkDt, String delFlg, Set<Code> codes) {
         this.paperId = paperId;
         this.paperCode = paperCode;
@@ -65,6 +68,7 @@ public class Paper implements java.io.Serializable {
         this.checkDt = checkDt;
         this.delFlg = delFlg;
         this.codes = codes;
+        this.garage = garage;
     }
 
     @Id
@@ -169,6 +173,16 @@ public class Paper implements java.io.Serializable {
 
     public void setCodes(Set<Code> codes) {
         this.codes = codes;
+    }
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "garage_id", nullable = true)
+    public Garage getGarage() {
+        return this.garage;
+    }
+
+    public void setGarage(Garage garage) {
+        this.garage = garage;
     }
 
 }
