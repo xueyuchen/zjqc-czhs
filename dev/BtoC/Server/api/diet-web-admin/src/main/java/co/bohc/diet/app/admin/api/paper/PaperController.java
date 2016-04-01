@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.bohc.diet.domain.common.utils.TimeUtils;
-import co.bohc.diet.domain.repository.code.WorkerCriteria;
-import co.bohc.diet.domain.service.code.PaperWorkerOutput;
+import co.bohc.diet.domain.model.Garage;
+import co.bohc.diet.domain.service.garage.GarageService;
 import co.bohc.diet.domain.service.paper.PaperOutput;
 import co.bohc.diet.domain.service.paper.PaperService;
 import co.bohc.diet.domain.service.worker.WorkerService;
@@ -41,11 +41,16 @@ public class PaperController {
 
     @Inject
     private WorkerService workerService;
+    
+    @Inject
+	private GarageService garageService;
 
     @RequestMapping(value = "toenter")
-    public String toEnterCode(HttpServletRequest req) {
+    public String toEnterCode(HttpServletRequest req, Model model) {
         String session = (String) req.getSession().getAttribute("_");
         if (session != null && session == "czhs") {
+        	List<Garage> list = garageService.findAllGarage();
+    		model.addAttribute("garages", list);
             return "czpaper/enterpaper";
         } else {
             return null;
@@ -113,14 +118,14 @@ public class PaperController {
     @ResponseBody
     public Map<String, Object> checkPaper(String paperCode, String reportCode, String carLicensePlate, String codeArray) {
         Map<String, Object> messages = paperService
-                .enterInfos(paperCode, reportCode, carLicensePlate, codeArray, false);
+                .enterInfos(0, paperCode, reportCode, carLicensePlate, codeArray, false);
         return messages;
     }
 
     @RequestMapping(value = "enter", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> enterPaper(String paperCode, String reportCode, String carLicensePlate, String codeArray) {
-        Map<String, Object> messages = paperService.enterInfos(paperCode, reportCode, carLicensePlate, codeArray, true);
+    public Map<String, Object> enterPaper(String paperCode, String reportCode, String carLicensePlate, String codeArray, Integer garageId) {
+        Map<String, Object> messages = paperService.enterInfos(garageId, paperCode, reportCode, carLicensePlate, codeArray, true);
         return messages;
     }
 

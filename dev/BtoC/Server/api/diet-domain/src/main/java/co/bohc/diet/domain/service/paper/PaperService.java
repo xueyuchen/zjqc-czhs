@@ -18,7 +18,7 @@ public interface PaperService extends CrudService<Paper, Integer> {
     
     public void createfile();
     
-    public Map<String, Object> enterInfos(String paperCode, String reportCode, String carLicensePlate, String codeArray, Boolean isSave);
+    public Map<String, Object> enterInfos(Integer garageId, String paperCode, String reportCode, String carLicensePlate, String codeArray, Boolean isSave);
 
     public Page<PaperOutput> countPaper(Date fromDt, Date toDt, Pageable pageable);
     

@@ -149,7 +149,7 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 
 	@Override
 	@Transactional
-	public Map<String, Object> enterInfos(String paperCode, String reportCode, String carLicensePlate, String codeArray,
+	public Map<String, Object> enterInfos(Integer garageId, String paperCode, String reportCode, String carLicensePlate, String codeArray,
 			Boolean isSave) {
 		Boolean isCodeRight = true;
 		Boolean isExpried = false;

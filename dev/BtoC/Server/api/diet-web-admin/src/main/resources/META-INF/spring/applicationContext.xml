@@ -8,7 +8,7 @@
 
     <import resource="classpath:/META-INF/spring/diet-domain.xml" />
 
-    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+    <!-- <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" /> -->
 <!--  
     <context:property-placeholder
         location="classpath*:/META-INF/spring/*.properties" />

@@ -5,6 +5,7 @@ function checkpaper() {
 	var paperCode = $('#paperCode').val();
 	var reportCode = $('#reportCode').val();
 	var carLicensePlate = $('#carLicensePlate').val();
+	var garageId = $('#garageId').val();
 	var codeArray = $('#codeArray').val();
 	if (!paperCode || !reportCode || !carLicensePlate || !codeArray) {
 		alert("请输入完整的录入信息！");
@@ -18,7 +19,8 @@ function checkpaper() {
 			paperCode : paperCode,
 			reportCode : reportCode,
 			carLicensePlate : carLicensePlate,
-			codeArray : codeArray
+			codeArray : codeArray,
+			garageId: garageId
 		},
 		success : function(data) {
 			var allMessage = "";

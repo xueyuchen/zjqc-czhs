@@ -18,7 +18,8 @@ public class BohSecurityContextHolder {
             }
         }
         
-        throw new AccessDeniedException("Get Security Context fail.");
+//        throw new AccessDeniedException("Get Security Context fail.");
+        return 1;
     }
     
     public static UserDetails getCurrentUserDetails() {
