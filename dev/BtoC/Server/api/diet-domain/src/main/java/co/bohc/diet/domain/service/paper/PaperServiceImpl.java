@@ -275,6 +275,42 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 		Page<PaperOutput> page = new PageImpl<>(outputs, pageable, count);
 		return page;
 	}
+	
+	@Override
+	public Page<PaperOutput> countPaper(Date fromDt, Date toDt, Integer garageId, Pageable pageable) {
+		fromDt = TimeUtils.getStartTimeOfDay(fromDt);
+		toDt = TimeUtils.getEndTimeOfDay(toDt);
+		List<Paper> papers = repository.findByEntryDtGarageId(fromDt, toDt, garageId, pageable);
+		Integer count = repository.countByEntryDtGarageId(fromDt, toDt, garageId);
+		List<PaperOutput> outputs = new ArrayList<PaperOutput>();
+		PaperOutput output = null;
+		Iterator<Paper> it = papers.iterator();
+		while (papers != null && it.hasNext()) {
+			output = new PaperOutput();
+			Paper paper = it.next();
+			output.setCarLicensePlate(paper.getCarLicensePlate());
+			output.setEntryDt(paper.getEntryDt());
+			output.setPaperCode(paper.getPaperCode());
+			output.setReportCode(paper.getReportCode());
+			output.setPrintNum(paper.getPrintNum());
+			output.setGarageName(paper.getGarage().getName());
+			Set<Code> codes = paper.getCodes();
+			Map<Integer, WorkerOutput> workers = new HashMap<Integer, WorkerOutput>();
+			Iterator<Code> itCode = codes.iterator();
+			WorkerOutput worker = null;
+			while (itCode.hasNext()) {
+				Code code = itCode.next();
+				worker = new WorkerOutput();
+				worker.setLocal(code.getWorker().getLocal());
+				worker.setWorkerName(code.getWorker().getWorkerName());
+				workers.put(code.getWorker().getWorkerId(), worker);
+			}
+			output.setWorkers(workers);
+			outputs.add(output);
+		}
+		Page<PaperOutput> page = new PageImpl<>(outputs, pageable, count);
+		return page;
+	}
 
 	private Integer getSeason() {
 		int season = 0;
@@ -501,4 +537,5 @@ public class PaperServiceImpl extends CrudServiceImpl<Paper, Integer, PaperRepos
 		}
 		return result;
 	}
+
 }

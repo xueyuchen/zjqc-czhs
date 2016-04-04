@@ -73,7 +73,9 @@ public class PaperController {
     }
 
     @RequestMapping(value = "tototal", method = RequestMethod.GET)
-    public String toPaperTatol() {
+    public String toPaperTatol(Model model) {
+    	List<Garage> list = garageService.findAllGarage();
+		model.addAttribute("garages", list);
         return "czpaper/papertotal";
     }
 
@@ -131,8 +133,11 @@ public class PaperController {
 
     @RequestMapping(value = "StatisticsPaper", method = RequestMethod.GET)
     @ResponseBody
-    public Page<PaperOutput> countPaper(Date fromDt, Date toDt, Pageable pageable) {
-        return paperService.countPaper(fromDt, toDt, pageable);
-
+    public Page<PaperOutput> countPaper(Date fromDt, Date toDt, Integer garageId, Pageable pageable) {
+        if(garageId != null && garageId != 0){
+        	return paperService.countPaper(fromDt, toDt, garageId, pageable);
+        }else{
+        	return paperService.countPaper(fromDt, toDt, pageable);
+        }
     }
 }

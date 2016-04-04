@@ -22,6 +22,8 @@ public interface PaperService extends CrudService<Paper, Integer> {
 
     public Page<PaperOutput> countPaper(Date fromDt, Date toDt, Pageable pageable);
     
+    public Page<PaperOutput> countPaper(Date fromDt, Date toDt, Integer garageId, Pageable pageable);
+    
     public Map<String, Object> queryPaper(String option, String code);
     
     public Map<String, Object> queryPaperByCph(String option, String code);

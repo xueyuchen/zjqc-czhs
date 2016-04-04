@@ -26,10 +26,16 @@ public interface PaperRepository extends JpaRepository<Paper, Integer> {
 
     @Query(value = "SELECT p FROM Paper p WHERE p.entryDt >= :fromDt AND p.entryDt <= :toDt AND p.delFlg IS NULL ORDER BY p.entryDt DESC")
     public List<Paper> findByEntryDt(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt, Pageable pageable);
+    
+    @Query(value = "SELECT p FROM Paper p WHERE p.entryDt >= :fromDt AND p.entryDt <= :toDt AND p.delFlg IS NULL AND p.garage.id = :garageId ORDER BY p.entryDt DESC")
+    public List<Paper> findByEntryDtGarageId(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt, @Param("garageId") Integer garageId, Pageable pageable);
 
     @Query(value = "SELECT COUNT(p) FROM Paper p WHERE p.entryDt >= :fromDt AND p.entryDt <= :toDt AND p.delFlg IS NULL")
     public Integer countByEntryDt(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt);
 
+    @Query(value = "SELECT COUNT(p) FROM Paper p WHERE p.entryDt >= :fromDt AND p.entryDt <= :toDt AND p.delFlg IS NULL AND p.garage.id = :garageId")
+    public Integer countByEntryDtGarageId(@Param("fromDt") Date fromDt, @Param("toDt") Date toDt, @Param("garageId") Integer garageId);
+    
     @Query(
            value = "SELECT TOP 1 p.paper_code FROM paper p WHERE p.cre_dt >= :fromDt AND p.cre_dt <= :toDt ORDER BY p.paper_id DESC",
            nativeQuery = true)

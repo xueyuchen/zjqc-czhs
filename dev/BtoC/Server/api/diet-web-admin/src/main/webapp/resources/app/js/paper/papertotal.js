@@ -2,6 +2,7 @@ function countPaper(pageIndex) {
 	$('#table tbody').empty();
 	var fromDt = new Date($("#fromDt").val());
 	var toDt = new Date($("#toDt").val());
+	var garageId = $('#garageId').val();
 	if (typeof (pageIndex) == "undefined") {
 		pageIndex = 0;
 	}
@@ -12,6 +13,7 @@ function countPaper(pageIndex) {
 		data : {
 			fromDt : fromDt,
 			toDt : toDt,
+			garageId: garageId,
 			size : 20,
 			page : pageIndex
 		},
