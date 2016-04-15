@@ -52,6 +52,8 @@ function querycode() {
 						$('#local').val("车商");
 					} else if (data.local == "0") {
 						$('#local').val("本部");
+					} else if (data.local == "8") {
+						$('#local').val("国际");
 					}
 					$("#creDt").val(data.creDt);
 					$("#entryDt1").val(data.entryDt);

@@ -38,6 +38,8 @@ function countPaper(pageIndex) {
 							data.content[i].workers[j].local = '大案';
 						} else if (data.content[i].workers[j].local == '6') {
 							data.content[i].workers[j].local = '快查';
+						} else if (data.content[i].workers[j].local == '8') {
+							data.content[i].workers[j].local = '国际';
 						}
 						issu = data.content[i].workers[j].local + ' '
 								+ data.content[i].workers[j].workerName + '/'

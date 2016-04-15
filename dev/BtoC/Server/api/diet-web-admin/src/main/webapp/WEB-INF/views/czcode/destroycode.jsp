@@ -135,6 +135,7 @@
 													<option value="3">东南</option>
 													<option value="4">东北</option>
 													<option value="5">大案</option>
+													<option value="8">国际</option>
 											</select></td>
 										</tr>
 										<tr>

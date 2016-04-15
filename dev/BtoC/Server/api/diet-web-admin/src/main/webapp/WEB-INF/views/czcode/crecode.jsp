@@ -182,6 +182,7 @@
 														<option value="5">大案</option>
 														<option value="6">快查</option>
 														<option value="7">车商</option>
+														<option value="8">国际</option>
 												</select></td>
 											</tr>
 											<tr>
